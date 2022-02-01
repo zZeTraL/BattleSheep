@@ -1,2 +1,2 @@
 # BattleSheep
-BattleSheep original :)
+BattleShip original :)
