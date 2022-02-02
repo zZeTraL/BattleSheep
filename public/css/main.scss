@@ -1,0 +1,25 @@
+//======================================================
+//                     M A I N
+//
+//  This file contains all important css property
+//
+//======================================================
+:root {
+  /* Dark Mode */
+
+  /* Light Mode */
+
+  /* Responsive Elements*/
+}
+
+/* Interpolations */
+@mixin noPaddingMargin() {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  @include noPaddingMargin();
+  overflow-x: hidden;
+}
+
