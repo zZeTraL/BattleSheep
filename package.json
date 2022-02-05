@@ -12,6 +12,7 @@
     "boxicons": "^2.1.1",
     "express": "^4.17.2",
     "fs": "^0.0.1-security",
+    "hover.css": "^2.3.2",
     "mysql": "^2.18.1",
     "sass": "^1.49.4",
     "socket.io": "^4.4.1"
