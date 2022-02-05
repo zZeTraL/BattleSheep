@@ -1,0 +1,27 @@
+//======================================================
+//                     M O D A L S
+//
+//  This file contains all important css property
+//
+//======================================================*
+@use "mixins" as function;
+
+.modal__container {
+  display: flex;
+  justify-content: center;
+  height: 90vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+
+  .popup {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    h1 {
+      text-align: center;
+    }
+
+  }
+
+}

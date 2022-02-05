@@ -7,17 +7,46 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/modal.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
 
     <!-- LIBS -->
+    <script src="https://unpkg.com/boxicons@2.1.1/dist/boxicons.js"></script>
+    <link rel="stylesheet" href="/public/css/libs/hover/hover.css">
 
     <title>BattleSheep | Home</title>
 </head>
 <body class="dark">
-    <header>
+    <header class="header">
+        <div class="logo__container">
+            <img class="hvr-bounce-in" src="/public/img/logo.png" alt="Sheip">
+        </div>
+        <nav class="nav__container">
+            <a href="" class="hvr-grow"><box-icon name="home-alt" color="white"></box-icon><h1>Home</h1></a>
+            <a href="" class="hvr-grow"><box-icon name="game" color="white"></box-icon><h1>Play</h1></a>
+            <a href="" class="hvr-grow"><box-icon name="crown" color="white"></box-icon><h1>Leaderboard</h1></a>
+            <a href="" class="hvr-grow"><box-icon name="user" color="white"></box-icon><h1>Profile</h1></a>
+            <div class="dark__mode"><box-icon name="moon" type="solid" size="30px" color="white"></box-icon></div>
+        </nav>
     </header>
 
     <main>
-        <p>Ok... the game is finished...</p>
+
+        <div class="modal__container">
+            <div class="popup">
+                <h1>THIS IS A POPUP</h1>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            </div>
+        </div>
+
+        <section>
+            <h1></h1>
+            <article>
+            </article>
+        </section>
     </main>
 
     <footer>

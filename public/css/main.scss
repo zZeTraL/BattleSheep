@@ -4,22 +4,52 @@
 //  This file contains all important css property
 //
 //======================================================
+@use "mixins" as function;
+
 :root {
   /* Dark Mode */
+  --dark-main-bg-color: #344055;
+  --dark-header-bg-color: #34495e;
+  --dark-hx-color: white;
 
   /* Light Mode */
+  --light-main-bg-color: #dced0d9;
+  --light-header-bg-color: white;
+  --light-hx-color: red;
 
-  /* Responsive Elements*/
-}
-
-/* Interpolations */
-@mixin noPaddingMargin() {
-  padding: 0;
-  margin: 0;
+  /* Responsive Elements */
+  --fs-xxl: 3rem;
+  --fs-xl: 2.5rem;
+  --fs-l: 2rem;
+  --fs-m: 1.5rem;
+  --fs-s: 1rem;
+  --fs-ss: 0.85rem;
 }
 
 body {
-  @include noPaddingMargin();
+  @include function.noPaddingMargin();
+  background-color: var(--dark-main-bg-color);
   overflow-x: hidden;
 }
 
+@media (max-width: 40em){
+  :root {
+    --fs-xxl: 3rem;
+    --fs-xl: 2.5rem;
+    --fs-l: 2rem;
+    --fs-m: 1.5rem;
+    --fs-s: 1rem;
+    --fs-ss: 0.85rem;
+  }
+
+  .header {
+    flex-direction: column;
+    transition: ease-in-out all 500ms;
+
+    .dark__mode {
+      visibility: hidden;
+      position: absolute;
+    }
+  }
+
+}

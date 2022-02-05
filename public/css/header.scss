@@ -1,0 +1,81 @@
+//======================================================
+//                     H E A D E R
+//
+//  This file contains all important css property
+//
+//======================================================*
+@use "mixins" as function;
+
+
+.header {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  background-color: var(--dark-header-bg-color);
+  height: auto;
+  width: auto;
+  font-family: "Bebas Neue", sans-serif;
+  padding: 25px 100px 25px 100px;
+  transition: ease-in-out all 500ms;
+
+  .logo__container {
+    display: flex;
+    align-items: center;
+    height: inherit;
+    transition: ease-in-out all 500ms;
+
+    img {
+      height: 100px;
+    }
+
+  }
+
+  .nav__container {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    height: inherit;
+    flex-grow: 2;
+    gap: 50px;
+    transition: ease-in-out all 500ms;
+
+    a {
+      display: flex;
+      height: inherit;
+      align-items: center;
+      text-decoration: none;
+      color: var(--dark-hx-color);
+
+      h1 {
+        @include function.noPaddingMargin();
+        letter-spacing: 2px;
+      }
+
+      box-icon {
+        margin: 5px;
+      }
+
+    }
+
+    .dark__mode {
+      display: flex;
+      align-items: center;
+      height: inherit;
+      transition: ease-in-out all 500ms;
+
+      &:hover {
+        cursor: pointer;
+      }
+      box-icon {
+        width: 100%;
+
+        &:hover {
+          opacity: 0.8;
+        }
+
+      }
+    }
+
+  }
+
+}
