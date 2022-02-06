@@ -11,7 +11,7 @@ const localEnv = {
 app.use(express.static(path.join(__dirname, "..")));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "views", "hover", "index.html"));
+    res.sendFile(path.join(__dirname, "..", "views", "home", "index.html"));
 })
 
 http.listen(localEnv.port, () => {

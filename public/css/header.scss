@@ -50,8 +50,10 @@
         letter-spacing: 2px;
       }
 
-      box-icon {
+      i {
         margin: 5px;
+        font-size: 25px;
+        color: var(--dark-hx-color);
       }
 
     }
@@ -65,8 +67,9 @@
       &:hover {
         cursor: pointer;
       }
-      box-icon {
-        width: 100%;
+      i {
+        font-size: 25px;
+        color: var(--dark-hx-color);
 
         &:hover {
           opacity: 0.8;

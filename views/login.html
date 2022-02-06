@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="FR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../public/css/login.css">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel="stylesheet" type="text/css">
+
+    <!-- LIBS -->
+    <link rel="stylesheet" type="text/css" href="../public/css/libs/hover/hover.css">
+
+    <title>BattleSheep | Sign In</title>
+</head>
+<body class="dark">
+
+    <div class="logo__container">
+        <img src="../public/img/logo.png" alt="Sheep">
+    </div>
+
+    <div class="login__container">
+        <div class="login__popup">
+            <div class="login__title">
+                <div class="login__back">
+                    <a href="home/index.html"><i class='bx bxs-chevron-left'></i></a>
+                    <span>WELCOME BACK</span>
+                </div>
+                <h1><mark>Log into your account</mark></h1>
+            </div>
+            <div class="login__form__container">
+                <div class="login__form">
+                    <span>Username</span>
+                    <label><input id="usernameInput" type="text" placeholder="Enter your username"></label>
+                </div>
+                <div class="login__form">
+                    <span>Password</span>
+                    <label><input id="passwordInput" type="text" placeholder="Enter your password"></label>
+                </div>
+                <button class="login__button" onclick="test('LOGIN')">Login now</button>
+            </div>
+            <div class="signup">
+                <p>Not registered yet? <span class="hvr-f" onclick="test('REGISTER')">Register <i class="bx bx-right-arrow-alt"></i></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>function test(str){console.log("Click detected: " + str);}</script>
+    <script src="../public/js/login/main.js"></script>
+
+</body>
+</html>
