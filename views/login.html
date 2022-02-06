@@ -39,15 +39,15 @@
                     <span>Password</span>
                     <label><input id="passwordInput" type="text" placeholder="Enter your password"></label>
                 </div>
-                <button class="login__button" onclick="test('LOGIN')">Login now</button>
+                <button class="login__button hvr-grow">Login now</button>
             </div>
             <div class="signup">
-                <p>Not registered yet? <span class="hvr-f" onclick="test('REGISTER')">Register <i class="bx bx-right-arrow-alt"></i></span></p>
+                <p>Not registered yet? <span id="registerSpan">Register <i class="bx bx-right-arrow-alt"></i></span></p>
             </div>
         </div>
     </div>
 
-    <script>function test(str){console.log("Click detected: " + str);}</script>
+    <script src="../public/js/login/manager/LoginManager.js"></script>
     <script src="../public/js/login/main.js"></script>
 
 </body>

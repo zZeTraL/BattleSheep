@@ -17,12 +17,21 @@
 
 
   /* Other style */
-  --login-bg-color: #53678d;
+  /*--login-bg-color: #53678d;
   --hx-color: #ffffff;
   --sp-color: #ffffff;
   --water-color: #62aae4;
   --dark-water-color: #4b71fb;
-  --login-box-shadow: 74, 113, 252;
+  --login-box-shadow: 74, 113, 252;*/
+
+  /* Dark Style */
+  --login-bg-color: #274068;
+  --hx-color: #ffffff;
+  --sp-color: #ffffff;
+  --water-color: #62aae4;
+  --dark-water-color: #4b71fb;
+  --login-box-shadow: 63, 151, 222;
+
 
   /* Font size */
   --fs-l: 2rem;
@@ -157,6 +166,10 @@ body {
           margin-bottom: 12px;
         }
 
+        ::placeholder {
+          color: white;
+        }
+
         input {
           width: 100%;
           padding: 12px 20px;
@@ -169,6 +182,10 @@ body {
 
           &:focus {
             outline-style: none !important;
+          }
+
+          ::placeholder {
+            color: white;
           }
 
         }
@@ -197,38 +214,38 @@ body {
       align-items: end;
       height: inherit;
       letter-spacing: 1px;
-
-      span {
-        font-weight: 600;
-        color: var(--water-color);
-        cursor: pointer;
-
-        &:hover {
-          opacity: 0.9;
-          border-bottom: solid var(--water-color) 1px;
-          transition: ease-in-out all 500ms;
-        }
-
-      }
+      transition: ease-in-out all 500ms;
 
       p {
         @include function.noPaddingMargin();
         font-size: var(--fs-s);
         color: var(--sp-color);
         margin-bottom: 50px;
+        transition: ease-in-out all 500ms;
+
+        span {
+          font-weight: 600;
+          color: var(--water-color);
+          cursor: pointer;
+          transition: ease-in-out all 500ms;
+
+          &:hover {
+            opacity: 0.9;
+            border-bottom: solid var(--water-color) 1px;
+            transition: ease-in-out all 500ms;
+          }
+
+        }
       }
+
 
     }
   }
 }
 
 @keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @media (max-width: 40em) {
