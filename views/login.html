@@ -30,17 +30,21 @@
                 </div>
                 <h1><mark>Log into your account</mark></h1>
             </div>
-            <div class="login__form__container">
+            <form action="/register" method="POST" class="login__form__container">
                 <div class="login__form">
                     <span>Username</span>
-                    <label><input id="usernameInput" type="text" placeholder="Enter your username"></label>
+                    <label for="usernameInput"><input name="username"  id="usernameInput" type="text" placeholder="Enter your username" required></label>
+                </div>
+                <div class="login__form">
+                    <span>Email</span>
+                    <label for="emailInput"><input name="email" id="emailInput" type="email" placeholder="Enter your email"></label>
                 </div>
                 <div class="login__form">
                     <span>Password</span>
-                    <label><input id="passwordInput" type="text" placeholder="Enter your password"></label>
+                    <label for="passwordInput"><input name="password" id="passwordInput" type="password" placeholder="Enter your password" required></label>
                 </div>
-                <button class="login__button hvr-grow">Login now</button>
-            </div>
+                <button type="submit" class="login__button hvr-grow">Login now</button>
+            </form>
             <div class="signup">
                 <p>Not registered yet? <span id="registerSpan">Register <i class="bx bx-right-arrow-alt"></i></span></p>
             </div>

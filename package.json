@@ -2,15 +2,18 @@
   "name": "battleship",
   "version": "1.0.0",
   "description": "",
-  "main": "routes/app.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "boxicons": "^2.1.1",
+    "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "express-session": "^1.17.2",
     "fs": "^0.0.1-security",
     "hover.css": "^2.3.2",
     "mysql": "^2.18.1",
