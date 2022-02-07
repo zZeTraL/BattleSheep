@@ -42,7 +42,9 @@
 
 body {
   @include function.noPaddingMargin();
-  background: url("../img/login/background.png") no-repeat center center fixed;
+  //background: url("../img/login/background.png") no-repeat center center fixed;
+  //background: url("../img/login/background2.png") no-repeat center center fixed;
+  background: url("../img/login/backgroundTest1.png") no-repeat center center fixed;
   background-size: cover;
 }
 
