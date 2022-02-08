@@ -11,38 +11,81 @@ body {
   @include function.noPaddingMargin();
   background-color: #233a5f;
   overflow: hidden;
+  min-height: 100vh;
+}
+
+main {
+  width: 75%;
+  margin: auto;
 }
 
 .error__container {
+  width: inherit;
   display: flex;
-  justify-content: center;
-  flex-direction: column;
   align-items: center;
-  margin: 75px 0 75px 0;
-  width: 100%;
-
+  gap: 100px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  //-webkit-transform: translate(-50%, -50%);
+  //-ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   font-family: "Kanit-ExtraLight", sans-serif;
 
-  h1 {
-    @include function.noPaddingMargin();
-    color: var(--dark-hx-color);
-    font-size: var(--fs-error);
-    letter-spacing: 2rem;
+  .error__text {
+    width: 100%;
+
+    p {
+      font-size: var(--fs-s);
+      font-weight: 200;
+      margin-bottom: 25px;
+      color: var(--dark-hx-color);
+      text-align: justify;
+
+      a {
+        color: rgb(119, 101, 227);
+        text-decoration: none;
+        border-bottom: 1px dashed rgb(119, 101, 227);
+        border-radius: 2px;
+      }
+    }
+
+    h1 {
+      @include function.noPaddingMargin();
+      color: var(--dark-hx-color);
+      font-size: var(--fs-error);
+      letter-spacing: 2rem;
+
+      mark {
+        color: inherit;
+        position: relative;
+        background: linear-gradient(120deg, rgba(119, 101, 227, 1) 0%, rgba(119, 101, 227, 1) 100%) no-repeat 0 74%;
+        background-size: 100% 15px;
+      }
+
+    }
+
+    h2 {
+      @include function.noPaddingMargin();
+      font-weight: 0;
+      color: var(--dark-hx-color);
+      font-size: var(--fs-xl);
+      letter-spacing: 5px;
+    }
   }
 
-  h2 {
-    @include function.noPaddingMargin();
-    font-weight: 0;
-    color: var(--dark-hx-color);
-    font-size: var(--fs-xl);
-    letter-spacing: 5px;
-  }
+  .error__img {
+    width: 100%;
+    display: flex;
+    justify-content: end;
 
-  mark {
-    color: inherit;
-    position: relative;
-    background: linear-gradient(120deg, rgba(119, 101, 227, 1) 0%, rgba(119, 101, 227, 1) 100%) no-repeat 0 80%;
-    background-size: 100% 10px;
+    img {
+      width: 500px;
+      height: auto;
+    }
   }
+}
+
+@media (max-width: 80em){
 
 }
