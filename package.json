@@ -12,12 +12,14 @@
     "bcrypt": "^5.0.1",
     "boxicons": "^2.1.1",
     "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "fs": "^0.0.1-security",
     "hover.css": "^2.3.2",
     "mysql": "^2.18.1",
     "sass": "^1.49.4",
-    "socket.io": "^4.4.1"
+    "socket.io": "^4.4.1",
+    "url": "^0.11.0"
   }
 }

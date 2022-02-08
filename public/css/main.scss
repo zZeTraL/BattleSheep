@@ -18,6 +18,7 @@
   --light-hx-color: red;
 
   /* Responsive Elements */
+  --fs-error: 10rem;
   --fs-xxl: 3rem;
   --fs-xl: 2.5rem;
   --fs-l: 2rem;
@@ -51,5 +52,9 @@ body {
       position: absolute;
     }
   }
+}
 
+@font-face {
+  font-family: "Kanit-ExtraLight";
+  src: url("../fonts/Kanit-ExtraLight.ttf") format("truetype");
 }

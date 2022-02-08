@@ -3,7 +3,9 @@ const path = require('path');
 const dotenv = require("dotenv");
 const app = express();
 const mysql = require("mysql");
-const session = require("express-session")
+
+// set the view engine to ejs
+app.set('view engine', 'ejs');
 
 dotenv.config({path: "./.env"});
 const pool = mysql.createPool({
@@ -14,92 +16,37 @@ const pool = mysql.createPool({
     database: process.env.DATABASE_NAME
 })
 
-pool.getConnection((error, connection) => {
-    if(error) throw error;
-    console.log("Connect as ID: " + connection.threadId);
-})
+// Variable global qui permet d'accéder au data de notre bdd
+global.pool = pool;
 
 // Répertoire dynamique
 app.use(express.static(path.join(__dirname)));
-
-// Routers
-app.get('/', (req, res) => {
-    pool.getConnection((error, connection) => {
-        if(error) throw error;
-        console.log("Connect as ID: " + connection.threadId);
-
-        // Affiche la table users
-        pool.query("SELECT * FROM users", (error, result) => {
-            if(error) throw error;
-            console.log(result);
-        })
-
-        // Ajouter un utilisateur une seul fois dans la base de donnée
-        let value = ['test', 'test@test.com', 'test']
-        pool.query("INSERT INTO users (username, email, password) VALUES(?,?,?)", value, (error, result) => {
-            connection.release();
-            if(error) throw error;
-            console.log(result);
-        })
-
-    })
-
-    res.sendFile(path.join(__dirname, "views", "home", "index.html"));
-
-})
-
-const routes = require("./server/routes/auth")
-app.use('/', routes);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-// Quelques functions afin d'assurer un minimum de sécurité
-//app.disable('x-powered-by');
-app.use(express.static(path.join(__dirname, "..")));
 // Permet de transmettre les données de la méthode POST
 app.use(express.urlencoded({extended: false}));
 
+const session = require("express-session")
 app.use(session({
-    secret: "secret",
+    secret: process.env.SESSION_KEY,
+    name: "session.sid",
     resave: false,
-    saveUninitialized: true,
-    cookie: {maxAge: 60000}
-}));
+    saveUninitialized: false,
+}))
+
+if (app.get('env') === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+    session.cookie.secure = true // serve secure cookies
+}
+
+// Routers
+app.get('/', (req, res) => { res.sendFile(path.join(__dirname, "views", "home", "index.html")); })
 
 
-// Getters
-app.get('/', (req, res) => { res.sendFile(path.join(__dirname, "..", "views", "home", "index.html")); })
-app.get('/login', (req, res) => { res.sendFile(path.join(__dirname, "..", "views", "login.html")); })
-app.get('/profile', (req, res) => { res.sendFile(path.join(__dirname, "..", "views", "profile.html")); })
-*/
-
+const routes = require("./server/routes/auth")
+app.use('/', routes);
+app.use((req, res) => {
+    res.status(404).render(path.join(__dirname, "views", "errors", "404"))
+})
 
 
 // On écoute sur le port
-app.listen(process.env.SERVER_PORT, () => {
-    console.log("Server started");
-});
+app.listen(process.env.SERVER_PORT);

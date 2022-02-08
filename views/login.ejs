@@ -25,25 +25,25 @@
         <div class="login__popup">
             <div class="login__title">
                 <div class="login__back">
-                    <a href="home/index.html"><i class='bx bxs-chevron-left'></i></a>
+                    <a href="/"><i class='bx bxs-chevron-left'></i></a>
                     <span>WELCOME BACK</span>
                 </div>
                 <h1><mark>Log into your account</mark></h1>
             </div>
-            <form action="/register" method="POST" class="login__form__container">
-                <div class="login__form">
+            <form id="form" action="api/login" method="POST" class="login__form__container">
+                <div class="login__form__element">
                     <span>Username</span>
                     <label for="usernameInput"><input name="username"  id="usernameInput" type="text" placeholder="Enter your username" required></label>
                 </div>
-                <div class="login__form">
+                <div class="login__form__element">
                     <span>Email</span>
                     <label for="emailInput"><input name="email" id="emailInput" type="email" placeholder="Enter your email"></label>
                 </div>
-                <div class="login__form">
+                <div class="login__form__element">
                     <span>Password</span>
                     <label for="passwordInput"><input name="password" id="passwordInput" type="password" placeholder="Enter your password" required></label>
                 </div>
-                <button type="submit" class="login__button hvr-grow">Login now</button>
+                <button type="submit" id="sendButton" class="login__button hvr-grow">Sign In</button>
             </form>
             <div class="signup">
                 <p>Not registered yet? <span id="registerSpan">Register <i class="bx bx-right-arrow-alt"></i></span></p>

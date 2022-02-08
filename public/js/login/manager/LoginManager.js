@@ -1,6 +1,7 @@
 let loginManager = (function() {
     // Some importants variable
     let usernameInput = document.getElementById("usernameInput");
+    let emailInput = document.getElementsByName("emailInput");
     let passwordInput = document.getElementsByName("passwordInput");
     let registerSpan = document.getElementById("registerSpan");
 
@@ -13,6 +14,12 @@ let loginManager = (function() {
         },
 
         // Setters
+        reset(){
+            usernameInput.value = "";
+            emailInput.value = "";
+            passwordInput.value = "";
+        },
+
         setUrlParameter(parameterName, value){
             let tmp =  new URLSearchParams(window.location.search);
             tmp.set(parameterName, value);

@@ -1,0 +1,48 @@
+//======================================================
+//                    E R R O R
+//
+//  This file contains all important css property
+//  for all http error like 404, 502 ...
+//
+//======================================================*
+@use "../mixins" as function;
+
+body {
+  @include function.noPaddingMargin();
+  background-color: #233a5f;
+  overflow: hidden;
+}
+
+.error__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 75px 0 75px 0;
+  width: 100%;
+
+  font-family: "Kanit-ExtraLight", sans-serif;
+
+  h1 {
+    @include function.noPaddingMargin();
+    color: var(--dark-hx-color);
+    font-size: var(--fs-error);
+    letter-spacing: 2rem;
+  }
+
+  h2 {
+    @include function.noPaddingMargin();
+    font-weight: 0;
+    color: var(--dark-hx-color);
+    font-size: var(--fs-xl);
+    letter-spacing: 5px;
+  }
+
+  mark {
+    color: inherit;
+    position: relative;
+    background: linear-gradient(120deg, rgba(119, 101, 227, 1) 0%, rgba(119, 101, 227, 1) 100%) no-repeat 0 80%;
+    background-size: 100% 10px;
+  }
+
+}
