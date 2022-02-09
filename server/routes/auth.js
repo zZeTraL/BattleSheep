@@ -33,8 +33,14 @@ router.get('/login', (req, res) => {
         res.redirect("/profile")
     } else {
         req.session.login = false;
+
+        let urlParam = req.query.signup
+        if(urlParam === undefined){
+            urlParam = "false"
+        }
+
         res.render(path.join(__dirname, "..", "..", "views", "login"), {
-            signup: req.query.signup,
+            signup: urlParam,
         });
     }
 })
@@ -46,44 +52,52 @@ router.post('/api/register', async (req, res) => {
     const email = req.body.email;
     const password = await generateHash(req.body.password);
 
-    // On créer une connection avec notre base de donnée
-    pool.getConnection((error, connection) => {
-        // DEBUG
-        if (error) throw error;
-        pool.query("SELECT * FROM users WHERE username = ?", [username], async (error, result) => {
-            // Affiche une erreur si notre requête SQL n'aboutie pas
+    // On check le pseudo envoyé
+    if(username.length < 3 || username.includes(" ")){
+        console.log("Invalid username: " + username.length + " " + username);
+        res.redirect("/login");
+    } else {
+
+        // On créer une connection avec notre base de donnée
+        pool.getConnection((error, connection) => {
+            // DEBUG
             if (error) throw error;
-            // Si l'utilisateur est déjà enregistré
-            if (result.length > 0) {
-                // DEBUG
-                //console.log("This account is already registered!");
+            pool.query("SELECT * FROM users WHERE username = ?", [username], async (error, result) => {
+                // Affiche une erreur si notre requête SQL n'aboutie pas
+                if (error) throw error;
+                // Si l'utilisateur est déjà enregistré
+                if (result.length > 0) {
+                    // DEBUG
+                    //console.log("This account is already registered!");
 
-                // on redirige l'utilisateur sur la page pour se connecter
-                res.redirect("/login.ejs");
+                    // on redirige l'utilisateur sur la page pour se connecter
+                    res.redirect("/login");
 
-                /** TODO
-                 *   - Show to user when an account already existed
-                 *   - Show this in ejs template
-                 */
+                    /** TODO
+                     *   - Show to user when an account already existed
+                     *   - Show this in ejs template
+                     */
 
-            } else {
-                // On insert les data de notre utilisateur dans notre bdd
-                await pool.query("INSERT INTO users (username, email, password) VALUES(?,?,?)", [username, email, password], (error, result) => {
-                    connection.release();
-                    if (error) throw error;
-                    console.log(result);
-                })
-                // DEBUG
-                console.log("Account has been created!");
+                } else {
+                    // On insert les data de notre utilisateur dans notre bdd
+                    await pool.query("INSERT INTO users (username, email, password) VALUES(?,?,?)", [username, email, password], (error, result) => {
+                        connection.release();
+                        if (error) throw error;
+                        console.log(result);
+                    })
+                    // DEBUG
+                    console.log("Account has been created!");
 
-                // On met à jour la session de l'utilisateur
-                req.session.login = true;
-                req.session.username = username;
-                req.session.email = email;
-                res.redirect("/profile")
-            }
+                    // On met à jour la session de l'utilisateur
+                    req.session.login = true;
+                    req.session.username = username;
+                    req.session.email = email;
+                    res.redirect("/profile")
+                }
+            })
         })
-    })
+
+    }
 })
 
 // POST method to login an user to his account
@@ -141,7 +155,7 @@ router.post("/api/login", async (req, res) => {
                             }
                         })
                     } else {
-                        console.log("L'utilisateur n'existe pas pas !");
+                        console.log("L'utilisateur n'existe pas !");
                         res.redirect("/login")
                     }
                 })
