@@ -10,7 +10,7 @@
 body {
   @include function.noPaddingMargin();
   background-color: #233a5f;
-  overflow: hidden;
+  overflow-x: hidden;
   min-height: 100vh;
 }
 
@@ -20,33 +20,36 @@ main {
 }
 
 .error__container {
-  width: inherit;
   display: flex;
   align-items: center;
   gap: 100px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  //-webkit-transform: translate(-50%, -50%);
-  //-ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
   font-family: "Kanit-ExtraLight", sans-serif;
+  transition: all ease-in-out 500ms;
 
   .error__text {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all ease-in-out 500ms;
 
     p {
-      font-size: var(--fs-s);
+      font-size: var(--fs-m);
       font-weight: 200;
       margin-bottom: 25px;
       color: var(--dark-hx-color);
       text-align: justify;
+      transition: all ease-in-out 500ms;
 
       a {
-        color: rgb(119, 101, 227);
+        font-weight: 600;
+        color: var(--dark-violet-hex);
         text-decoration: none;
-        border-bottom: 1px dashed rgb(119, 101, 227);
+        border-bottom: 1px dashed rgb(var(--dark-mark-rgb));
         border-radius: 2px;
+
+        &:visited {
+          color: var(--dark-violet-hex);
+        }
+
       }
     }
 
@@ -55,11 +58,12 @@ main {
       color: var(--dark-hx-color);
       font-size: var(--fs-error);
       letter-spacing: 2rem;
+      transition: all ease-in-out 500ms;
 
       mark {
         color: inherit;
         position: relative;
-        background: linear-gradient(120deg, rgba(119, 101, 227, 1) 0%, rgba(119, 101, 227, 1) 100%) no-repeat 0 74%;
+        background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 74%;
         background-size: 100% 15px;
       }
 
@@ -71,21 +75,35 @@ main {
       color: var(--dark-hx-color);
       font-size: var(--fs-xl);
       letter-spacing: 5px;
+      transition: all ease-in-out 500ms;
     }
   }
 
   .error__img {
-    width: 100%;
-    display: flex;
-    justify-content: end;
+    transition: all ease-in-out 500ms;
 
     img {
-      width: 500px;
+      width: 600px;
       height: auto;
+
+      @media (max-width: 80em){
+        width: 100%;
+      }
     }
   }
 }
 
 @media (max-width: 80em){
+  .error__container {
+    animation: fadeIn 1s;
 
+    position: relative;
+    flex-direction: column;
+    gap: 50px;
+    z-index: 1;
+
+    .error__text {
+      align-items: center;
+    }
+  }
 }

@@ -4,3 +4,47 @@
 //  This file contains all important css property
 //
 //======================================================*
+@use "mixins" as function;
+
+body {
+  @include function.noPaddingMargin();
+  background-color: #233a5f;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+main {
+  width: 75%;
+  margin: auto;
+}
+
+.profile__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Kanit-ExtraLight", sans-serif;
+  transition: all ease-in-out 500ms;
+
+  h1 {
+    @include function.noPaddingMargin();
+    font-size: var(--fs-xxl);
+    color: var(--dark-hx-color);
+    letter-spacing: 5px;
+
+    mark {
+      color: inherit;
+      position: relative;
+      background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 78%;
+      background-size: 100% 10px;
+    }
+
+  }
+
+  .profile__logout__button {
+    a {
+      text-decoration: none;
+      color: white;
+    }
+  }
+
+}

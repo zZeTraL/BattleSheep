@@ -18,6 +18,7 @@
   transition: ease-in-out all 500ms;
 
   .logo__container {
+    width: 100%;
     display: flex;
     align-items: center;
     height: inherit;
@@ -74,10 +75,51 @@
         &:hover {
           opacity: 0.8;
         }
-
       }
+
+      @media (max-width: 65em){
+        display: none;
+      }
+    }
+  }
+
+  .nav__list {
+    display: none;
+    align-items: center;
+    height: inherit;
+    z-index: 10;
+    transition: ease-in-out all 500ms;
+
+    i {
+      font-size: 35px;
+      color: var(--dark-hx-color);
+    }
+
+    @media (max-width: 65em){
+      display: flex;
     }
 
   }
 
+}
+
+@media (max-width: 65em) {
+  .header {
+    .nav__container {
+      animation: fadeIn 1s;
+      display: none;
+      position: fixed;
+      justify-content: center;
+      inset: 0 0 0 50%;
+      flex-direction: column;
+      padding: min(20vh, 10rem) 2em;
+      background-color: rgba(46, 65, 96, 0.85);
+      z-index: 10;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

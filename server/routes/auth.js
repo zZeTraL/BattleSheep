@@ -33,7 +33,9 @@ router.get('/login', (req, res) => {
         res.redirect("/profile")
     } else {
         req.session.login = false;
-        res.render(path.join(__dirname, "..", "..", "views", "login"));
+        res.render(path.join(__dirname, "..", "..", "views", "login"), {
+            signup: req.query.signup,
+        });
     }
 })
 
@@ -87,25 +89,25 @@ router.post('/api/register', async (req, res) => {
 // POST method to login an user to his account
 router.post("/api/login", async (req, res) => {
     // On récupère les données de notre form
-    const username = req.body.username;
+    const usernameOrEmail = req.body.username;
     const password = req.body.password;
 
     // On se connecte à notre base de donnée
     pool.getConnection((error, connection) => {
         if (error) throw error;
         // On sélectionne notre utilisateur par son pseudo dans la bdd
-        pool.query("SELECT * FROM users WHERE username = ?", [username], async (error, result) => {
-            // On check si l'utilisateur existe
+        pool.query("SELECT * FROM users WHERE username = ?", [usernameOrEmail], async (error, result) => {
+            // On check si l'utilisateur existe par son pseudo
             if (result.length > 0) {
                 console.log("L'utilisateur existe, le mdp est-il valide ?");
-                pool.query("SELECT PASSWORD as password FROM `users` WHERE username = ?", [username], async (error, result) => {
+                pool.query("SELECT PASSWORD as password FROM `users` WHERE username = ?", [usernameOrEmail], async (error, result) => {
                     if (error) throw error;
                     connection.release();
                     let compare = await compareHash(password, result[0].password);
                     if(compare){
                         // Le mot de passe est correct, on met à jour la session
                         req.session.login = true;
-                        req.session.username = username;
+                        req.session.username = usernameOrEmail;
                         res.redirect("/profile")
                     } else {
                         // DEBUG
@@ -113,11 +115,39 @@ router.post("/api/login", async (req, res) => {
                     }
                 })
             } else {
-                console.log("L'utilisateur n'existe pas!");
+                // On check si l'utilisateur n'a pas entré un pseudo mais un mail
+                console.log("L'utilisateur existe, le mdp est-il valide ?");
+                pool.query("SELECT * FROM users WHERE email = ?", [usernameOrEmail], async (error, result) => {
+                    // On check si l'utilisateur existe par son mail
+                    if(result.length > 0){
+                        console.log("L'utilisateur existe, le mdp est-il valide ?");
+                        pool.query("SELECT PASSWORD as password FROM `users` WHERE email = ?", [usernameOrEmail], async (error, result) => {
+                            if (error) throw error;
+                            let compare = await compareHash(password, result[0].password);
+                            if(compare){
+                                // Le mot de passe est correct, on met à jour la session
+                                req.session.login = true;
+                                pool.query("SELECT EMAIL FROM users WHERE email = ?", [usernameOrEmail], (error, result) => {
+                                    connection.release();
+                                    if(error) throw error;
+                                    if(result > 0){
+                                        req.session.username = result[0].username;
+                                    }
+                                })
+                                res.redirect("/profile")
+                            } else {
+                                // DEBUG
+                                console.log("Invalid password!");
+                            }
+                        })
+                    } else {
+                        console.log("L'utilisateur n'existe pas pas !");
+                        res.redirect("/login")
+                    }
+                })
             }
         })
     })
-
 })
 
 router.get("/profile", (req, res) => {

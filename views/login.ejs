@@ -32,13 +32,20 @@
             </div>
             <form id="form" action="api/login" method="POST" class="login__form__container">
                 <div class="login__form__element">
-                    <span>Username</span>
-                    <label for="usernameInput"><input name="username"  id="usernameInput" type="text" placeholder="Enter your username" required></label>
+                    <% if(signup === "true"){ %>
+                        <span>Username</span>
+                        <label for="usernameInput"><input name="username"  id="usernameInput" type="text" placeholder="Enter your username" required></label>
+                    <% } else { %>
+                        <span>Username or Email</span>
+                            <label for="usernameInput"><input name="username"  id="usernameInput" type="text" placeholder="Enter your username" required></label>
+                    <% } %>
                 </div>
-                <div class="login__form__element">
-                    <span>Email</span>
-                    <label for="emailInput"><input name="email" id="emailInput" type="email" placeholder="Enter your email"></label>
-                </div>
+                <% if(signup === "true"){ %>
+                    <div class="login__form__element">
+                        <span>Email</span>
+                        <label for="emailInput"><input name="email" id="emailInput" type="email" placeholder="Enter your email"></label>
+                    </div>
+                <% } %>
                 <div class="login__form__element">
                     <span>Password</span>
                     <label for="passwordInput"><input name="password" id="passwordInput" type="password" placeholder="Enter your password" required></label>

@@ -8,9 +8,11 @@
 
 :root {
   /* Dark Mode */
-  --dark-main-bg-color: #344055;
-  --dark-header-bg-color: #34495e;
+  --dark-main-bg-color: #233a5f;
   --dark-hx-color: white;
+
+  --dark-violet-hex: #7765E3;
+  --dark-mark-rgb: 119, 101, 227;
 
   /* Light Mode */
   --light-main-bg-color: #dced0d9;
@@ -43,19 +45,6 @@ body {
     --fs-s: 0.85rem;
     --fs-ss: 0.75rem;
   }
-
-  .header {
-    flex-direction: column;
-    transition: ease-in-out all 500ms;
-
-    .dark__mode {
-      visibility: hidden;
-      position: absolute;
-    }
-  }
-
-  /* Error 404 page */
-
 }
 
 @font-face {

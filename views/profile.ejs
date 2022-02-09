@@ -9,7 +9,7 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../public/css/main.css">
     <link rel="stylesheet" type="text/css" href="../public/css/header.css">
-    <link rel="stylesheet" type="text/css" href="../public/css/modal.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/profile.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel="stylesheet" type="text/css">
 
     <!-- LIBS -->
@@ -18,13 +18,20 @@
     <title>BattleSheep | Profile</title>
 </head>
 <body>
-<header class="header">
-    <%- include("./parts/header"); -%>
-</header>
+    <header class="header">
+        <%- include("./parts/header"); -%>
+    </header>
 
-    <h1>Welcome <%= username %> </h1>
-    <p>Your email is <%= email %></p>
-    <a href="/logout">Logout</a>
+    <main class="profile__container">
+        <h1><mark>Welcome back <%= username %></mark></h1>
+        <div class="profile__logout__button">
+            <a href="/logout">Logout</a>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
 
 </body>
 </html>

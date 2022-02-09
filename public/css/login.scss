@@ -44,8 +44,8 @@ body {
   @include function.noPaddingMargin();
   //background: url("../img/login/background.png") no-repeat center center fixed;
   //background: url("../img/login/background2.png") no-repeat center center fixed;
-  background: url("../img/login/backgroundTest2.png") no-repeat center center fixed;
   background-size: cover;
+  background: var(--login-bg-color) url("../img/login/backgroundTest2.png") no-repeat fixed center center;
 }
 
 .logo__container {
