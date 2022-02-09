@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const dotenv = require("dotenv");
 const app = express();
+const flash = require("express-flash");
 const mysql = require("mysql");
 
 // set the view engine to ejs
@@ -18,11 +19,13 @@ const pool = mysql.createPool({
 
 // Variable global qui permet d'accéder au data de notre bdd
 global.pool = pool;
+global.flash = flash;
 
 // Répertoire dynamique
 app.use(express.static(path.join(__dirname)));
 // Permet de transmettre les données de la méthode POST
 app.use(express.urlencoded({extended: false}));
+app.use(flash());
 
 const session = require("express-session")
 app.use(session({

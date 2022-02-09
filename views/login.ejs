@@ -13,7 +13,11 @@
     <!-- LIBS -->
     <link rel="stylesheet" type="text/css" href="../public/css/libs/hover/hover.css">
 
-    <title>BattleSheep | Sign In</title>
+    <% if(signup === "true"){ %>
+        <title>BattleSheep | Sign Up</title>
+    <% } else { %>
+        <title>BattleSheep | Sign In</title>
+    <% } %>
 </head>
 <body class="dark">
 
@@ -26,10 +30,31 @@
             <div class="login__title">
                 <div class="login__back">
                     <a href="/"><i class='bx bxs-chevron-left'></i></a>
-                    <span>WELCOME BACK</span>
+                    <% if(signup === "true"){ %>
+                        <span>HI YOU</span>
+                    <% } else { %>
+                        <span>WELCOME BACK</span>
+                    <% } %>
                 </div>
-                <h1><mark>Log into your account</mark></h1>
+                <% if(signup === "true"){ %>
+                    <h1><mark>Create an account</mark></h1>
+                <% } else { %>
+                    <h1><mark>Log into your account</mark></h1>
+                <% } %>
             </div>
+
+            <% if(registerInvalidUsername !== undefined){ %>
+                <p><%= registerInvalidUsername %></p>
+            <% } %>
+
+            <% if(registerInvalidPassword !== undefined){ %>
+                <p><%= registerInvalidPassword %></p>
+            <% } %>
+
+            <% if(userAlreadyRegistered !== undefined){ %>
+                <p><%= userAlreadyRegistered %></p>
+            <% } %>
+
             <form id="form" action="api/login" method="POST" class="login__form__container">
                 <div class="login__form__element">
                     <% if(signup === "true"){ %>
@@ -53,7 +78,13 @@
                 <button type="submit" id="sendButton" class="login__button hvr-grow">Sign In</button>
             </form>
             <div class="signup">
-                <p>Not registered yet? <span id="registerSpan">Register <i class="bx bx-right-arrow-alt"></i></span></p>
+                <p>Not registered yet?
+                    <% if(signup === "true"){ %>
+                        <span id="registerSpan">Login <i class="bx bx-right-arrow-alt"></i></span>
+                    <% } else { %>
+                        <span id="registerSpan">Register <i class="bx bx-right-arrow-alt"></i></span>
+                    <% } %>
+                </p>
             </div>
         </div>
     </div>

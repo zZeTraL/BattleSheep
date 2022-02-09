@@ -34,13 +34,38 @@ router.get('/login', (req, res) => {
     } else {
         req.session.login = false;
 
+        // URL de la page
         let urlParam = req.query.signup
+
+        // On utilise express-flash afin de transmettre des données sans faire des redirections sans cesse
+        // Utilise car nous affiche l'état de notre requête post
+        const userAlreadyRegistered = req.flash('userAlreadyRegistered');
+        const registerInvalidUsername = req.flash('registerInvalidUsername');
+        const registerInvalidEmail = req.flash('registerInvalidEmail');
+        const registerInvalidPassword = req.flash('registerInvalidPassword');
+
+        const loginInvalidPassword = req.flash('loginInvalidPassword');
+        const loginInvalidUsrOrEmail = req.flash('loginInvalidUsrOrEmail');
+
+
+        console.log(registerInvalidUsername[0])
         if(urlParam === undefined){
-            urlParam = "false"
+            urlParam = "false";
         }
 
         res.render(path.join(__dirname, "..", "..", "views", "login"), {
+            // URL
             signup: urlParam,
+
+            // Register
+            userAlreadyRegistered: userAlreadyRegistered[0],
+            registerInvalidUsername: registerInvalidUsername[0],
+            registerInvalidEmail: registerInvalidEmail[0],
+            registerInvalidPassword: registerInvalidPassword[0],
+
+            // Login
+            loginInvalidUsrOrEmail: loginInvalidUsrOrEmail[0],
+            loginInvalidPassword: loginInvalidPassword[0],
         });
     }
 })
@@ -53,11 +78,15 @@ router.post('/api/register', async (req, res) => {
     const password = await generateHash(req.body.password);
 
     // On check le pseudo envoyé
-    if(username.length < 3 || username.includes(" ")){
+    if(username.length < 3 || username.includes(" ")) {
         console.log("Invalid username: " + username.length + " " + username);
+        req.flash("registerInvalidUsername", "Username must contain at least 3 characters")
+        if(req.body.password < 3 || req.body.password.includes(" ")) {
+            console.log("Invalid password: " + req.body.password);
+            req.flash("registerInvalidPassword", "Password must contain at least 3 characters")
+        }
         res.redirect("/login");
     } else {
-
         // On créer une connection avec notre base de donnée
         pool.getConnection((error, connection) => {
             // DEBUG
@@ -67,17 +96,9 @@ router.post('/api/register', async (req, res) => {
                 if (error) throw error;
                 // Si l'utilisateur est déjà enregistré
                 if (result.length > 0) {
-                    // DEBUG
-                    //console.log("This account is already registered!");
-
+                    req.flash("userAlreadyRegistered", "User already registered with this username")
                     // on redirige l'utilisateur sur la page pour se connecter
                     res.redirect("/login");
-
-                    /** TODO
-                     *   - Show to user when an account already existed
-                     *   - Show this in ejs template
-                     */
-
                 } else {
                     // On insert les data de notre utilisateur dans notre bdd
                     await pool.query("INSERT INTO users (username, email, password) VALUES(?,?,?)", [username, email, password], (error, result) => {
