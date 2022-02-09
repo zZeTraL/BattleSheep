@@ -16,7 +16,7 @@ body {
 
 main {
   width: 75%;
-  margin: auto;
+  margin: auto auto 90px;
 }
 
 .error__container {
@@ -24,12 +24,10 @@ main {
   align-items: center;
   gap: 100px;
   font-family: "Kanit-ExtraLight", sans-serif;
-  transition: all ease-in-out 500ms;
 
   .error__text {
     display: flex;
     flex-direction: column;
-    transition: all ease-in-out 500ms;
 
     p {
       font-size: var(--fs-m);
@@ -75,15 +73,12 @@ main {
       color: var(--dark-hx-color);
       font-size: var(--fs-xl);
       letter-spacing: 5px;
-      transition: all ease-in-out 500ms;
     }
   }
 
   .error__img {
-    transition: all ease-in-out 500ms;
-
     img {
-      width: 600px;
+      width: 450px;
       height: auto;
 
       @media (max-width: 80em){

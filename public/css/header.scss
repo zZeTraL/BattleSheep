@@ -15,14 +15,12 @@
   width: auto;
   font-family: "Bebas Neue", sans-serif;
   padding: 25px 100px 25px 100px;
-  transition: ease-in-out all 500ms;
 
   .logo__container {
     width: 100%;
     display: flex;
     align-items: center;
     height: inherit;
-    transition: ease-in-out all 500ms;
 
     img {
       height: 100px;
@@ -37,14 +35,13 @@
     height: inherit;
     flex-grow: 2;
     gap: 50px;
-    transition: ease-in-out all 500ms;
 
     a {
       display: flex;
       height: inherit;
       align-items: center;
       text-decoration: none;
-      color: var(--dark-hx-color);
+      color: var(--dark-a-color);
 
       h1 {
         @include function.noPaddingMargin();
@@ -63,11 +60,11 @@
       display: flex;
       align-items: center;
       height: inherit;
-      transition: ease-in-out all 500ms;
 
       &:hover {
         cursor: pointer;
       }
+
       i {
         font-size: 25px;
         color: var(--dark-hx-color);
@@ -88,7 +85,6 @@
     align-items: center;
     height: inherit;
     z-index: 10;
-    transition: ease-in-out all 500ms;
 
     i {
       font-size: 35px;
@@ -98,9 +94,7 @@
     @media (max-width: 65em){
       display: flex;
     }
-
   }
-
 }
 
 @media (max-width: 65em) {

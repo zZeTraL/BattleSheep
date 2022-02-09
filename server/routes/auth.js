@@ -27,9 +27,26 @@ function compareHash(password, hashed) {
     return bcrypt.compareSync(password, hashed);
 }
 
+function isPasswordValid(password) {
+    if (password < 6 || password.includes(" ")) {
+        console.log("Invalid password: " + password);
+        return false;
+    }
+    return true;
+}
+
+function isUsernameValid(username) {
+    if (username < 3 || username.includes(" ")) {
+        console.log("Invalid username: " + username);
+        return false;
+    }
+    return true;
+}
+
+
 // Routers
 router.get('/login', (req, res) => {
-    if(req.session.login){
+    if (req.session.login) {
         res.redirect("/profile")
     } else {
         req.session.login = false;
@@ -48,8 +65,7 @@ router.get('/login', (req, res) => {
         const loginInvalidUsrOrEmail = req.flash('loginInvalidUsrOrEmail');
 
 
-        console.log(registerInvalidUsername[0])
-        if(urlParam === undefined){
+        if (urlParam === undefined) {
             urlParam = "false";
         }
 
@@ -75,50 +91,56 @@ router.post('/api/register', async (req, res) => {
     // on récupère les données de notre formulaire
     const username = req.body.username;
     const email = req.body.email;
-    const password = await generateHash(req.body.password);
+    const password = req.body.password;
+    // On hash notre mot de passe
+    const passwordHashed = await generateHash(req.body.password);
 
-    // On check le pseudo envoyé
-    if(username.length < 3 || username.includes(" ")) {
-        console.log("Invalid username: " + username.length + " " + username);
+    // Boolean qui vérifie si nos inputs correspondent avec nos conditions
+    let isInputValid = true;
+
+    // On check si le pseudo envoyé par le poste ne contient pas des espaces et que le mot de passe fait au moins 6 caractères
+    if (!isUsernameValid(username)) {
         req.flash("registerInvalidUsername", "Username must contain at least 3 characters")
-        if(req.body.password < 3 || req.body.password.includes(" ")) {
-            console.log("Invalid password: " + req.body.password);
-            req.flash("registerInvalidPassword", "Password must contain at least 3 characters")
-        }
-        res.redirect("/login");
-    } else {
-        // On créer une connection avec notre base de donnée
-        pool.getConnection((error, connection) => {
-            // DEBUG
-            if (error) throw error;
-            pool.query("SELECT * FROM users WHERE username = ?", [username], async (error, result) => {
-                // Affiche une erreur si notre requête SQL n'aboutie pas
-                if (error) throw error;
-                // Si l'utilisateur est déjà enregistré
-                if (result.length > 0) {
-                    req.flash("userAlreadyRegistered", "User already registered with this username")
-                    // on redirige l'utilisateur sur la page pour se connecter
-                    res.redirect("/login");
-                } else {
-                    // On insert les data de notre utilisateur dans notre bdd
-                    await pool.query("INSERT INTO users (username, email, password) VALUES(?,?,?)", [username, email, password], (error, result) => {
-                        connection.release();
-                        if (error) throw error;
-                        console.log(result);
-                    })
-                    // DEBUG
-                    console.log("Account has been created!");
-
-                    // On met à jour la session de l'utilisateur
-                    req.session.login = true;
-                    req.session.username = username;
-                    req.session.email = email;
-                    res.redirect("/profile")
-                }
-            })
-        })
-
+        isInputValid = false;
     }
+
+    if (!isPasswordValid(password)) {
+        req.flash("registerInvalidPassword", "Password must contain at least 3 characters")
+        isInputValid = false;
+    }
+
+    pool.getConnection(async (error, connection) => {
+        await pool.query("SELECT USERNAME FROM `users` WHERE `username` = ?", [username], async (error, result) => {
+            if (error) throw error;
+            console.log(result.length)
+            if (result.length > 0) {
+                console.log("User already registered")
+                req.flash("userAlreadyRegistered", "User already registered with this username")
+                isInputValid = false;
+                res.redirect("/login?signup=true");
+            } else {
+                if (isInputValid === true) {
+                    await pool.query("INSERT INTO users (username, email, password) VALUES(?,?,?)", [username, email, passwordHashed], (error, result) => {
+                        if (error) throw error;
+                        //console.log(result);
+                        // DEBUG
+                        console.log("Account has been created!");
+
+                        // On met à jour la session de l'utilisateur
+                        req.session.login = true;
+                        req.session.username = username;
+                        req.session.email = email;
+                        res.redirect("/profile");
+
+                        connection.release();
+                    });
+                } else {
+                    res.redirect("/login?signup=true");
+                }
+            }
+        })
+    })
+
 })
 
 // POST method to login an user to his account
@@ -139,7 +161,7 @@ router.post("/api/login", async (req, res) => {
                     if (error) throw error;
                     connection.release();
                     let compare = await compareHash(password, result[0].password);
-                    if(compare){
+                    if (compare) {
                         // Le mot de passe est correct, on met à jour la session
                         req.session.login = true;
                         req.session.username = usernameOrEmail;
@@ -154,18 +176,18 @@ router.post("/api/login", async (req, res) => {
                 console.log("L'utilisateur existe, le mdp est-il valide ?");
                 pool.query("SELECT * FROM users WHERE email = ?", [usernameOrEmail], async (error, result) => {
                     // On check si l'utilisateur existe par son mail
-                    if(result.length > 0){
+                    if (result.length > 0) {
                         console.log("L'utilisateur existe, le mdp est-il valide ?");
                         pool.query("SELECT PASSWORD as password FROM `users` WHERE email = ?", [usernameOrEmail], async (error, result) => {
                             if (error) throw error;
                             let compare = await compareHash(password, result[0].password);
-                            if(compare){
+                            if (compare) {
                                 // Le mot de passe est correct, on met à jour la session
                                 req.session.login = true;
                                 pool.query("SELECT EMAIL FROM users WHERE email = ?", [usernameOrEmail], (error, result) => {
                                     connection.release();
-                                    if(error) throw error;
-                                    if(result > 0){
+                                    if (error) throw error;
+                                    if (result > 0) {
                                         req.session.username = result[0].username;
                                     }
                                 })
@@ -177,7 +199,7 @@ router.post("/api/login", async (req, res) => {
                         })
                     } else {
                         console.log("L'utilisateur n'existe pas !");
-                        res.redirect("/login")
+                        res.redirect("/login?signup=false");
                     }
                 })
             }
@@ -192,7 +214,7 @@ router.get("/profile", (req, res) => {
             email: req.session.email
         });
     } else {
-        res.render(path.join(__dirname, "..", "..", "views", "login"));
+        res.redirect("/login?signup=false");
     }
 })
 
