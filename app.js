@@ -41,7 +41,7 @@ if (app.get('env') === 'production') {
 }
 
 // Routers
-app.get('/', (req, res) => { res.sendFile(path.join(__dirname, "views", "index.html")); })
+app.get('/', (req, res) => { res.render(path.join(__dirname, "views", "index")); })
 
 
 const routes = require("./server/routes/auth")

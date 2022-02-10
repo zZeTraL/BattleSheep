@@ -18,6 +18,7 @@
     <% } else { %>
         <title>BattleSheep | Sign In</title>
     <% } %>
+
 </head>
 <body class="dark">
 
@@ -37,32 +38,54 @@
                     <% } %>
                 </div>
                 <% if(signup === "true"){ %>
-                    <h1><mark>Create an account</mark></h1>
+                    <h1>
+                        <mark>Create an account</mark>
+                    </h1>
                 <% } else { %>
-                    <h1><mark>Log into your account</mark></h1>
+                    <h1>
+                        <mark>Log into your account</mark>
+                    </h1>
                 <% } %>
             </div>
 
-            <% if(registerInvalidUsername !== undefined){ %>
-                <p><%= registerInvalidUsername %></p>
+            <% if(registerInvalidUsername !== undefined || registerInvalidPassword !== undefined || userAlreadyRegistered !== undefined) { %>
+                <div class="login__error">
+                    <!--<span><i class='bx bx-error-circle'></i></span>-->
+                    <% if(registerInvalidUsername !== undefined){ %>
+                        <p><%= registerInvalidUsername %></p>
+                    <% } %>
+                    <% if(registerInvalidPassword !== undefined){ %>
+                        <p><%= registerInvalidPassword %></p>
+                    <% } %>
+                    <% if(userAlreadyRegistered !== undefined){ %>
+                        <p><%= userAlreadyRegistered %></p>
+                    <% } %>
+                </div>
             <% } %>
 
-            <% if(registerInvalidPassword !== undefined){ %>
-                <p><%= registerInvalidPassword %></p>
+            <% if(loginUnknownUser !== undefined || loginInvalidPassword !== undefined) { %>
+                <div class="login__error">
+                    <!--<span><i class='bx bx-error-circle'></i></span>-->
+                    <% if(loginUnknownUser !== undefined){ %>
+                        <p><%= loginUnknownUser %></p>
+                    <% } %>
+                    <% if(loginInvalidPassword !== undefined){ %>
+                        <p><%= loginInvalidPassword %></p>
+                    <% } %>
+                </div>
             <% } %>
 
-            <% if(userAlreadyRegistered !== undefined){ %>
-                <p><%= userAlreadyRegistered %></p>
-            <% } %>
 
             <form id="form" action="api/login" method="POST" class="login__form__container">
                 <div class="login__form__element">
                     <% if(signup === "true"){ %>
                         <span>Username</span>
-                        <label for="usernameInput"><input name="username"  id="usernameInput" type="text" placeholder="Enter your username" required></label>
+                        <label for="usernameInput"><input name="username" id="usernameInput" type="text"
+                                                          placeholder="Enter your username" required></label>
                     <% } else { %>
                         <span>Username or Email</span>
-                            <label for="usernameInput"><input name="username"  id="usernameInput" type="text" placeholder="Enter your username" required></label>
+                        <label for="usernameInput"><input name="username" id="usernameInput" type="text"
+                                                          placeholder="Enter your username" required></label>
                     <% } %>
                 </div>
                 <% if(signup === "true"){ %>
@@ -73,7 +96,8 @@
                 <% } %>
                 <div class="login__form__element">
                     <span>Password</span>
-                    <label for="passwordInput"><input name="password" id="passwordInput" type="password" placeholder="Enter your password" required></label>
+                    <label for="passwordInput"><input name="password" id="passwordInput" type="password"
+                                                      placeholder="Enter your password" required></label>
                 </div>
                 <button type="submit" id="sendButton" class="login__button hvr-grow">Sign In</button>
             </form>

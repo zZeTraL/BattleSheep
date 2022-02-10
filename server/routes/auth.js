@@ -45,6 +45,17 @@ function isUsernameValid(username) {
 
 
 // Routers
+router.get("/profile", (req, res) => {
+    if (req.session.login) {
+        res.render(path.join(__dirname, "..", "..", "views", "profile"), {
+            username: req.session.username,
+            email: req.session.email
+        });
+    } else {
+        res.redirect("/login?signup=false");
+    }
+})
+
 router.get('/login', (req, res) => {
     if (req.session.login) {
         res.redirect("/profile")
@@ -62,12 +73,14 @@ router.get('/login', (req, res) => {
         const registerInvalidPassword = req.flash('registerInvalidPassword');
 
         const loginInvalidPassword = req.flash('loginInvalidPassword');
-        const loginInvalidUsrOrEmail = req.flash('loginInvalidUsrOrEmail');
+        const loginUnknownUser = req.flash('loginUnknownUser');
 
 
         if (urlParam === undefined) {
             urlParam = "false";
         }
+
+        console.log(loginInvalidPassword)
 
         res.render(path.join(__dirname, "..", "..", "views", "login"), {
             // URL
@@ -80,7 +93,7 @@ router.get('/login', (req, res) => {
             registerInvalidPassword: registerInvalidPassword[0],
 
             // Login
-            loginInvalidUsrOrEmail: loginInvalidUsrOrEmail[0],
+            loginUnknownUser: loginUnknownUser[0],
             loginInvalidPassword: loginInvalidPassword[0],
         });
     }
@@ -133,7 +146,7 @@ router.post('/api/register', async (req, res) => {
                                 if (error) throw error;
                                 //console.log(result);
                                 // DEBUG
-                                console.log("Account has been created!");
+                                //console.log("Account has been created!");
 
                                 // On met à jour la session de l'utilisateur
                                 req.session.login = true;
@@ -165,7 +178,8 @@ router.post("/api/login", async (req, res) => {
         // Je sélectionne dans notre base de données l'utilisateur ayant un username ou email qui correspond
         pool.query("SELECT USERNAME as username, EMAIL as email FROM users WHERE username = ? OR email = ?", [usernameOrEmail, usernameOrEmail], (error, result) => {
             if(error) throw error;
-            console.log(result);
+            // DEBUG
+            //console.log(result);
             if(result.length > 0){
                 // DEBUG
                 //console.log("Email of " + usernameOrEmail + " is " + result[0].email);
@@ -187,98 +201,30 @@ router.post("/api/login", async (req, res) => {
                             res.redirect("/profile")
                         } else {
                             //console.log("Le mot de passe n'est pas valide")
+                            req.flash("loginInvalidPassword", "Invalid password, please try again!")
                             res.redirect("/login?signup=false")
                         }
                     })
                 } else {
                     connection.release();
                     console.log("L'utilisateur n'est pas enregistré!")
-                    res.redirect("/login?signup=false")
+                    req.flash("loginUnknownUser", "Unknown user!")
                 }
             } else {
                 connection.release();
                 console.log("L'utilisateur n'est pas enregistré!")
+                req.flash("loginUnknownUser", "Unknown user!")
                 res.redirect("/login?signup=false")
             }
         })
     })
-
-    // On se connecte à notre base de donnée
-    /*pool.getConnection((error, connection) => {
-        if (error) throw error;
-        // On sélectionne notre utilisateur par son pseudo dans la bdd
-        pool.query("SELECT * FROM users WHERE username = ?", [usernameOrEmail], async (error, result) => {
-            // On check si l'utilisateur existe par son pseudo
-            if (result.length > 0) {
-                console.log("L'utilisateur existe, le mdp est-il valide ?");
-                pool.query("SELECT PASSWORD as password FROM `users` WHERE username = ?", [usernameOrEmail], async (error, result) => {
-                    if (error) throw error;
-                    connection.release();
-                    let compare = await compareHash(password, result[0].password);
-                    if (compare) {
-                        // Le mot de passe est correct, on met à jour la session
-                        req.session.login = true;
-                        req.session.username = usernameOrEmail;
-                        res.redirect("/profile")
-                    } else {
-                        // DEBUG
-                        console.log("Invalid password!")
-                        res.redirect("/login?signup=false")
-                    }
-                })
-            } else {
-                // On check si l'utilisateur n'a pas entré un pseudo mais un mail
-                console.log("L'utilisateur existe, le mdp est-il valide ?");
-                pool.query("SELECT * FROM users WHERE email = ?", [usernameOrEmail], async (error, result) => {
-                    // On check si l'utilisateur existe par son mail
-                    if (result.length > 0) {
-                        console.log("L'utilisateur existe, le mdp est-il valide ?");
-                        pool.query("SELECT PASSWORD as password FROM `users` WHERE email = ?", [usernameOrEmail], async (error, result) => {
-                            if (error) throw error;
-                            let compare = await compareHash(password, result[0].password);
-                            if (compare) {
-                                // Le mot de passe est correct, on met à jour la session
-                                req.session.login = true;
-                                pool.query("SELECT EMAIL FROM users WHERE email = ?", [usernameOrEmail], (error, result) => {
-                                    connection.release();
-                                    if (error) throw error;
-                                    if (result > 0) {
-                                        req.session.username = result[0].username;
-                                    }
-                                })
-                                res.redirect("/profile")
-                            } else {
-                                // DEBUG
-                                console.log("Invalid password!");
-                                res.redirect("/login?signup=false")
-                            }
-                        })
-                    } else {
-                        console.log("L'utilisateur n'existe pas !");
-                        res.redirect("/login?signup=false");
-                    }
-                })
-            }
-        })
-    })*/
-})
-
-router.get("/profile", (req, res) => {
-    if (req.session.login) {
-        res.render(path.join(__dirname, "..", "..", "views", "profile"), {
-            username: req.session.username,
-            email: req.session.email
-        });
-    } else {
-        res.redirect("/login?signup=false");
-    }
 })
 
 router.get('/logout', function (req, res, next) {
     if (req.session) {
         req.session.destroy((err) => {
             if (err) return next(err);
-            else return res.redirect('/');
+            else res.redirect('/');
         });
     }
 });

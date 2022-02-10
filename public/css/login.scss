@@ -30,6 +30,7 @@
   --sp-color: #ffffff;
   --water-color: #62aae4;
   --dark-water-color: #4b71fb;
+  --dark-violet-rgb: 119, 101, 227;
   --login-box-shadow: 63, 151, 222;
 
 
@@ -88,13 +89,36 @@ body {
     background-color: var(--login-bg-color);
     border-radius: 15px;
     font-family: "Open Sans", sans-serif;
-    gap: 50px;
+    gap: 25px;
     padding: 35px;
     box-shadow: 12px 12px 2px 1px rgba(var(--login-box-shadow), 0.5);
     transition: ease-in-out all 500ms;
 
+    @media (max-width: 40em), (max-height: 40em){
+      padding: 25px;
+      gap: 15px;
+    }
+
     &:hover {
       opacity: 1;
+    }
+
+    .login__error {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 15px;
+      gap: 10px;
+      background-color: rgba(231, 76, 60, 0.8);
+      border: solid 1px rgba(231, 76, 60, 0.8);
+      border-radius: 5px;
+
+      p {
+        @include function.noPaddingMargin();
+        color: var(--hx-color);
+        font-size: var(--fs-s);
+      }
+
     }
 
     .login__back {
@@ -156,6 +180,10 @@ body {
       flex-direction: column;
       gap: 40px;
       transition: ease-in-out all 500ms;
+
+      @media (max-width: 40em), (max-height: 40em){
+        gap: 20px;
+      }
 
       .hidden {
         position: absolute;
@@ -255,14 +283,11 @@ body {
   to { transform: rotate(360deg); }
 }
 
-@media (max-width: 40em) {
+@media (max-width: 40em), (max-height: 40em) {
   :root {
     --fs-l: 1.25rem;
     --fs-m: 1rem;
     --fs-s: 0.85rem;
     --fs-ss: 0.75rem;
-  }
-  .login__popup {
-    padding: 25px;
   }
 }
