@@ -80,10 +80,16 @@ router.get('/login', (req, res) => {
     if (req.session.login) {
         res.redirect("/profile")
     } else {
+        // L'utilisateur n'est pas connecté
         req.session.login = false;
 
-        // URL de la page
+        // Paramètre signup présent dans l'URL
         let urlParam = req.query.signup
+        // Si le paramètre n'est pas défini
+        if (urlParam === undefined) {
+            // Par défaut = false  i.e. que si le paramètre n'est pas défini on est redirigé sur la page de connexion
+            urlParam = "false";
+        }
 
         // On utilise express-flash afin de transmettre des données sans faire des redirections sans cesse
         // Utilise car nous affiche l'état de notre requête post
@@ -95,24 +101,17 @@ router.get('/login', (req, res) => {
         const loginInvalidPassword = req.flash('loginInvalidPassword');
         const loginUnknownUser = req.flash('loginUnknownUser');
 
-
-        if (urlParam === undefined) {
-            urlParam = "false";
-        }
-
-        console.log(loginInvalidPassword)
-
         res.render(path.join(__dirname, "..", "..", "views", "login"), {
-            // URL
+            // Paramètre de l'URL
             signup: urlParam,
 
-            // Register
+            // Register flash
             userAlreadyRegistered: userAlreadyRegistered[0],
             registerInvalidUsername: registerInvalidUsername[0],
             registerInvalidEmail: registerInvalidEmail[0],
             registerInvalidPassword: registerInvalidPassword[0],
 
-            // Login
+            // Login flash
             loginUnknownUser: loginUnknownUser[0],
             loginInvalidPassword: loginInvalidPassword[0],
         });
