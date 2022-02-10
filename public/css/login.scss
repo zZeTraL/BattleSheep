@@ -94,7 +94,7 @@ body {
     box-shadow: 12px 12px 2px 1px rgba(var(--login-box-shadow), 0.5);
     transition: ease-in-out all 500ms;
 
-    @media (max-width: 40em), (max-height: 40em){
+    @media (max-width: 40em), (max-height: 40em) {
       padding: 25px;
       gap: 15px;
     }
@@ -178,10 +178,10 @@ body {
       width: 75%;
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 30px;
       transition: ease-in-out all 500ms;
 
-      @media (max-width: 40em), (max-height: 40em){
+      @media (max-width: 40em), (max-height: 40em) {
         gap: 20px;
       }
 
@@ -193,6 +193,29 @@ body {
       .login__form__element {
         display: flex;
         flex-direction: column;
+
+        .login__password__label {
+          display: flex;
+          justify-content: end;
+          align-items: center;
+
+          input {
+            padding-right: 30px;
+          }
+
+          i {
+            cursor: pointer;
+            position: absolute;
+            font-size: var(--fs-s);
+            color: var(--hx-color);
+            padding-right: 10px;
+
+            &:hover {
+              opacity: 0.75;
+            }
+
+          }
+        }
 
         span {
           font-size: var(--fs-s);
@@ -222,7 +245,6 @@ body {
           ::placeholder {
             color: white;
           }
-
         }
 
       }
@@ -279,8 +301,12 @@ body {
 }
 
 @keyframes rotation {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 40em), (max-height: 40em) {

@@ -1,12 +1,8 @@
 window.onload = function () {
 
-    /*if(loginManager.getUrlParameter("signup") === null){
-        loginManager.setUrlParameter("signup", "false")
-    }*/
-
+    // On remet à zéro tous les inputs
     loginManager.reset();
 
-    // Need to be cleaner
     if (loginManager.getUrlParameter("signup") === "true") {
         // Update the action of the form to api/register (nodejs)
         let form = document.getElementById("form");
@@ -17,6 +13,15 @@ window.onload = function () {
     // Listener
     document.getElementById("registerSpan").addEventListener('click', (ignored) => {
         loginManager.onRegisterSpanClick();
+    })
+
+    document.getElementById("showPassword").addEventListener('click', (ignored) => {
+        let passwordInput = document.getElementById("passwordInput");
+        if(passwordInput.getAttribute("type") === "password"){
+            passwordInput.setAttribute("type", "text");
+        } else {
+            passwordInput.setAttribute("type", "password");
+        }
     })
 
 }

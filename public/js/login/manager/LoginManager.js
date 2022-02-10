@@ -3,7 +3,6 @@ let loginManager = (function() {
     let usernameInput = document.getElementById("usernameInput");
     let emailInput = document.getElementsByName("emailInput");
     let passwordInput = document.getElementsByName("passwordInput");
-    let registerSpan = document.getElementById("registerSpan");
 
     return {
         // Getters

@@ -96,8 +96,9 @@
                 <% } %>
                 <div class="login__form__element">
                     <span>Password</span>
-                    <label for="passwordInput"><input name="password" id="passwordInput" type="password"
-                                                      placeholder="Enter your password" required></label>
+                    <label class="login__password__label" for="passwordInput"><input name="password" id="passwordInput" type="password" placeholder="Enter your password" required>
+                        <i id="showPassword" class='bx bx-show'></i>
+                    </label>
                 </div>
                 <button type="submit" id="sendButton" class="login__button hvr-grow">Sign In</button>
             </form>
