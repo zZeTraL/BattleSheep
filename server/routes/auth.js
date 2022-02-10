@@ -110,33 +110,44 @@ router.post('/api/register', async (req, res) => {
     }
 
     pool.getConnection(async (error, connection) => {
-        await pool.query("SELECT USERNAME FROM `users` WHERE `username` = ?", [username], async (error, result) => {
+        await pool.query("SELECT USERNAME FROM users WHERE username = ?", [username], async (error, result) => {
             if (error) throw error;
             console.log(result.length)
             if (result.length > 0) {
-                console.log("User already registered")
-                req.flash("userAlreadyRegistered", "User already registered with this username")
+                console.log("User already registered with this username")
+                req.flash("userAlreadyRegistered", "User already registered with this username/email")
                 isInputValid = false;
                 res.redirect("/login?signup=true");
             } else {
-                if (isInputValid === true) {
-                    await pool.query("INSERT INTO users (username, email, password) VALUES(?,?,?)", [username, email, passwordHashed], (error, result) => {
-                        if (error) throw error;
-                        //console.log(result);
-                        // DEBUG
-                        console.log("Account has been created!");
+                pool.query("SELECT EMAIL FROM users WHERE email = ?", [email], (error, result) => {
+                    if (error) throw error;
+                    console.log(result.length)
+                    if (result.length > 0) {
+                        console.log("User already registered with this email")
+                        req.flash("userAlreadyRegistered", "User already registered with this username/email")
+                        isInputValid = false;
+                        res.redirect("/login?signup=true");
+                    } else {
+                        if (isInputValid === true) {
+                            pool.query("INSERT INTO users (username, email, password) VALUES(?,?,?)", [username, email, passwordHashed], (error, result) => {
+                                if (error) throw error;
+                                //console.log(result);
+                                // DEBUG
+                                console.log("Account has been created!");
 
-                        // On met à jour la session de l'utilisateur
-                        req.session.login = true;
-                        req.session.username = username;
-                        req.session.email = email;
-                        res.redirect("/profile");
+                                // On met à jour la session de l'utilisateur
+                                req.session.login = true;
+                                req.session.username = username;
+                                req.session.email = email;
+                                res.redirect("/profile");
 
-                        connection.release();
-                    });
-                } else {
-                    res.redirect("/login?signup=true");
-                }
+                                connection.release();
+                            });
+                        } else {
+                            res.redirect("/login?signup=true");
+                        }
+                    }
+                })
             }
         })
     })
@@ -149,8 +160,51 @@ router.post("/api/login", async (req, res) => {
     const usernameOrEmail = req.body.username;
     const password = req.body.password;
 
-    // On se connecte à notre base de donnée
     pool.getConnection((error, connection) => {
+        if(error) throw error;
+        // Je sélectionne dans notre base de données l'utilisateur ayant un username ou email qui correspond
+        pool.query("SELECT USERNAME as username, EMAIL as email FROM users WHERE username = ? OR email = ?", [usernameOrEmail, usernameOrEmail], (error, result) => {
+            if(error) throw error;
+            console.log(result);
+            if(result.length > 0){
+                // DEBUG
+                //console.log("Email of " + usernameOrEmail + " is " + result[0].email);
+                //console.log("Username of " + usernameOrEmail + " is " + result[0].username);
+                // On check si l'utilisateur est enregistré
+                if(result[0].username.toString().length > 0 || result[0].email.toString().length > 0){
+                    //console.log("L'utilisateur existe!")
+                    pool.query("SELECT PASSWORD as password FROM users WHERE username = ? OR email = ?", [usernameOrEmail, usernameOrEmail], async (error, result) => {
+                        connection.release();
+                        if(error) throw error;
+                        // DEBUG
+                        //console.log(result);
+                        let compare = await compareHash(password, result[0].password);
+                        if(compare){
+                            //console.log("Le mot de passe est valide")
+                            // Le mot de passe est correct, on met à jour la session
+                            req.session.login = true;
+                            req.session.username = usernameOrEmail;
+                            res.redirect("/profile")
+                        } else {
+                            //console.log("Le mot de passe n'est pas valide")
+                            res.redirect("/login?signup=false")
+                        }
+                    })
+                } else {
+                    connection.release();
+                    console.log("L'utilisateur n'est pas enregistré!")
+                    res.redirect("/login?signup=false")
+                }
+            } else {
+                connection.release();
+                console.log("L'utilisateur n'est pas enregistré!")
+                res.redirect("/login?signup=false")
+            }
+        })
+    })
+
+    // On se connecte à notre base de donnée
+    /*pool.getConnection((error, connection) => {
         if (error) throw error;
         // On sélectionne notre utilisateur par son pseudo dans la bdd
         pool.query("SELECT * FROM users WHERE username = ?", [usernameOrEmail], async (error, result) => {
@@ -168,7 +222,8 @@ router.post("/api/login", async (req, res) => {
                         res.redirect("/profile")
                     } else {
                         // DEBUG
-                        console.log("Invalid password!");
+                        console.log("Invalid password!")
+                        res.redirect("/login?signup=false")
                     }
                 })
             } else {
@@ -195,6 +250,7 @@ router.post("/api/login", async (req, res) => {
                             } else {
                                 // DEBUG
                                 console.log("Invalid password!");
+                                res.redirect("/login?signup=false")
                             }
                         })
                     } else {
@@ -204,7 +260,7 @@ router.post("/api/login", async (req, res) => {
                 })
             }
         })
-    })
+    })*/
 })
 
 router.get("/profile", (req, res) => {
