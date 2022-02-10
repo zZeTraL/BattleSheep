@@ -1,3 +1,4 @@
+// Déclaration de nos modules utilisés
 const express = require('express');
 const path = require('path');
 const dotenv = require("dotenv");
@@ -5,9 +6,12 @@ const app = express();
 const flash = require("express-flash");
 const mysql = require("mysql");
 
-// set the view engine to ejs
+// On set notre moteur de render ici EJS
+// https://ejs.co/
 app.set('view engine', 'ejs');
 
+// Configuration de la connexion avec notre base de donnée
+// Les informations de celle-ci sont cachées dans un fichier .env
 dotenv.config({path: "./.env"});
 const pool = mysql.createPool({
     connectionLimit: 100,
@@ -25,8 +29,10 @@ global.flash = flash;
 app.use(express.static(path.join(__dirname)));
 // Permet de transmettre les données de la méthode POST
 app.use(express.urlencoded({extended: false}));
+// Utilisation de express-flash
 app.use(flash());
 
+// On créé une session pour chaque utilisateur qui accède au site
 const session = require("express-session")
 app.use(session({
     secret: process.env.SESSION_KEY,
@@ -41,15 +47,18 @@ if (app.get('env') === 'production') {
 }
 
 // Routers
+// Home
 app.get('/', (req, res) => { res.render(path.join(__dirname, "views", "index")); })
 
 
+// On include le module auth.js (MYSQL + LOGIN + REGISTER)
 const routes = require("./server/routes/auth")
 app.use('/', routes);
+
+// Page 404
 app.use((req, res) => {
     res.status(404).render(path.join(__dirname, "views", "errors", "404"))
 })
 
-
-// On écoute sur le port
+// Listener
 app.listen(process.env.SERVER_PORT);
