@@ -11,6 +11,7 @@
   --dark-main-bg-color: #233a5f;
   --dark-footer-bg-color: #192A43;
   --dark-hx-color: white;
+  --dark-span-color: white;
   --dark-a-color: white;
 
   --dark-violet-hex: #7765E3;
@@ -23,6 +24,7 @@
 
   /* Responsive Elements */
   --fs-error: 10rem;
+  --fs-3xl: 5rem;
   --fs-xxl: 3rem;
   --fs-xl: 2.5rem;
   --fs-l: 2rem;
@@ -34,12 +36,15 @@
 body {
   @include function.noPaddingMargin();
   background-color: var(--dark-main-bg-color);
+  background-image: url("../img/filter.png");
+  background-position: right;
   overflow-x: hidden;
 }
 
 @media (max-width: 40em){
   :root {
     --fs-error: 5rem;
+    --fs-3xl: 3.5rem;
     --fs-xxl: 2rem;
     --fs-xl: 1.75rem;
     --fs-l: 1.25rem;

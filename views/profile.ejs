@@ -23,12 +23,23 @@
         <%- include("./parts/header"); -%>
     </header>
 
-    <main class="profile__container">
-        <h1><mark>Welcome back <%= username %></mark></h1>
+    <main class="profile__container" style="height: 750px;">
+        <h1><mark>Dashboard</mark></h1>
+        <span class="profile__welcome">Welcome back <%= username %></span>
+
+        <div class="profile__informations__container">
+            <h2>Informations</h2>
+        </div>
+        <div class="profile__success__container">
+
+        </div>
+
         <div class="profile__logout__button">
             <a href="/logout">Logout</a>
         </div>
     </main>
+
+
 
     <footer>
         <%- include("./parts/footer"); -%>

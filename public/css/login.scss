@@ -67,7 +67,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: ease-in-out all 500ms;
 
   &:hover {
     .login__popup {
@@ -92,7 +91,6 @@ body {
     gap: 25px;
     padding: 35px;
     box-shadow: 12px 12px 2px 1px rgba(var(--login-box-shadow), 0.5);
-    transition: ease-in-out all 500ms;
 
     @media (max-width: 40em), (max-height: 40em) {
       padding: 25px;
@@ -153,7 +151,6 @@ body {
         font-size: var(--fs-s);
         color: var(--water-color);
         letter-spacing: 1px;
-        transition: ease-in-out all 500ms;
       }
 
     }
@@ -170,7 +167,6 @@ body {
         font-size: var(--fs-l);
         color: var(--hx-color);
         letter-spacing: 2.5px;
-        transition: ease-in-out all 500ms;
       }
     }
 
@@ -179,7 +175,6 @@ body {
       display: flex;
       flex-direction: column;
       gap: 30px;
-      transition: ease-in-out all 500ms;
 
       @media (max-width: 40em), (max-height: 40em) {
         gap: 20px;
@@ -278,7 +273,6 @@ body {
         font-size: var(--fs-s);
         color: var(--sp-color);
         margin-bottom: 50px;
-        transition: ease-in-out all 500ms;
 
         span {
           font-weight: 600;
@@ -291,11 +285,8 @@ body {
             border-bottom: solid var(--water-color) 1px;
             transition: ease-in-out all 500ms;
           }
-
         }
       }
-
-
     }
   }
 }

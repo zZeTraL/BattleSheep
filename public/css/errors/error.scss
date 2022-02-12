@@ -10,6 +10,8 @@
 body {
   @include function.noPaddingMargin();
   background-color: #233a5f;
+  background-image: url("../../img/filter.png");
+  background-position: right;
   overflow-x: hidden;
   min-height: 100vh;
 }

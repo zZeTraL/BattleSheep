@@ -33,7 +33,6 @@ footer {
       font-size: var(--fs-xxl);
       color: var(--dark-hx-color);
       letter-spacing: 5px;
-      transition: all ease-in-out 500ms;
 
       mark {
         color: inherit;
@@ -51,7 +50,6 @@ footer {
         font-size: var(--fs-m);
         text-align: justify;
         letter-spacing: 1px;
-        transition: all ease-in-out 500ms;
       }
     }
 
@@ -68,7 +66,6 @@ footer {
       img {
         width: 200px;
         height: auto;
-        transition: all ease-in-out 500ms;
 
         @media (max-width: 60em) {
           width: 30%;
@@ -80,7 +77,6 @@ footer {
         font-size: var(--fs-l);
         color: var(--dark-hx-color);
         letter-spacing: 5px;
-        transition: all ease-in-out 500ms;
 
         mark {
           color: inherit;
@@ -136,7 +132,6 @@ footer {
         gap: 5px;
         color: var(--dark-hx-color);
         font-size: var(--fs-s);
-        transition: all ease-in-out 500ms;
       }
     }
   }

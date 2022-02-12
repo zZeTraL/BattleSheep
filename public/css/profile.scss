@@ -9,6 +9,7 @@
 body {
   @include function.noPaddingMargin();
   background-color: #233a5f;
+  background-image: url("../img/filter.png");
   overflow-x: hidden;
   min-height: 100vh;
 }
@@ -19,25 +20,43 @@ main {
 }
 
 .profile__container {
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: "Kanit-ExtraLight", sans-serif;
-  transition: all ease-in-out 500ms;
 
   h1 {
     @include function.noPaddingMargin();
-    font-size: var(--fs-xxl);
+    font-size: var(--fs-3xl);
     color: var(--dark-hx-color);
-    letter-spacing: 5px;
+    letter-spacing: 0.75rem;
 
     mark {
       color: inherit;
       position: relative;
-      background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 78%;
-      background-size: 100% 10px;
+      background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
+      background-size: 100% 15px;
     }
+  }
 
+  .profile__welcome {
+    font-size: var(--fs-m);
+    color: var(--dark-span-color);
+    letter-spacing: 2px;
+    transform: translateY(-10px);
+  }
+
+  .profile__informations__container {
+    margin-top: 50px;
+    width: 100%;
+
+    h2 {
+      @include function.noPaddingMargin();
+      font-size: var(--fs-xl);
+      color: var(--dark-hx-color);
+      letter-spacing: 2px;
+    }
   }
 
   .profile__logout__button {
