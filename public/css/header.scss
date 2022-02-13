@@ -25,7 +25,6 @@
     img {
       height: 100px;
     }
-
   }
 
   .nav__container {
@@ -42,18 +41,17 @@
       align-items: center;
       text-decoration: none;
       color: var(--dark-a-color);
+      letter-spacing: 0.85rem;
 
       h1 {
         @include function.noPaddingMargin();
-        letter-spacing: 2px;
+        letter-spacing: 2.5px;
       }
 
       i {
-        margin: 5px;
         font-size: 25px;
         color: var(--dark-hx-color);
       }
-
     }
 
     .dark__mode {

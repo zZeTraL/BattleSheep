@@ -17,11 +17,13 @@ body {
 
 main {
   width: 75%;
-  margin: auto;
+  margin: 50px auto 150px auto;
+  background-color: rgba(25, 42, 67, 0.8);
+  border-radius: 25px;
 }
 
 .profile__container {
-  margin-top: 50px;
+  padding: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -242,8 +242,6 @@ router.post("/api/login", async (req, res) => {
                     // L'utilisateur existe
                     //console.log("L'utilisateur existe!")
                     pool.query("SELECT PASSWORD as password FROM users WHERE username = ? OR email = ?", [usernameOrEmail, usernameOrEmail], async (error, result) => {
-                        // On coupe notre connexion à la base de donnée car nous ne faisons plus aucune requête SQL
-                        connection.release();
                         if(error) throw error;
                         // On créé une variable (boolean) qui va contenir le résultat de la fonction compareHash
                         // qui va nous permettre de savoir si le mot de passe saisi est bien celui présent
@@ -256,9 +254,27 @@ router.post("/api/login", async (req, res) => {
                             // Le mot de passe est correct, on met à jour la session
                             req.session.login = true;
                             req.session.username = usernameOrEmail;
-                            // On redirige l'utilisateur vers son dashboard
-                            res.redirect("/profile")
+                            pool.query("SELECT EMAIL as email FROM users WHERE username = ? OR email = ?", [usernameOrEmail, usernameOrEmail], (error, result) => {
+                                if(error) throw error;
+                                // Permet d'ajouter le mail de l'utilisateur en tant que paramètre EJS
+                                if(result.length > 0){
+                                    req.session.email = result[0].email;
+                                    pool.query("SELECT USERNAME as username FROM users WHERE username = ? OR email = ?", [usernameOrEmail, usernameOrEmail], (error, result) => {
+                                        // On coupe notre connexion à la base de donnée car nous ne faisons plus aucune requête SQL
+                                        connection.release();
+                                        if(error) throw error;
+                                        // Permet d'ajouter le mail de l'utilisateur en tant que paramètre EJS
+                                        if(result.length > 0){
+                                            req.session.username = result[0].username;
+                                            // On redirige l'utilisateur vers son dashboard
+                                            res.redirect("/profile")
+                                        }
+                                    })
+                                }
+                            })
                         } else {
+                            // On coupe notre connexion à la base de donnée car nous ne faisons plus aucune requête SQL
+                            connection.release();
                             //console.log("Le mot de passe n'est pas valide")
                             // On update notre message flash qui sera affiché à l'utilisateur pour lui rendre compte de l'erreur
                             req.flash("loginInvalidPassword", "Invalid password, please try again!")
