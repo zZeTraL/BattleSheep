@@ -1,10 +1,18 @@
 // Déclaration de nos modules utilisés
-const express = require('express');
-const path = require('path');
-const dotenv = require("dotenv");
+const express = require("express");
 const app = express();
+const path = require("path");
+const http = require("http")
+const server = http.createServer(app)
+
+// Tools
+const dotenv = require("dotenv");
 const flash = require("express-flash");
 const mysql = require("mysql");
+
+// Socket
+const socket = require("socket.io")
+const io = socket(server);
 
 // On set notre moteur de render ici EJS
 // https://ejs.co/
@@ -21,9 +29,11 @@ const pool = mysql.createPool({
     database: process.env.DATABASE_NAME
 })
 
-// Variable global qui permet d'accéder au data de notre bdd
+// Variables globales
 global.pool = pool;
 global.flash = flash;
+global.socket = socket;
+global.io = io;
 
 // Répertoire dynamique
 app.use(express.static(path.join(__dirname)));
@@ -46,14 +56,14 @@ if (app.get('env') === 'production') {
     session.cookie.secure = true // serve secure cookies
 }
 
-// Routers
 // Home
 app.get('/', (req, res) => { res.render(path.join(__dirname, "views", "index")); })
 
-
 // On include le module auth.js (MYSQL + LOGIN + REGISTER)
-const routes = require("./server/routes/auth")
-app.use('/', routes);
+const auth = require("./server/routes/auth")
+const game = require("./server/routes/game")
+app.use('/', auth);
+app.use('/', game);
 
 // Page 404
 app.use((req, res) => {
@@ -61,4 +71,4 @@ app.use((req, res) => {
 })
 
 // Listener
-app.listen(process.env.SERVER_PORT);
+server.listen(process.env.SERVER_PORT);

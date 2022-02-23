@@ -5,10 +5,10 @@
 //  for all http error like 404, 502 ...
 //
 //======================================================*
-@use "../mixins" as function;
 
 body {
-  @include function.noPaddingMargin();
+  padding: 0;
+  margin: 0;
   background-color: #233a5f;
   background-image: url("../../img/filter.png");
   background-position: right;
@@ -55,7 +55,8 @@ main {
     }
 
     h1 {
-      @include function.noPaddingMargin();
+      padding: 0;
+      margin: 0;
       color: var(--dark-hx-color);
       font-size: var(--fs-error);
       letter-spacing: 2rem;
@@ -71,7 +72,8 @@ main {
     }
 
     h2 {
-      @include function.noPaddingMargin();
+      padding: 0;
+      margin: 0;
       font-weight: 0;
       color: var(--dark-hx-color);
       font-size: var(--fs-xl);

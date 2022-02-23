@@ -4,7 +4,6 @@
 //  This file contains all important css property
 //
 //======================================================*
-@use "mixins" as function;
 
 .header {
   display: flex;
@@ -44,7 +43,8 @@
       letter-spacing: 0.85rem;
 
       h1 {
-        @include function.noPaddingMargin();
+        padding: 0;
+        margin: 0;
         letter-spacing: 2.5px;
       }
 

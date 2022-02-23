@@ -23,30 +23,51 @@
         <%- include("./parts/header"); -%>
     </header>
 
-    <main class="profile__container" style="height: 750px;">
+    <main class="profile__container">
         <h1><mark>Dashboard</mark></h1>
         <span class="profile__welcome">Welcome back <%= username %></span>
 
         <div class="profile__informations__container">
-            <h2>Informations</h2>
+            <h2><mark>Informations</mark></h2>
+            <div class="profile__informations__table">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>Username</td>
+                        <td class="profile__editor"><span><%= username %></span><i class='bx bx-edit'></i></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td class="profile__editor"><span><%= email %></span><i class='bx bx-edit'></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="profile__success__container">
-            <table>
-                <tbody>
-                    <tr>
-                        <th>Username</th>
-                        <th><%= username %></th>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <th><%= email %></th>
-                    </tr>
-                </tbody>
-            </table>
+            <h2><mark>Success</mark></h2>
+            <div class="profile__success__img__container">
+                <img src="" alt="First Game">
+                <img src="" alt="First Game">
+                <img src="" alt="First Game">
+                <img src="" alt="First Game">
+                <img src="" alt="First Game">
+            </div>
+            <div class="profile__success__img__container">
+                <img src="" alt="First Game">
+                <img src="" alt="First Game">
+                <img src="" alt="First Game">
+                <img src="" alt="First Game">
+                <img src="" alt="First Game">
+            </div>
         </div>
 
-        <div class="profile__logout__button">
-            <a href="/logout">Logout</a>
+        <div class="profile__logout__container">
+            <div class="profile__logout__button">
+                <a href="/logout">
+                    <button class="hvr-grow">Logout</button>
+                </a>
+            </div>
         </div>
     </main>
 

@@ -4,10 +4,10 @@
 //  This file contains all important css property
 //
 //======================================================*
-@use "mixins" as function;
 
 body {
-  @include function.noPaddingMargin();
+  padding: 0;
+  margin: 0;
   background-color: #233a5f;
   background-image: url("../img/filter.png");
   background-attachment: fixed;
@@ -30,7 +30,8 @@ main {
   font-family: "Kanit-ExtraLight", sans-serif;
 
   h1 {
-    @include function.noPaddingMargin();
+    padding: 0;
+    margin: 0;
     font-size: var(--fs-3xl);
     color: var(--dark-hx-color);
     letter-spacing: 0.75rem;
@@ -55,17 +56,108 @@ main {
     width: 100%;
 
     h2 {
-      @include function.noPaddingMargin();
+      padding: 0;
+      margin: 0;
       font-size: var(--fs-xl);
       color: var(--dark-hx-color);
       letter-spacing: 2px;
+
+      mark {
+        color: inherit;
+        position: relative;
+        background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 0.5) 0%, rgba(var(--dark-mark-rgb), 0.5) 100%) no-repeat 0 73%;
+        background-size: 100% 7px;
+      }
+
+    }
+
+    .profile__informations__table {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+
+      table {
+        width: 90%;
+        border-collapse: collapse;
+
+        tbody {
+          tr {
+            border-bottom: solid #f1e6d0 1px;
+
+            td {
+              padding: 15px;
+              color: white;
+              font-size: var(--fs-sm);
+            }
+          }
+
+          .profile__editor {
+            display: flex;
+            align-items: center;
+
+            span {
+              flex-grow: 2;
+            }
+
+            i {
+              cursor: pointer;
+              display: flex;
+              justify-content: end;
+            }
+          }
+
+        }
+      }
     }
   }
 
-  .profile__logout__button {
-    a {
-      text-decoration: none;
-      color: var(--dark-a-color);
+  .profile__success__container {
+    width: 100%;
+    margin-top: 50px;
+
+    h2 {
+      padding: 0;
+      margin: 0;
+      font-size: var(--fs-xl);
+      color: var(--dark-hx-color);
+      letter-spacing: 2px;
+
+      mark {
+        color: inherit;
+        position: relative;
+        background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 0.5) 0%, rgba(var(--dark-mark-rgb), 0.5) 100%) no-repeat 0 73%;
+        background-size: 100% 7px;
+      }
+    }
+
+    .profile__success__img__container {
+      display: flex;
+      justify-content: space-around;
+    }
+
+  }
+
+  .profile__logout__container {
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    margin: 100px 0 0 0;
+
+    .profile__logout__button {
+      width: 100%;
+
+      button {
+        cursor: pointer;
+        width: 100%;
+        height: 50px;
+        border: solid rgba(231, 76, 60, 1.0) 1px;
+        border-radius: 10px;
+        background-color: rgba(231, 76, 60, 1.0);
+        color: var(--dark-hx-color);
+        font-size: var(--fs-m);
+        letter-spacing: 2px;
+      }
+
     }
   }
 

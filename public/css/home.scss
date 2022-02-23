@@ -1,0 +1,16 @@
+//======================================================
+//                     H O M E
+//
+//  This file contains all important css property
+//
+//======================================================
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: var(--dark-main-bg-color);
+  background-image: url("../img/filter.png");
+  background-position: right;
+  background-attachment: fixed;
+  overflow-x: hidden;
+}

@@ -1,0 +1,11 @@
+.modal__container {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/*# sourceMappingURL=modal.css.map */

@@ -4,7 +4,6 @@
 //  This file contains all important css property
 //
 //======================================================*
-@use "mixins" as function;
 
 $breakPoint: 60em;
 
@@ -13,7 +12,8 @@ $breakPoint: 60em;
 }
 
 footer {
-  @include function.noPaddingMargin();
+  padding: 0;
+  margin: 0;
 
   .footer__wave {
     transform: translateY(10px);
@@ -29,7 +29,8 @@ footer {
     background-color: var(--dark-footer-bg-color);
 
     h1 {
-      @include function.noPaddingMargin();
+      padding: 0;
+      margin: 0;
       font-size: var(--fs-xxl);
       color: var(--dark-hx-color);
       letter-spacing: 5px;
@@ -73,7 +74,8 @@ footer {
       }
 
       h2 {
-        @include function.noPaddingMargin();
+        padding: 0;
+        margin: 0;
         font-size: var(--fs-l);
         color: var(--dark-hx-color);
         letter-spacing: 5px;
