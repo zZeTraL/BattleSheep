@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="FR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../public/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/header.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/play.css">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel="stylesheet" type="text/css">
+
+
+    <!-- LIBS -->
+    <link rel="stylesheet" type="text/css" href="../public/css/libs/hover/hover.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+    </script>
+
+    <title>BattleSheep | Home</title>
+</head>
+<body class="dark">
+
+<header class="header">
+    <%- include("./parts/header"); -%>
+</header>
+
+<main>
+    <section class="play__container">
+        <h1><mark>Play</mark></h1>
+        <div id="game__container" class="game__container">
+            <div>
+
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<footer>
+    <%- include("./parts/footer"); -%>
+</footer>
+
+<script src="../public/js/responsive/HeaderResponsive.js"></script>
+<script src="../public/js/responsive/PlayResponsive.js"></script>
+
+</body>
+</html>

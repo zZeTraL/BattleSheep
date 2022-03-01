@@ -1,0 +1,48 @@
+//======================================================
+//                     P L A Y
+//
+//  This file contains all important css property
+//
+//======================================================*
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #233a5f;
+  background-image: url("../img/filter.png");
+  background-attachment: fixed;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+main {
+  width: 75%;
+  margin: 50px auto 150px auto;
+  background-color: rgba(25, 42, 67, 0.8);
+  border-radius: 25px;
+}
+
+.play__container {
+  padding: 50px;
+  display: flex;
+  height: 1000px;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Kanit-ExtraLight", sans-serif;
+
+  h1 {
+    padding: 0;
+    margin: 0;
+    font-size: var(--fs-3xl);
+    color: var(--dark-hx-color);
+    letter-spacing: 0.75rem;
+
+    mark {
+      color: inherit;
+      position: relative;
+      background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
+      background-size: 100% 15px;
+    }
+  }
+
+}
