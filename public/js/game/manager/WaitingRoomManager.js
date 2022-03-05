@@ -5,7 +5,7 @@ let waitingRoomManager = (function() {
     let debug = document.getElementById("output");
 
     socket.on("joinQueue", () => {
-        debug.textContent = "you have joined the waiting room!"
+        debug.textContent = "You have joined the waiting room!"
     })
 
     return {

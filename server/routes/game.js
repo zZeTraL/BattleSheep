@@ -32,6 +32,9 @@ router.get("/play", (req, res) => {
                     }
                 }
 
+                // On lance une partie si la queue est supérieur à 2 utilisateur
+
+
                 //console.log("is player is in the queue? " + isUserAlreadyInQueue);
 
                 if(!isUserAlreadyInQueue){
@@ -47,6 +50,17 @@ router.get("/play", (req, res) => {
                 /*console.log(io.sockets.adapter.rooms.get("waitingRoom").size);
                 console.log(io.sockets.adapter.rooms.get("waitingRoom"))*/
             })
+
+            // Met à jour la file d'attente lorsqu'un utilisateur quitte la page
+            socket.on("disconnect", () => {
+                for (let i = 0; i < queue.length; i++) {
+                    if(queue[i].username === req.session.username){
+                        // on supprime l'utilisateur de la file d'attente
+                        queue.splice(i, 1);
+                    }
+                }
+            })
+
         })
     } else {
         // Si l'utilisateur n'est pas connecté, on le redirige vers la page de connexion
