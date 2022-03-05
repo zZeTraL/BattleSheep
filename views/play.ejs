@@ -31,11 +31,15 @@
 
 <main>
     <section class="play__container">
+        <div class="absolute">
+            <img src="../public/img/map.png" alt="">
+        </div>
         <h1><mark>Play</mark></h1>
-        <div id="game__container" class="game__container">
-            <div>
-
-            </div>
+        <div id="waitingRoomContainer" class="room__container">
+            <button id="joinQueueButton">JOIN QUEUE</button>
+            <pre id="output"></pre>
+        </div>
+        <div id="chatRoomContainer" class="chat__container">
         </div>
 
     </section>
@@ -47,6 +51,8 @@
 
 <script src="../public/js/responsive/HeaderResponsive.js"></script>
 <script src="../public/js/responsive/PlayResponsive.js"></script>
+<script src="../public/js/game/main.js"></script>
+<script src="../public/js/game/manager/WaitingRoomManager.js"></script>
 
 </body>
 </html>

@@ -25,9 +25,8 @@ main {
 .play__container {
   padding: 50px;
   display: flex;
-  height: 1000px;
   flex-direction: column;
-  align-items: center;
+  //align-items: center;
   font-family: "Kanit-ExtraLight", sans-serif;
 
   h1 {
@@ -36,6 +35,7 @@ main {
     font-size: var(--fs-3xl);
     color: var(--dark-hx-color);
     letter-spacing: 0.75rem;
+    text-align: center;
 
     mark {
       color: inherit;
@@ -43,6 +43,18 @@ main {
       background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
       background-size: 100% 15px;
     }
+  }
+
+  img {
+    width: 250px;
+    height: auto;
+  }
+
+  .room__container {
+    margin: 50px;
+    display: flex;
+    justify-content: center;
+
   }
 
 }
