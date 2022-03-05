@@ -51,45 +51,81 @@ main {
   }
 
   .room__container {
-    margin: 50px;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    gap: 25px;
 
-    button {
-      cursor: pointer;
-      width: 25%;
-      height: 50px;
-      border: solid #4b71fb 1px;
-      border-radius: 10px;
-      background-color: #4b71fb;
-      color: var(--dark-hx-color);
-      font-size: var(--fs-m);
-      letter-spacing: 2px;
-    }
-
-    pre {
-      color: white;
-      font-size: var(--fs-l);
-    }
-
-    .waiting__figure__container {
-      width: 100%;
+    .left__aside {
       display: flex;
-      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 25px;
+      flex-grow: 2;
 
-      i {
-        font-size: 50px;
-        color: white;
-        animation-name: loading;
-        animation-timing-function: ease-in-out;
-        animation-duration: 3s;
-        animation-iteration-count: infinite;
-
+      .news__element {
+        width: 95%;
+        height: 350px;
+        border-radius: 10px;
+        background-color: black;
       }
     }
 
+    .center__aside {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      flex-grow: 2;
+
+      .center__aside__button__container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 2;
+
+        .waiting__game {
+          display: none;
+        }
+
+        img {
+          width: 100%;
+          height: 100px;
+        }
+
+        button {
+          cursor: pointer;
+          width: 100%;
+          height: 50px;
+          border: solid #4b71fb 1px;
+          border-radius: 10px;
+          background-color: #4b71fb;
+          color: var(--dark-hx-color);
+          font-size: var(--fs-m);
+          letter-spacing: 2px;
+        }
+      }
+    }
+  }
+
+  h2 {
+    padding: 0;
+    margin: 0;
+    font-size: var(--fs-xl);
+    color: var(--dark-hx-color);
+    letter-spacing: 0.35rem;
+
+    mark {
+      color: inherit;
+      position: relative;
+      background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
+      background-size: 100% 10px;
+    }
+  }
+
+  p {
+    color: var(--dark-hx-color);
+    font-size: var(--fs-S);
   }
 
 }

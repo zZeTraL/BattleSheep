@@ -31,15 +31,27 @@
 
 <main>
     <section class="play__container">
-        <!--<div class="absolute">
-            <img src="../public/img/map.png" alt="">
-        </div>-->
-        <h1><mark>Play</mark></h1>
         <div id="waitingRoomContainer" class="room__container">
-            <button id="joinQueueButton" class="hvr-grow">Join Queue</button>
-            <pre id="output"></pre>
-            <div class="waiting__figure__container">
-                <i class='bx bx-loader-alt'></i>
+
+            <aside class="left__aside">
+                <div class="news__element">
+                    element
+                </div>
+            </aside>
+
+            <div class="center__aside">
+                <h2><mark>Play!</mark></h2>
+                <p>Click on "join queue" to get into a game</p>
+                <div class="center__aside__button__container">
+                    <div class="button__container">
+                        <button id="joinQueueButton" class="hvr-grow">Join Queue</button>
+                        <pre id="output"></pre>
+                        <img src="../public/img/map.png" alt="">
+                    </div>
+                    <div class="waiting__game">
+                        <i class='bx bx-loader-alt'></i>
+                    </div>
+                </div>
             </div>
         </div>
 
