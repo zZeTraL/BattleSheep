@@ -10,7 +10,7 @@ body {
 
 main {
   width: 75%;
-  margin: 50px auto 150px auto;
+  margin: 50px auto 125px auto;
   background-color: rgba(25, 42, 67, 0.8);
   border-radius: 25px;
 }
@@ -46,11 +46,10 @@ main {
   gap: 25px;
 }
 .play__container .room__container .left__aside {
+  width: 40%;
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 25px;
-  flex-grow: 2;
 }
 .play__container .room__container .left__aside .news__element {
   width: 95%;
@@ -59,10 +58,10 @@ main {
   background-color: black;
 }
 .play__container .room__container .center__aside {
+  width: 50%;
   display: flex;
   align-items: center;
   flex-direction: column;
-  flex-grow: 2;
 }
 .play__container .room__container .center__aside .center__aside__button__container {
   display: flex;
@@ -89,22 +88,88 @@ main {
   font-size: var(--fs-m);
   letter-spacing: 2px;
 }
+.play__container .room__container .right__aside {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+.play__container .room__container .right__aside .chat__container {
+  display: flex;
+  transition: ease-in-out 250ms;
+  flex-grow: 2;
+}
+.play__container .room__container .right__aside .chat__container .chat__div {
+  width: 100%;
+  max-width: var(--chatFrameMaxWidth);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-right: 25px;
+  padding-left: 25px;
+  max-height: 270px;
+  overflow-y: scroll;
+}
+.play__container .room__container .right__aside .chat__container .chat__div p {
+  color: var(--dark-hx-color);
+  font-size: var(--fs-s);
+  letter-spacing: 1px;
+  word-break: break-word;
+}
+.play__container .room__container .right__aside .beneath__chat {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+}
+.play__container .room__container .right__aside .beneath__chat .input__container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.play__container .room__container .right__aside .beneath__chat .input__container .currentChar {
+  position: absolute;
+  color: black;
+  font-size: 1rem;
+  padding: 0 1rem;
+  margin: 0.25rem;
+}
+.play__container .room__container .right__aside .beneath__chat .input__container input {
+  width: 100%;
+  padding: 0 65px 0 5px;
+  border: none;
+  border-radius: 10px;
+  margin: 10px;
+  height: 35px;
+}
+.play__container .room__container .right__aside .beneath__chat .input__container input:focus {
+  outline: none;
+}
 .play__container h2 {
   padding: 0;
   margin: 0;
-  font-size: var(--fs-xl);
+  font-size: var(--fs-xxl);
   color: var(--dark-hx-color);
-  letter-spacing: 0.35rem;
+  letter-spacing: 0.25rem;
 }
 .play__container h2 mark {
   color: inherit;
   position: relative;
-  background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
-  background-size: 100% 10px;
+  background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 74%;
+  background-size: 100% 7px;
 }
 .play__container p {
+  padding: 0;
+  margin-top: 5px;
+  margin-bottom: 5px;
   color: var(--dark-hx-color);
-  font-size: var(--fs-S);
+  font-size: var(--fs-sm);
+}
+
+#output {
+  color: white;
 }
 
 @keyframes loading {

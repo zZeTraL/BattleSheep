@@ -21,6 +21,10 @@ router.get("/play", (req, res) => {
                 id: socket.id
             }
 
+            socket.on("message", (msg) => {
+                io.emit("message", req.session.username, msg);
+            })
+
             // Envoie aux 2 clients que la partie peut commencer, on va donc créer une room privée où les deux joueurs vont tout simplement s'affronter
             socket.on("joinQueue", () => {
 

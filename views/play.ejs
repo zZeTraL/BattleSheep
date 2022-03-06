@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../public/css/footer.css">
     <link rel="stylesheet" type="text/css" href="../public/css/play.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
     <!-- LIBS -->
     <link rel="stylesheet" type="text/css" href="../public/css/libs/hover/hover.css">
@@ -35,29 +35,42 @@
 
             <aside class="left__aside">
                 <div class="news__element">
-                    element
+                    SWIPER
                 </div>
             </aside>
 
             <div class="center__aside">
                 <h2><mark>Play!</mark></h2>
-                <p>Click on "join queue" to get into a game</p>
                 <div class="center__aside__button__container">
+                    <p>Click on "join queue" to get into a game</p>
                     <div class="button__container">
-                        <button id="joinQueueButton" class="hvr-grow">Join Queue</button>
+                        <button id="joinQueueButton" class="">Join Queue</button>
                         <pre id="output"></pre>
-                        <img src="../public/img/map.png" alt="">
                     </div>
                     <div class="waiting__game">
                         <i class='bx bx-loader-alt'></i>
                     </div>
                 </div>
+                <img src="../public/img/map.png" alt="">
             </div>
-        </div>
 
-        <div id="chatRoomContainer" class="chat__container">
-        </div>
+            <aside class="right__aside">
+                <div id="chatFrame" class="chat__container">
+                    <div id="chatDiv" class="chat__div">
+                        <p>You can type a message he will appear just below</p>
+                        <hr style="border-color: white">
+                    </div>
+                </div>
+                <form id="form" class="beneath__chat">
+                    <div class="input__container">
+                        <input id="input" oninput="chatManager.onTyping()" autocomplete="off"
+                               placeholder="Type your message here !"/>
+                        <div id="currentChar" class="currentChar"></div>
+                    </div>
+                </form>
+            </aside>
 
+        </div>
     </section>
 </main>
 
@@ -67,8 +80,9 @@
 
 <script src="../public/js/responsive/HeaderResponsive.js"></script>
 <script src="../public/js/responsive/PlayResponsive.js"></script>
-<script src="../public/js/game/main.js"></script>
+<script src="../public/js/game/manager/ChatManager.js"></script>
 <script src="../public/js/game/manager/WaitingRoomManager.js"></script>
+<script src="../public/js/game/main.js"></script>
 
 </body>
 </html>
