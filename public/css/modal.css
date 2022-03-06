@@ -1,11 +1,139 @@
-.modal__container {
-  display: flex;
+.change__password_modal {
+  display: none;
   align-items: center;
+  justify-content: center;
   position: fixed;
   top: 0;
   height: 100vh;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+.change__password_modal .change__password__container {
+  display: flex;
+  flex-direction: column;
+  height: max(50%, 70vh);
+  width: max(50%, 40vh);
+  border-radius: 25px;
+  background-color: var(--dark-footer-bg-color);
+  box-shadow: 12px 12px 2px 1px #4b71fb;
+  font-family: "Kanit-ExtraLight", sans-serif;
+}
+.change__password_modal .change__password__container .close {
+  width: inherit;
+  display: flex;
+  justify-content: end;
+  position: absolute;
+}
+.change__password_modal .change__password__container .close i {
+  cursor: pointer;
+  padding-top: 10px;
+  padding-right: 10px;
+  color: white;
+  font-size: 2.5rem;
+}
+.change__password_modal .change__password__container .close i:hover {
+  opacity: 0.75;
+}
+.change__password_modal .change__password__container .change__password__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: max(5%, 8vh);
+  margin-bottom: max(5%, 8vh);
+  padding: 15px;
+  flex-grow: 2;
+}
+.change__password_modal .change__password__container .change__password__content h1 {
+  padding: 0;
+  margin: 0;
+  font-size: var(--fs-l);
+  color: var(--dark-hx-color);
+}
+.change__password_modal .change__password__container .change__password__content p {
+  padding: 0;
+  margin: 0;
+  font-size: var(--fs-s);
+  color: var(--dark-hx-color);
+}
+.change__password_modal .change__password__container .change__password__form {
+  padding: 25px;
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__button__container {
+  display: flex;
+  justify-content: center;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__button__container button {
+  cursor: pointer;
+  width: 75%;
+  height: 50px;
+  border: solid #4b71fb 2px;
+  border-radius: 5px;
+  background-color: #4b71fb;
+  color: var(--dark-span-color);
+  font-size: var(--fs-m);
+  letter-spacing: 2px;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__form__element {
+  display: flex;
+  flex-direction: column;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__form__element .password__label {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__form__element .password__label input {
+  padding-right: 30px;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__form__element .password__label i {
+  cursor: pointer;
+  position: absolute;
+  font-size: var(--fs-s);
+  color: white;
+  padding-right: 10px;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__form__element .password__label i:hover {
+  opacity: 0.75;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__form__element span {
+  font-size: var(--fs-s);
+  color: var(--dark-span-color);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__form__element ::placeholder {
+  color: white;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__form__element input {
+  width: 100%;
+  padding: 12px 20px;
+  display: inline-block;
+  border: 2px solid #4b71fb;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: transparent;
+  color: var(--dark-span-color);
+}
+.change__password_modal .change__password__container .change__password__form .change__password__form__element input:focus {
+  outline-style: none !important;
+}
+.change__password_modal .change__password__container .change__password__form .change__password__form__element input ::placeholder {
+  color: white;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /*# sourceMappingURL=modal.css.map */

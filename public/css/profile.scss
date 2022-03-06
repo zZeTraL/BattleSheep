@@ -103,6 +103,11 @@ main {
               cursor: pointer;
               display: flex;
               justify-content: end;
+
+              &:hover {
+                opacity: 0.75;
+              }
+
             }
           }
 

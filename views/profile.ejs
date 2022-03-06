@@ -8,6 +8,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../public/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/modal.css">
     <link rel="stylesheet" type="text/css" href="../public/css/header.css">
     <link rel="stylesheet" type="text/css" href="../public/css/footer.css">
     <link rel="stylesheet" type="text/css" href="../public/css/profile.css">
@@ -22,6 +23,35 @@
     <header class="header">
         <%- include("./parts/header"); -%>
     </header>
+
+    <div id="changePasswordModal" class="change__password_modal">
+        <div class="change__password__container">
+            <div id="close" class="close">
+                <i class='bx bx-x'></i>
+            </div>
+            <div class="change__password__content">
+                <h1>Create new password</h1>
+                <p>Your new password must be different from previous used passwords</p>
+                <form action="api/resetpassword" method="POST" class="change__password__form">
+                    <div class="change__password__form__element">
+                        <span>Password</span>
+                        <label class="password__label" for="currentPassword"><input name="currentPassword" id="passwordInput" type="password" placeholder="Enter your password" required>
+                            <i id="showPassword" class='bx bx-show'></i>
+                        </label>
+                    </div>
+                    <div class="change__password__form__element">
+                        <span>Confirm password</span>
+                        <label class="password__label" for="confirmPassword"><input name="confirmPassword" id="passwordConfirmInput" type="password" placeholder="Confirm your password" required>
+                            <i id="showPassword" class='bx bx-show'></i>
+                        </label>
+                    </div>
+                    <div class="change__password__button__container">
+                        <button type="submit" id="sendButton" class="login__button hvr-grow">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <main class="profile__container">
         <h1><mark>Dashboard</mark></h1>
@@ -38,7 +68,11 @@
                     </tr>
                     <tr>
                         <td>Email</td>
-                        <td class="profile__editor"><span><%= email %></span><i class='bx bx-edit'></i></td>
+                        <td class="profile__editor"><span><%= email %></span><i id="email" class='bx bx-edit'></i></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td class="profile__editor"><span>**********</span><i id="password" class='bx bx-edit'></i></td>
                     </tr>
                     </tbody>
                 </table>
@@ -71,12 +105,11 @@
         </div>
     </main>
 
-
-
     <footer>
         <%- include("./parts/footer"); -%>
     </footer>
 
+    <script src="../public/js/profile/main.js"></script>
     <script src="../public/js/responsive/HeaderResponsive.js"></script>
 
 </body>

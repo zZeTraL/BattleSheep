@@ -87,6 +87,9 @@ main {
   display: flex;
   justify-content: end;
 }
+.profile__container .profile__informations__container .profile__informations__table table tbody .profile__editor i:hover {
+  opacity: 0.75;
+}
 .profile__container .profile__success__container {
   width: 100%;
   margin-top: 50px;

@@ -23,6 +23,10 @@
   --fs-ss: 0.85rem;
 }
 
+.display__none {
+  display: none;
+}
+
 @media (max-width: 40em) {
   :root {
     --fs-error: 5rem;

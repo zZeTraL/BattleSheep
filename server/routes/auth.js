@@ -67,10 +67,12 @@ function isUsernameValid(username) {
 // Routers
 router.get("/profile", (req, res) => {
     if (req.session.login) {
+
         res.render(path.join(__dirname, "..", "..", "views", "profile"), {
             username: req.session.username,
             email: req.session.email
         });
+
     } else {
         res.redirect("/login?signup=false");
     }
