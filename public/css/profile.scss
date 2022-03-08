@@ -12,7 +12,7 @@ body {
   background-image: url("../img/filter.png");
   background-attachment: fixed;
   overflow-x: hidden;
-  min-height: 100vh;
+  min-height: max(90%, 100vh);
 }
 
 main {
@@ -29,6 +29,10 @@ main {
   align-items: center;
   font-family: "Kanit-ExtraLight", sans-serif;
 
+  @media (max-width: 40em){
+    padding: 25px;
+  }
+
   h1 {
     padding: 0;
     margin: 0;
@@ -36,12 +40,22 @@ main {
     color: var(--dark-hx-color);
     letter-spacing: 0.75rem;
 
+    @media (max-width: 40em){
+      letter-spacing: 5px;
+    }
+
     mark {
       color: inherit;
       position: relative;
       background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
       background-size: 100% 15px;
+
+      @media (max-width: 40em){
+        background-size: 100% 7px;
+      }
+
     }
+
   }
 
   .profile__welcome {
@@ -143,13 +157,17 @@ main {
   }
 
   .profile__logout__container {
-    width: 25%;
+    width: 100%;
     display: flex;
     justify-content: center;
     margin: 100px 0 0 0;
 
     .profile__logout__button {
-      width: 100%;
+      width: 25%;
+
+      @media (max-width: 40em){
+        width: 75%;
+      }
 
       button {
         cursor: pointer;

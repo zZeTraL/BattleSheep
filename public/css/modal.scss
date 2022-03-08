@@ -4,7 +4,7 @@
 //  This file contains all important css property
 //
 //======================================================*
-.change__password_modal {
+.change__password__modal {
   display: none;
   align-items: center;
   justify-content: center;
@@ -13,12 +13,12 @@
   height: 100vh;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 1;
+  z-index: 100;
 
   .change__password__container {
     display: flex;
     flex-direction: column;
-    height: max(50%, 70vh);
+    height: max(50%, 80vh);
     width: max(50%, 40vh);
     border-radius: 25px;
     background-color: var(--dark-footer-bg-color);

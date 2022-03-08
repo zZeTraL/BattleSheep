@@ -23,7 +23,7 @@ main {
 }
 
 .play__container {
-  padding: 50px;
+  padding: 25px;
   display: flex;
   flex-direction: column;
   //align-items: center;
@@ -64,7 +64,7 @@ main {
 
       .news__element {
         width: 95%;
-        height: 350px;
+        height: 100%;
         border-radius: 10px;
         background-color: black;
       }
@@ -82,10 +82,9 @@ main {
         align-items: center;
         justify-content: center;
         flex-grow: 2;
+        margin: 35px 0 35px 0;
 
-        .waiting__game {
-          display: none;
-        }
+        .waiting__game { display: none; }
 
         img {
           width: 100%;
@@ -108,10 +107,10 @@ main {
 
     .right__aside {
       width: 40%;
+      height: inherit;
       display: flex;
       align-items: center;
       flex-direction: column;
-
       background-color: rgba(0, 0, 0, 0.4);
       border-radius: 10px;
 

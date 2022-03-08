@@ -16,7 +16,7 @@ main {
 }
 
 .play__container {
-  padding: 50px;
+  padding: 25px;
   display: flex;
   flex-direction: column;
   font-family: "Kanit-ExtraLight", sans-serif;
@@ -53,7 +53,7 @@ main {
 }
 .play__container .room__container .left__aside .news__element {
   width: 95%;
-  height: 350px;
+  height: 100%;
   border-radius: 10px;
   background-color: black;
 }
@@ -69,6 +69,7 @@ main {
   align-items: center;
   justify-content: center;
   flex-grow: 2;
+  margin: 35px 0 35px 0;
 }
 .play__container .room__container .center__aside .center__aside__button__container .waiting__game {
   display: none;
@@ -90,6 +91,7 @@ main {
 }
 .play__container .room__container .right__aside {
   width: 40%;
+  height: inherit;
   display: flex;
   align-items: center;
   flex-direction: column;

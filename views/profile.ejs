@@ -24,7 +24,7 @@
         <%- include("./parts/header"); -%>
     </header>
 
-    <div id="changePasswordModal" class="change__password_modal">
+    <div id="changePasswordModal" class="change__password__modal">
         <div class="change__password__container">
             <div id="close" class="close">
                 <i class='bx bx-x'></i>
@@ -36,13 +36,13 @@
                     <div class="change__password__form__element">
                         <span>Password</span>
                         <label class="password__label" for="currentPassword"><input name="currentPassword" id="passwordInput" type="password" placeholder="Enter your password" required>
-                            <i id="showPassword" class='bx bx-show'></i>
+                            <i data="showPassword" class='bx bx-show showPassword'></i>
                         </label>
                     </div>
                     <div class="change__password__form__element">
                         <span>Confirm password</span>
                         <label class="password__label" for="confirmPassword"><input name="confirmPassword" id="passwordConfirmInput" type="password" placeholder="Confirm your password" required>
-                            <i id="showPassword" class='bx bx-show'></i>
+                            <i data="showPassword" class='bx bx-show'></i>
                         </label>
                     </div>
                     <div class="change__password__button__container">
@@ -64,11 +64,11 @@
                     <tbody>
                     <tr>
                         <td>Username</td>
-                        <td class="profile__editor"><span><%= username %></span><i class='bx bx-edit'></i></td>
+                        <td class="profile__editor"><span><%= username %></span></td>
                     </tr>
                     <tr>
                         <td>Email</td>
-                        <td class="profile__editor"><span><%= email %></span><i id="email" class='bx bx-edit'></i></td>
+                        <td class="profile__editor"><span><%= email %></span></td>
                     </tr>
                     <tr>
                         <td>Password</td>

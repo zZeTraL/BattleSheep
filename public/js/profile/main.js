@@ -9,6 +9,20 @@ document.getElementById("close").addEventListener('click', (ignored) => {
     revealOrHidePasswordModal();
 })
 
+document.querySelectorAll("i").forEach((iElement) => {
+    if(iElement.getAttribute("data") === "showPassword"){
+        iElement.addEventListener('click', (ignored) => {
+            document.querySelectorAll("input").forEach((inputElement) => {
+                if(inputElement.getAttribute("type") === "password"){
+                    inputElement.setAttribute("type", "text");
+                } else {
+                    inputElement.setAttribute("type", "password");
+                }
+            })
+        })
+    }
+})
+
 document.querySelectorAll("input").forEach((element) => {
     if(element.getAttribute("id") === "passwordInput" || element.getAttribute("id") === "passwordConfirmInput"){
         element.addEventListener('click', (ignored) => {
