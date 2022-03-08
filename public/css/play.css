@@ -15,6 +15,14 @@ main {
   border-radius: 25px;
 }
 
+.game__not__playable {
+  padding: 35px;
+  font-size: var(--fs-s);
+  font-family: "Kanit-ExtraLight", sans-serif;
+  color: var(--dark-span-color);
+  text-align: center;
+}
+
 .play__container {
   padding: 25px;
   display: flex;
@@ -70,6 +78,7 @@ main {
   justify-content: center;
   flex-grow: 2;
   margin: 35px 0 35px 0;
+  gap: 15px;
 }
 .play__container .room__container .center__aside .center__aside__button__container .waiting__game {
   display: none;

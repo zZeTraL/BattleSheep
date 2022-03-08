@@ -8,6 +8,12 @@ window.onload = function () {
             e.preventDefault();
             chatManager.sendMessage();
         });
+    } else {
+        document.querySelector(".play__container").remove();
+        let p = document.createElement("p");
+        p.setAttribute("class", "game__not__playable");
+        p.textContent = "Biipp Boop Bip : Le jeu n'est pas disponible sur mobile !"
+        document.body.childNodes[3].appendChild(p);
     }
 }
 
@@ -18,12 +24,5 @@ window.onload = function () {
  * @returns {Boolean}
  */
 function isUserOnMobile() {
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        document.querySelector(".play__container").remove();
-        let p = document.createElement("p");
-        p.textContent = "Biipp Boop Bip : Le jeu n'est pas disponible sur mobile !"
-        document.body.appendChild(p);
-        return true;
-    }
-    return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
