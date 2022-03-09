@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const router = express.Router();
 
+let room = ["waitingRoom"];
 let queue = [];
 
 router.get("/play", (req, res) => {
@@ -36,9 +37,6 @@ router.get("/play", (req, res) => {
                     }
                 }
 
-                // On lance une partie si la queue est supérieur à 2 utilisateur
-
-
                 //console.log("is player is in the queue? " + isUserAlreadyInQueue);
 
                 if(!isUserAlreadyInQueue){
@@ -50,9 +48,31 @@ router.get("/play", (req, res) => {
                     // Réponse envoyé au client
                     socket.emit("joinQueue");
                 }
-                console.log(queue)
+                console.log("A user joined the queue!")
+                //console.log(queue)
                 /*console.log(io.sockets.adapter.rooms.get("waitingRoom").size);
                 console.log(io.sockets.adapter.rooms.get("waitingRoom"))*/
+
+                // On lance une partie si la queue est supérieur à 2 utilisateur
+                if(queue.length >= 2){
+                    // On stocke les informations de nos deux joueurs sélectionnés
+                    let usersData = [queue[0], queue[1]];
+                    // On les retires de la file d'attente
+                    queue.splice(0, 2)
+
+                    // On créer une room unique
+                    let roomId = generateRoom(10);
+                    room.push(roomId);
+
+                    // On ajoute les deux utilisateurs à la room créée
+                    socket.broadcast.to(usersData[0].id).emit("leaveQueue");
+                    socket.broadcast.to(usersData[1].id).emit("leaveQueue");
+
+                }
+            })
+
+            socket.on("joinGame", () => {
+                console.log("here");
             })
 
             // Met à jour la file d'attente lorsqu'un utilisateur quitte la page
@@ -71,5 +91,18 @@ router.get("/play", (req, res) => {
         res.redirect("/login?signup=false");
     }
 })
+
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+function generateRoom(length) {
+    let result = "";
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {result += characters.charAt(Math.floor(Math.random() * charactersLength));}
+    if(!room.includes(result)){
+        console.log(result);
+        return result;
+    } else {
+        generateRoom(length);
+    }
+}
 
 module.exports = router;

@@ -33,8 +33,6 @@ main {
 .play__container {
   padding: 25px;
   display: flex;
-  flex-direction: column;
-  //align-items: center;
   font-family: "Kanit-ExtraLight", sans-serif;
 
   h1 {
@@ -93,6 +91,14 @@ main {
         margin: 35px 0 35px 0;
         gap: 15px;
 
+        .button__container {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
         .waiting__game { display: none; }
 
         img {
@@ -102,7 +108,7 @@ main {
 
         button {
           cursor: pointer;
-          width: 100%;
+          width: 50%;
           height: 50px;
           border: solid #4b71fb 1px;
           border-radius: 10px;
@@ -130,13 +136,13 @@ main {
 
         .chat__div {
           width: 100%;
-          max-width: var(--chatFrameMaxWidth);
           margin-top: 10px;
           margin-bottom: 10px;
           padding-right: 25px;
           padding-left: 25px;
-          max-height: 270px;
           overflow-y: scroll;
+          scroll-behavior: smooth;
+          max-height: 335px;
 
           p {
             color: var(--dark-hx-color);
@@ -215,4 +221,20 @@ main {
 @keyframes loading {
   from {transform: rotate(0deg)}
   to {transform: rotate(360deg)}
+}
+
+@media (max-width: 80em) {
+  .room__container {
+    flex-direction: column !important;
+    align-items: center;
+    .left__aside {
+      width: 100% !important;
+    }
+    .right__aside {
+      width: 100% !important;
+      display: block !important;
+      align-items: flex-start !important;
+      min-height: 100px;
+    }
+  }
 }
