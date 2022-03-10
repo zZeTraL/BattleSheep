@@ -13,7 +13,7 @@ router.get("/play", (req, res) => {
 
         // On utilise les sockets pour communiquer au serveur dès qu'un utilisateur va se connecter à cette page
         // Le serveur établit une connexion avec chaque client
-        io.once("connect", (socket) => {
+        io.on("connect", (socket) => {
             let date = new Date();
             console.log("[" + date.getUTCDay() + "/" + date.getUTCMonth() + "/" + date.getUTCFullYear() + "] " + req.session.username + " is connected to the play page")
 
@@ -55,24 +55,22 @@ router.get("/play", (req, res) => {
 
                 // On lance une partie si la queue est supérieur à 2 utilisateur
                 if(queue.length >= 2){
-                    // On stocke les informations de nos deux joueurs sélectionnés
-                    let usersData = [queue[0], queue[1]];
-                    // On les retires de la file d'attente
-                    queue.splice(0, 2)
-
                     // On créer une room unique
                     let roomId = generateRoom(10);
                     room.push(roomId);
 
                     // On ajoute les deux utilisateurs à la room créée
-                    socket.broadcast.to(usersData[0].id).emit("leaveQueue");
-                    socket.broadcast.to(usersData[1].id).emit("leaveQueue");
+                    socket.broadcast.to(queue[0].id).to(queue[1].id).emit("leaveQueue", roomId);
 
+                    // On les retires de la file d'attente
+                    queue.splice(0, 2)
                 }
             })
 
-            socket.on("joinGame", () => {
-                console.log("here");
+            socket.on("joinPrivateRoom", (roomId) => {
+                socket.leave("waitingRoom");
+                socket.join(roomId);
+                console.log(socket.rooms);
             })
 
             // Met à jour la file d'attente lorsqu'un utilisateur quitte la page
@@ -98,7 +96,7 @@ function generateRoom(length) {
     const charactersLength = characters.length;
     for ( let i = 0; i < length; i++ ) {result += characters.charAt(Math.floor(Math.random() * charactersLength));}
     if(!room.includes(result)){
-        console.log(result);
+        console.log("room generated successfully: " + result);
         return result;
     } else {
         generateRoom(length);

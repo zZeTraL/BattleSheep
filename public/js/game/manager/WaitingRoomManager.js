@@ -5,22 +5,17 @@ let waitingRoomManager = (function () {
     let debug = document.getElementById("output");
 
     socket.on("joinQueue", () => {
-        debug.textContent = "You have joined the waiting room!"
+        debug.textContent = "You have joined the waiting room!";
     })
 
-    socket.on("leaveQueue", () => {
-        try {
-            console.log('[socket]', 'leave room :', "waitingRoom");
-            socket.leave("waitingRoom");
-        } catch (e) {
-            console.log('[error]', 'leave room :', e);
-        }
-        socket.emit("joinGame");
+    socket.on("leaveQueue", (roomId) => {
+        console.log("here");
+        socket.emit("joinPrivateRoom", (roomId));
     })
 
     return {
         onClick(event) {
-            socket.emit('joinQueue');
+            socket.emit("joinQueue");
         }
     }
 })();
