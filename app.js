@@ -61,10 +61,10 @@ app.get('/', (req, res) => { res.render(path.join(__dirname, "views", "index"));
 
 // On include le module auth.js (MYSQL + LOGIN + REGISTER)
 const auth = require("./server/routes/auth")
-const game = require("./server/routes/game")
+const queue = require("./server/routes/queue")
 const leaderboard = require("./server/routes/leaderboard")
 app.use('/', auth);
-app.use('/', game);
+app.use('/', queue);
 app.use('/', leaderboard);
 
 // Page 404

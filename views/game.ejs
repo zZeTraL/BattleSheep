@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../public/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/game.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/header.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/footer.css">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel="stylesheet" type="text/css">
+
+    <!-- LIBS -->
+    <link rel="stylesheet" type="text/css" href="../public/css/libs/hover/hover.css">
+
+    <title>BattleSheep | Game</title>
+
+    <script src="../node_modules/socket.io/client-dist/socket.io.js"></script>
+    <script>
+        const socket = io();
+    </script>
+</head>
+<body>
+    <header class="header">
+        <%- include("./parts/header"); -%>
+    </header>
+
+    <main>
+        <div class="game__container">
+            <div class="game__title">
+                <h1><mark>BattleSheep</mark></h1>
+            </div>
+
+            <div class="game__info">
+                <!--<div class="your__info">
+                    <span>You</span>
+                    <span id="isConnected"></span>
+                    <span id="youReady"></span>
+                </div>
+                <div class="enemy__info">
+                    <span>Enemy</span>
+                    <span id="isEnemyConnected"></span>
+                    <span id="enemyReady"></span>
+                </div>-->
+
+                <div class=table__container>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Informations</th>
+                            <th>Is connected?</th>
+                            <th>Is ready?</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Player</td>
+                            <td id="youConnected">X</td>
+                            <td id="youReady">X</td>
+                        </tr>
+                        <tr>
+                            <td>Enemy</td>
+                            <td id="enemyConnected">X</td>
+                            <td id="enemyReady">X</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <div class="game__boards">
+                <div id="yourBoard" class="your__board">
+                </div>
+                <div id="enemyBoard" class="enemy__board">
+                </div>
+            </div>
+
+            <div class="game__quit">
+                <button id="readyBtn" class="hvr-grow">READY</button>
+            </div>
+
+            <div class="game__quit">
+                <button id="quitGameBtn" class="hvr-grow">Quit Game</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <%- include("./parts/footer"); -%>
+    </footer>
+
+    <script src="../public/js/responsive/HeaderResponsive.js"></script>
+
+    <!-- DATA -->
+    <script src="../public/js/game/data/ShipData.js"></script>
+    <!-- GAME -->
+    <script src="../public/js/game/manager/SocketManager.js"></script>
+    <script src="../public/js/game/manager/GameManager.js"></script>
+    <script src="../public/js/game/main.js"></script>
+
+</body>
+</html>

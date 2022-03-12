@@ -1,0 +1,139 @@
+//======================================================
+//                     G A M E
+//
+//  This file contains all important css property
+//
+//======================================================*
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #233a5f;
+  background-image: url("../img/filter.png");
+  background-attachment: fixed;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+main {
+  width: 75%;
+  margin: 50px auto 125px auto;
+  background-color: rgba(25, 42, 67, 0.8);
+  border-radius: 25px;
+}
+
+.game__container {
+  padding: 25px;
+  font-family: "Kanit-ExtraLight", sans-serif;
+
+  .game__title {
+    h1 {
+      padding: 0;
+      margin: 0;
+      font-size: var(--fs-xxl);
+      color: var(--dark-hx-color);
+      letter-spacing: 0.4rem;
+      text-align: center;
+
+      mark {
+        color: inherit;
+        position: relative;
+        background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
+        background-size: 100% 7px;
+      }
+    }
+  }
+
+  .game__info {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+
+    span {
+      color: white;
+    }
+
+    .your__info, .enemy__info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+  }
+
+  .game__boards {
+    width: 100%;
+    margin: 50px 0 50px 0;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+
+    .your__board {
+      display: grid;
+      grid-template-columns: repeat(10, 4.6vmin);
+      grid-template-rows: repeat(10, 4.6vmin);
+      background-color: skyblue;
+
+      div {
+        border: 1px solid hsla(0, 0%, 100%, .2)
+      }
+    }
+
+    .enemy__board {
+      display: grid;
+      grid-template-columns: repeat(10, 4.6vmin);
+      grid-template-rows: repeat(10, 4.6vmin);
+      background-color: indianred;
+
+      div {
+        border: 1px solid hsla(0, 0%, 100%, .2)
+      }
+    }
+
+  }
+
+  .game__quit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 100px 0 0 0;
+
+    button {
+      cursor: pointer;
+      width: 50%;
+      height: 50px;
+      border: solid rgba(231, 76, 60, 1.0) 1px;
+      border-radius: 10px;
+      background-color: rgba(231, 76, 60, 1.0);
+      color: var(--dark-hx-color);
+      font-size: var(--fs-m);
+      letter-spacing: 2px;
+    }
+  }
+}
+
+.table__container {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+
+  table {
+    width: 50%;
+    border-collapse: collapse;
+
+    thead {
+      height: 50px;
+      background-color: grey;
+    }
+
+    tbody {
+      background-color: skyblue;
+
+      tr {
+        height: 50px;
+      }
+    }
+  }
+
+}
