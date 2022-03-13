@@ -138,6 +138,8 @@ main {
       flex-direction: column;
 
       .ship__title {
+        margin-bottom: 25px;
+
         h2 {
           padding: 0;
           margin: 0;
@@ -153,26 +155,76 @@ main {
             background-size: 100% 5px;
           }
         }
+      }
 
+      .ship__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        .element {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          span {
+            color: white;
+          }
+
+        }
+
+        img {
+          width: 70%;
+          height: auto;
+        }
       }
     }
 
+    .ready__btn__container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 100px 0 0 0;
+
+      span {
+        font-size: var(--fs-s);
+        color: var(--dark-span-color);
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+      }
+
+      button {
+        cursor: pointer;
+        width: 35%;
+        height: 50px;
+        border: solid var(--dark-btn-rbg) 1px;
+        border-radius: 10px;
+        background-color: var(--dark-btn-color);
+        color: var(--dark-hx-color);
+        font-size: var(--fs-m);
+        letter-spacing: 2px;
+      }
+    }
   }
 
   .game__quit {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin: 100px 0 0 0;
+    margin: 25px 0 0 0;
 
     button {
       cursor: pointer;
-      width: 50%;
+      width: 25%;
       height: 50px;
       border: solid rgba(231, 76, 60, 1.0) 1px;
       border-radius: 10px;
       background-color: rgba(231, 76, 60, 1.0);
-      color: var(--dark-hx-color);
+      color: var(--dark-span-color);
       font-size: var(--fs-m);
       letter-spacing: 2px;
     }

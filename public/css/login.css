@@ -222,7 +222,6 @@ body {
 }
 .login__container .login__popup .signup p {
   padding: 0;
-  margin: 0;
   font-size: var(--fs-s);
   color: var(--sp-color);
   margin-bottom: 50px;

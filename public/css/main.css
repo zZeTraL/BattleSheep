@@ -5,7 +5,9 @@
   --dark-hx-color: white;
   --dark-span-color: white;
   --dark-a-color: white;
+  --dark-btn-color: #4b71fb;
   --dark-violet-hex: #7765E3;
+  --dark-btn-rbg: 75, 113, 251;
   --dark-mark-rgb: 119, 101, 227;
   /* Light Mode */
   --light-main-bg-color: #dced0d9;

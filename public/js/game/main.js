@@ -1,3 +1,5 @@
+import Swiper from "https://unpkg.com/swiper@8/swiper-bundle.esm.browser.min.js"
+
 window.onload = function() {
 
     let roomId = window.location.pathname.slice(6, 16);
@@ -40,3 +42,10 @@ window.onload = function() {
         })
     })
 }
+
+let swiper = new Swiper(".mySwiper", {
+    navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+    },
+});
