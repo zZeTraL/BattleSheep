@@ -5,6 +5,11 @@
 //
 //======================================================*
 
+@mixin shipWH($width, $height) {
+  height: calc(4.6vmin * #{$width});
+  width: calc(4.6vmin * #{$height});
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -54,10 +59,35 @@ main {
       color: white;
     }
 
-    .your__info, .enemy__info {
+    .table__container {
+      width: 50%;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
+
+      table {
+        margin-top: 25px;
+        width: 75%;
+        border-collapse: collapse;
+        border-radius: 25px;
+
+        thead {
+          height: 50px;
+          background-color: grey;
+          border: 1px solid grey;
+        }
+
+        tbody {
+          background-color: skyblue;
+          border: 1px solid skyblue;
+
+          tr {
+            height: 50px;
+            td {
+              text-align: center;
+            }
+          }
+        }
+      }
     }
 
   }
@@ -76,6 +106,7 @@ main {
       background-color: skyblue;
 
       div {
+        cursor: pointer;
         border: 1px solid hsla(0, 0%, 100%, .2)
       }
     }
@@ -87,7 +118,42 @@ main {
       background-color: indianred;
 
       div {
+        cursor: pointer;
         border: 1px solid hsla(0, 0%, 100%, .2)
+      }
+    }
+  }
+
+  .place__ship__container {
+    width: 95%;
+    padding: 25px;
+    margin: auto;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.2);
+
+    .place__ship__content {
+      width: 95%;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+
+      .ship__title {
+        h2 {
+          padding: 0;
+          margin: 0;
+          font-size: var(--fs-l);
+          color: var(--dark-hx-color);
+          letter-spacing: 0.15rem;
+          text-align: left;
+
+          mark {
+            color: inherit;
+            position: relative;
+            background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
+            background-size: 100% 5px;
+          }
+        }
+
       }
     }
 
@@ -111,29 +177,4 @@ main {
       letter-spacing: 2px;
     }
   }
-}
-
-.table__container {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-
-  table {
-    width: 50%;
-    border-collapse: collapse;
-
-    thead {
-      height: 50px;
-      background-color: grey;
-    }
-
-    tbody {
-      background-color: skyblue;
-
-      tr {
-        height: 50px;
-      }
-    }
-  }
-
 }

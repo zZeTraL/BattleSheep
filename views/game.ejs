@@ -11,7 +11,8 @@
     <link rel="stylesheet" type="text/css" href="../public/css/game.css">
     <link rel="stylesheet" type="text/css" href="../public/css/header.css">
     <link rel="stylesheet" type="text/css" href="../public/css/footer.css">
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' type="text/css">
+    <link rel="stylesheet" href="../node_modules/swiper/swiper-bundle.min.css">
 
     <!-- LIBS -->
     <link rel="stylesheet" type="text/css" href="../public/css/libs/hover/hover.css">
@@ -22,6 +23,24 @@
     <script>
         const socket = io();
     </script>
+
+    <style>
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            background-position: center;
+            background-size: cover;
+        }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+        }
+    </style>
+
 </head>
 <body>
     <header class="header">
@@ -35,17 +54,6 @@
             </div>
 
             <div class="game__info">
-                <!--<div class="your__info">
-                    <span>You</span>
-                    <span id="isConnected"></span>
-                    <span id="youReady"></span>
-                </div>
-                <div class="enemy__info">
-                    <span>Enemy</span>
-                    <span id="isEnemyConnected"></span>
-                    <span id="enemyReady"></span>
-                </div>-->
-
                 <div class=table__container>
                     <table>
                         <thead>
@@ -57,7 +65,7 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>Player</td>
+                            <td>You</td>
                             <td id="youConnected">X</td>
                             <td id="youReady">X</td>
                         </tr>
@@ -80,9 +88,38 @@
                 </div>
             </div>
 
-            <div class="game__quit">
-                <button id="readyBtn" class="hvr-grow">READY</button>
+            <div id="shipContainer" class="place__ship__container">
+                <div class="place__ship__content">
+                    <div class="ship__title">
+                        <h2><mark>Place your ships</mark></h2>
+                    </div>
+                    <div class="">
+                        sfdddsfsdf
+                    </div>
+                </div>
+                <div class="game__quit">
+                    <button id="readyBtn" class="hvr-grow">READY</button>
+                </div>
+
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="https://swiperjs.com/demos/images/nature-1.jpg"/>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://swiperjs.com/demos/images/nature-2.jpg"/>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://swiperjs.com/demos/images/nature-3.jpg"/>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://swiperjs.com/demos/images/nature-4.jpg"/>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <img src="../public/img/game/torpilleur.png" alt="">
 
             <div class="game__quit">
                 <button id="quitGameBtn" class="hvr-grow">Quit Game</button>

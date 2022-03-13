@@ -13,9 +13,6 @@ let socketManager = (function () {
     //================
     // Utilitaires
     //================
-    socket.once("connection", () => {
-        socketManager.connect();
-    })
     socket.once("requestResult", (res) => {
         console.log(res);
     })
@@ -28,7 +25,7 @@ let socketManager = (function () {
     })
 
     socket.once("enemyReady", () => {
-        enemyReadySpan.textContent = "READY"
+        enemyReadySpan.textContent = "Yes"
     })
 
 

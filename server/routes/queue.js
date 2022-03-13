@@ -121,7 +121,14 @@ io.on("connection", (socket) => {
         privateRoom[0].connections.push(socket.id)
         //console.log(privateRoom)
         socket.join(roomId)
-        socket.emit("connection");
+        let playerIndex;
+        for (let i = 0; i < privateRoom[0].connections.length; i++) {
+            if(privateRoom[0].connections[i] === socket.id){
+                playerIndex = i;
+            }
+        }
+        console.log(playerIndex)
+        socket.emit("connection", playerIndex);
     })
 
     //================
@@ -153,6 +160,8 @@ io.on("connection", (socket) => {
         for (let i = 0; i < room.length; i++) {
             if(room[i].connections.includes(socket.id)){
                 playerRoom = room[i];
+                playerRoom.connections.splice(i, 1);
+                playerRoom.currentSlots =- 1;
                 break;
             }
         }
@@ -160,7 +169,7 @@ io.on("connection", (socket) => {
         if(playerRoom !== undefined){
             //console.log("Player was in the room: " + playerRoom.name);
             if(playerRoom.name !== "waitingRoom"){
-                io.in(playerRoom.name).emit("leaveRoom");
+                //io.in(playerRoom.name).emit("leaveRoom");
             } else {
                 for (let i = 0; i < queue.length; i++) {
                     if(queue[i] === socket.id){

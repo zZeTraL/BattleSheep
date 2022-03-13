@@ -42,10 +42,31 @@ main {
 .game__container .game__info span {
   color: white;
 }
-.game__container .game__info .your__info, .game__container .game__info .enemy__info {
+.game__container .game__info .table__container {
+  width: 50%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+}
+.game__container .game__info .table__container table {
+  margin-top: 25px;
+  width: 75%;
+  border-collapse: collapse;
+  border-radius: 25px;
+}
+.game__container .game__info .table__container table thead {
+  height: 50px;
+  background-color: grey;
+  border: 1px solid grey;
+}
+.game__container .game__info .table__container table tbody {
+  background-color: skyblue;
+  border: 1px solid skyblue;
+}
+.game__container .game__info .table__container table tbody tr {
+  height: 50px;
+}
+.game__container .game__info .table__container table tbody tr td {
+  text-align: center;
 }
 .game__container .game__boards {
   width: 100%;
@@ -61,6 +82,7 @@ main {
   background-color: skyblue;
 }
 .game__container .game__boards .your__board div {
+  cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .game__container .game__boards .enemy__board {
@@ -70,7 +92,35 @@ main {
   background-color: indianred;
 }
 .game__container .game__boards .enemy__board div {
+  cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.game__container .place__ship__container {
+  width: 95%;
+  padding: 25px;
+  margin: auto;
+  border-radius: 25px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.game__container .place__ship__container .place__ship__content {
+  width: 95%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+.game__container .place__ship__container .place__ship__content .ship__title h2 {
+  padding: 0;
+  margin: 0;
+  font-size: var(--fs-l);
+  color: var(--dark-hx-color);
+  letter-spacing: 0.15rem;
+  text-align: left;
+}
+.game__container .place__ship__container .place__ship__content .ship__title h2 mark {
+  color: inherit;
+  position: relative;
+  background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
+  background-size: 100% 5px;
 }
 .game__container .game__quit {
   width: 100%;
@@ -88,26 +138,6 @@ main {
   color: var(--dark-hx-color);
   font-size: var(--fs-m);
   letter-spacing: 2px;
-}
-
-.table__container {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-}
-.table__container table {
-  width: 50%;
-  border-collapse: collapse;
-}
-.table__container table thead {
-  height: 50px;
-  background-color: grey;
-}
-.table__container table tbody {
-  background-color: skyblue;
-}
-.table__container table tbody tr {
-  height: 50px;
 }
 
 /*# sourceMappingURL=game.css.map */
