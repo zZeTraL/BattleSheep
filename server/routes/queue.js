@@ -35,6 +35,10 @@ io.on("connection", (socket) => {
     //              QUEUE SOCKETS
     //====================================================================================
 
+    socket.on("messageSent", (msg) => {
+        io.emit("messageReceived", "USERNAME", msg);
+    })
+
     /**
      * [Listener] Réception d'une requête par socket
      * Permet au joueur de rejoindre la file d'attente
@@ -198,8 +202,9 @@ function generateRoom(charLength, maxSlots) {
     let result = {name: "", maxSlots: maxSlots, currentSlots: 0, connections: []}
     const charactersLength = characters.length;
     for (let i = 0; i < charLength; i++) {result.name += characters.charAt(Math.floor(Math.random() * charactersLength));}
-    if(!room.includes(result)){
+    if(!room.includes(result.name)){
         console.log("room generated successfully: " + result.name);
+        console.log(room);
         return result;
     } else {
         generateRoom(charLength, maxSlots);

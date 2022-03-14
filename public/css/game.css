@@ -150,7 +150,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 100px 0 0 0;
+  margin: 25px 0 0 0;
 }
 .game__container .place__ship__container .ready__btn__container span {
   font-size: var(--fs-s);
@@ -185,6 +185,14 @@ main {
   color: var(--dark-span-color);
   font-size: var(--fs-m);
   letter-spacing: 2px;
+}
+
+.test {
+  background-color: black;
+}
+
+.placement__preview {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 /*# sourceMappingURL=game.css.map */

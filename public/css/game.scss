@@ -188,7 +188,7 @@ main {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin: 100px 0 0 0;
+      margin: 25px 0 0 0;
 
       span {
         font-size: var(--fs-s);
@@ -229,4 +229,12 @@ main {
       letter-spacing: 2px;
     }
   }
+}
+
+.test {
+  background-color: black;
+}
+
+.placement__preview {
+  background-color: rgba(0, 0, 0, .2);
 }

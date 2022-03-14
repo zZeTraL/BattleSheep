@@ -11,8 +11,11 @@ let gameManager = (function () {
     let savedSquareDiv = []
     let savedEnemySquareDiv = []
     let ships = document.querySelectorAll(".ship");
-    let dragedShip = null;
-    let dragedShipLength = null;
+    let draggedShip = null;
+    let draggedShipLength = null;
+
+    let previewShipPlacement = [];
+    const notAllowedCase = [];
 
     // Déclaration des div
     let yourBoard = document.getElementById("yourBoard");
@@ -36,24 +39,29 @@ let gameManager = (function () {
         getSavedSquare: () => savedSquareDiv,
         getSavedEnemySquare: () => savedEnemySquareDiv,
         getAllShip: () => ships,
+        getPreviousPreview: () => previewShipPlacement,
 
         // Méthodes
         createBoard(whichBoard, array){
             for (let i = 0; i < width * width ; i++) {
                 let div = document.createElement("div");
-                div.setAttribute("data", i);
+                div.setAttribute("data", i.toString());
                 whichBoard.appendChild(div);
                 array.push(div);
             }
         },
 
+        clearPreview(){
+
+        },
+
         // Listeners
         dragStart(){
             console.log("Grab it!!")
-            dragedShip = this;
-            dragedShipLength = shipData[this.getAttribute("data")].length;
-            console.log(dragedShip)
-            console.log(dragedShipLength)
+            draggedShip = this;
+            draggedShipLength = shipData[parseInt(this.getAttribute("data"))].length;
+            console.log(draggedShip);
+            console.log(draggedShipLength);
         },
 
         dragOver(event){
@@ -61,19 +69,42 @@ let gameManager = (function () {
         },
 
         dragEnter(event){
-            event.preventDefault()
+            setTimeout(function(){
+                let target = event.target;
+                let caseIndex = parseInt(target.getAttribute("data")) + 1;
+                for (let i = 0; i < draggedShipLength; i++) {
+                    yourBoard.childNodes[caseIndex.toString()].classList.add("placement__preview");
+                    previewShipPlacement.push(caseIndex);
+                    ++caseIndex;
+                }
+                console.log("dragEnter [" + previewShipPlacement + "]")
+            },5)
         },
 
         dragLeave(){
-            console.log("drag leave!!")
+            for (let i = 0; i < previewShipPlacement.length; i++) {
+                yourBoard.childNodes[(previewShipPlacement[i].toString())].classList.remove("placement__preview");
+            }
+            previewShipPlacement = [];
+            console.log("dragLeave")
         },
 
-        drop(){
-            console.log("DROP!!")
+        drop(event){
+            let droppedCase = event.target;
+            let caseIndex = droppedCase.getAttribute("data");
+            console.log("You have dropped your ship on the case: " + caseIndex);
+            console.log(yourBoard.childNodes[++caseIndex]);
+            yourBoard.childNodes[caseIndex].setAttribute("class", "test");
+            gameManager.clearPreview()
         },
 
         dragEnd(){
-            console.log("drag end!!")
+            if(previewShipPlacement.length !== 0){
+                for (let i = 0; i < previewShipPlacement.length; i++) {
+                    yourBoard.childNodes[(previewShipPlacement[i].toString())].classList.remove("placement__preview");
+                }
+                previewShipPlacement = [];
+            }
         }
 
     }

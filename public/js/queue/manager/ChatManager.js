@@ -5,8 +5,8 @@ let chatManager = (function () {
     let chat = document.getElementById("chatDiv");
     let currentChar = document.getElementById("currentChar");
 
-    socket.on("message", (username, msg) => {
-        if(username === undefined){ return; }
+    socket.on("messageReceived", (username, msg) => {
+        //if(username === undefined){ return; }
         let p = document.createElement("p");
         p.textContent = "[" + username + "] > " + msg;
         chat.appendChild(p);
@@ -27,7 +27,7 @@ let chatManager = (function () {
 
         sendMessage() {
             if (input.value && input.value.length <= maxChar) {
-                socket.emit('message', input.value);
+                socket.emit("messageSent", input.value);
                 this.resetInput();
             } else {
                 console.error("ArrayIndexOutOfBoundsException:chatManager:13")
