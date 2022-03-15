@@ -2,27 +2,27 @@ let shipData = [
     {
         name: "Torpilleur",
         length: 2,
-        // 0: horizontal right / 1: vertical face up / 2: vertical face down / 3: horizontal left
-        rotate: 0
+        // false: horizontal / true: vertical
+        visualization: "green"
     },
     {
         name: "Sous-marin",
         length: 3,
-        rotate: 0
+        visualization: "blue"
     },
     {
         name: "Contre torpilleur",
         length: 3,
-        rotate: 0
+        visualization: "orange"
     },
     {
         name: "Croiseur",
         length: 4,
-        rotate: 0
+        visualization: "red"
     },
     {
         name: "Porte avion",
         length: 5,
-        rotate: 0
+        visualization: "black"
     }
 ]

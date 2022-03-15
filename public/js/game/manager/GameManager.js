@@ -8,13 +8,21 @@ let gameManager = (function () {
     // Déclaration des variables utilisées pour notre jeu
     let width = 10;
     let playerIndex = 0;
+    let rotate = false;
+
+    let ships = document.querySelectorAll(".ship");
+
+    let draggedShip = undefined;
+    let draggedShipLength = undefined;
+
+    // Saves
     let savedSquareDiv = []
     let savedEnemySquareDiv = []
-    let ships = document.querySelectorAll(".ship");
-    let draggedShip = null;
-    let draggedShipLength = null;
+    let gridSave = undefined;
 
+    // Utilitaires
     let previewShipPlacement = [];
+    let shipPlacementCase = [];
     const notAllowedCase = [];
 
     // Déclaration des div
@@ -24,6 +32,16 @@ let gameManager = (function () {
     // DEBUG SECTION
     let youReadySpan = document.getElementById("youReady");
     let enemyReadySpan = document.getElementById("enemyReady");
+
+    /**
+     * Permet d'éviter que le joueur modifie sa grille (le visuel)
+     * Remarque: cela évite juste en soit une modification visuelle juste visible pour le client
+     *           ça n'impact en aucun cas la game car la grille du joueur et de l'ennemi sont sauvegardées
+     *           sur le serveur NodeJS
+     */
+    function noBypass(){
+        // if I have the time, I'll do it
+    }
 
     return {
         // Initialisation
@@ -40,10 +58,16 @@ let gameManager = (function () {
         getSavedEnemySquare: () => savedEnemySquareDiv,
         getAllShip: () => ships,
         getPreviousPreview: () => previewShipPlacement,
+        getShipPlacementCase: () => shipPlacementCase,
+        getRotateState: () => rotate,
+
+        // Setters
+        toggleRotate: () => rotate = !rotate,
 
         // Méthodes
         createBoard(whichBoard, array){
-            for (let i = 0; i < width * width ; i++) {
+            // On commence à 1 car le childNodes de notre grille commence à l'index 0 avec un type text et non une div
+            for (let i = 1; i <= width * width ; i++) {
                 let div = document.createElement("div");
                 div.setAttribute("data", i.toString());
                 whichBoard.appendChild(div);
@@ -52,12 +76,41 @@ let gameManager = (function () {
         },
 
         clearPreview(){
+            if(previewShipPlacement.length !== 0){
+                for (let i = 0; i < previewShipPlacement.length; i++) {
+                    yourBoard.childNodes[(previewShipPlacement[i].toString())].classList.toggle("placement__preview");
+                }
+                previewShipPlacement = [];
+            }
+        },
 
+        isShipAlreadyPlace(caseIndex){
+            if(draggedShipLength === undefined) return false;
+            let isShipAlreadyPlacedHere = false;
+            if(!rotate){
+                for (let i = 0; i < draggedShipLength; i++) {
+                    let tmp = parseInt(caseIndex) + i;
+                    if(shipPlacementCase.includes(parseInt(yourBoard.childNodes[tmp.toString()].getAttribute("data")))){
+                        isShipAlreadyPlacedHere = true;
+                        break;
+                    }
+                }
+            } else {
+                for (let i = 0, j = 0; j < draggedShipLength; i -= 10, j++) {
+                    let tmp = parseInt(caseIndex) + i;
+                    if(shipPlacementCase.includes(parseInt(yourBoard.childNodes[tmp.toString()].getAttribute("data")))){
+                        isShipAlreadyPlacedHere = true;
+                        break;
+                    }
+                }
+            }
+            return isShipAlreadyPlacedHere;
         },
 
         // Listeners
         dragStart(){
-            console.log("Grab it!!")
+            gameManager.clearPreview();
+            console.log("You grab your target!!")
             draggedShip = this;
             draggedShipLength = shipData[parseInt(this.getAttribute("data"))].length;
             console.log(draggedShip);
@@ -65,46 +118,82 @@ let gameManager = (function () {
         },
 
         dragOver(event){
-            event.preventDefault()
+            event.preventDefault();
         },
 
         dragEnter(event){
             setTimeout(function(){
                 let target = event.target;
-                let caseIndex = parseInt(target.getAttribute("data")) + 1;
-                for (let i = 0; i < draggedShipLength; i++) {
-                    yourBoard.childNodes[caseIndex.toString()].classList.add("placement__preview");
-                    previewShipPlacement.push(caseIndex);
-                    ++caseIndex;
+                let caseIndex = target.getAttribute("data");
+                if(!rotate){
+                    for (let i = 0; i < draggedShipLength; i++) {
+                        let tmp = parseInt(caseIndex) + i;
+                        yourBoard.childNodes[tmp.toString()].classList.toggle("placement__preview");
+                        previewShipPlacement.push(tmp);
+                    }
+                } else {
+                    for (let i = 0, j = 0; j < draggedShipLength; i -= 10, j++) {
+                        let tmp = parseInt(caseIndex) + i;
+                        yourBoard.childNodes[tmp.toString()].classList.toggle("placement__preview");
+                        previewShipPlacement.push(tmp);
+                    }
                 }
                 console.log("dragEnter [" + previewShipPlacement + "]")
-            },5)
+            },2)
         },
 
         dragLeave(){
-            for (let i = 0; i < previewShipPlacement.length; i++) {
-                yourBoard.childNodes[(previewShipPlacement[i].toString())].classList.remove("placement__preview");
-            }
-            previewShipPlacement = [];
-            console.log("dragLeave")
+            gameManager.clearPreview();
+            console.log("drag leave!!")
         },
 
         drop(event){
-            let droppedCase = event.target;
-            let caseIndex = droppedCase.getAttribute("data");
-            console.log("You have dropped your ship on the case: " + caseIndex);
-            console.log(yourBoard.childNodes[++caseIndex]);
-            yourBoard.childNodes[caseIndex].setAttribute("class", "test");
-            gameManager.clearPreview()
+            event.preventDefault();
+            let droppedItem = event.target;
+            try {
+                //console.log(yourBoard.childNodes)
+                if(draggedShip.getAttribute("class").includes("ship")) {
+                    let caseIndex = droppedItem.getAttribute("data");
+                    let whichColor = shipData[draggedShip.getAttribute("data")].visualization;
+                    // On check si un bateau est déjà placé dans les cases
+                    console.log(gameManager.isShipAlreadyPlace(caseIndex))
+                    if(!gameManager.isShipAlreadyPlace(caseIndex)){
+                        if(!rotate){
+                            for (let i = 0; i < draggedShipLength; i++) {
+                                let tmp = parseInt(caseIndex) + i;
+                                yourBoard.childNodes[tmp.toString()].classList.add(whichColor);
+                                shipPlacementCase.push(tmp);
+                            }
+                        } else {
+                            for (let i = 0, j = 0; j < draggedShipLength; i -= 10, j++) {
+                                let tmp = parseInt(caseIndex) + i;
+                                yourBoard.childNodes[tmp.toString()].classList.add(whichColor);
+                                shipPlacementCase.push(tmp);
+                            }
+                        }
+                        // On supprime le listener associé au bateau qu'on vient de placer
+                        draggedShip.removeEventListener('dragstart', gameManager.dragStart);
+                        draggedShip.removeAttribute("draggable");
+                    } else {
+                        console.log("A ship is already placed in those cases")
+                    }
+
+                    console.log(gameManager.isShipAlreadyPlace(caseIndex));
+                    console.log("You have dropped your ship on the case: " + caseIndex);
+                    console.log(yourBoard.childNodes[caseIndex]);
+                    console.log(shipPlacementCase);
+                }
+                gameManager.clearPreview();
+            } catch(error){
+                console.log(error);
+            }
         },
 
         dragEnd(){
-            if(previewShipPlacement.length !== 0){
-                for (let i = 0; i < previewShipPlacement.length; i++) {
-                    yourBoard.childNodes[(previewShipPlacement[i].toString())].classList.remove("placement__preview");
-                }
-                previewShipPlacement = [];
-            }
+            draggedShip = undefined;
+            draggedShipLength = undefined;
+            gameManager.clearPreview();
+            console.log("drag end!!")
         }
 
     }

@@ -231,8 +231,32 @@ main {
   }
 }
 
-.test {
-  background-color: black;
+.black {
+  background-color: black !important;
+}
+
+// Torpilleur
+.green {
+  background-color: #0F9E5E !important;
+}
+
+// Sous-marin
+.blue {
+  background-color: cornflowerblue !important;
+}
+
+// Contre torpilleur
+.orange {
+  background-color: #f39c12 !important;
+}
+
+// Croiseur
+.red {
+  background-color: #e74c3c !important;
+}
+
+.rotate {
+  transform: rotate(-90deg);
 }
 
 .placement__preview {

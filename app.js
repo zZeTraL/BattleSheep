@@ -11,7 +11,7 @@ const flash = require("express-flash");
 const mysql = require("mysql");
 
 // Socket
-const socket = require("socket.io")
+const socket = require("socket.io");
 const io = socket(server);
 
 // On set notre moteur de render ici EJS

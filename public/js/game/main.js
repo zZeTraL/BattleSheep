@@ -1,20 +1,35 @@
 import Swiper from "https://unpkg.com/swiper@8/swiper-bundle.esm.browser.min.js"
 
-window.onload = function() {
+window.onload = function () {
 
     let roomId = window.location.pathname.slice(6, 16);
     setTimeout(() => {
         socket.emit("playerConnected", roomId);
     }, 500)
 
-    // Setting up quit and ready button
     document.getElementById("quitGameBtn").addEventListener('click', () => {
         socket.emit("leaveRoom", (roomId));
     })
 
+    document.getElementById("rotateShip").addEventListener('click', () => {
+        document.querySelectorAll(".ship").forEach((element) => {
+            element.classList.toggle("rotate");
+            gameManager.toggleRotate();
+        })
+        console.log(gameManager.getRotateState())
+    })
+
     document.getElementById("readyBtn").addEventListener('click', () => {
-        socket.emit("enemyReady");
-        document.getElementById("youReady").textContent = "Yes";
+        // Si on a placé tous les bateaux (i.e. 17 cases occupés dans notre tableau)
+        if(gameManager.getShipPlacementCase().length === 17){
+            socket.emit("enemyReady");
+            document.getElementById("youReady").textContent = "Yes";
+        } else {
+            console.log("You don't have placed all your ship!")
+        }
+        /* TODO
+         *  - inform the player that he hasn't placed all his ships
+         */
     })
 
     // Init the board for both players
@@ -22,18 +37,18 @@ window.onload = function() {
 
     gameManager.getAllShip().forEach(element => {
         element.addEventListener('dragstart', gameManager.dragStart);
+        element.addEventListener('dragend', gameManager.dragEnd);
     })
 
     gameManager.getSavedSquare().forEach(element => {
         element.addEventListener('click', () => {
             console.log("clicked! (" + element.getAttribute("data") + ")")
         })
-        element.addEventListener('dragstart', gameManager.dragStart);
-        element.addEventListener('dragover', gameManager.dragOver);
+        element.addEventListener('drop', gameManager.drop);
         element.addEventListener('dragenter', gameManager.dragEnter);
         element.addEventListener('dragleave', gameManager.dragLeave);
-        element.addEventListener('drop', gameManager.drop);
         element.addEventListener('dragend', gameManager.dragEnd);
+        element.addEventListener('dragover', gameManager.dragOver);
     })
 
     gameManager.getSavedEnemySquare().forEach(element => {
@@ -42,3 +57,7 @@ window.onload = function() {
         })
     })
 }
+
+window.onunload = function(){
+    alert("sure")
+};
