@@ -153,6 +153,11 @@ io.on("connection", (socket) => {
         socket.broadcast.emit("enemyReady");
     })
 
+    socket.on("startGame", (roomId) => {
+        console.log("socket request receive STARTING GAME...")
+        io.in(roomId).emit("startGame");
+    })
+
     // Reception de la requête pour quitter la partie
     socket.on("leaveRoom", (roomId) => {
         io.in(roomId).emit("leaveRoom");

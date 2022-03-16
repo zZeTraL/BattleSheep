@@ -5,10 +5,16 @@ let gameManager = (function () {
         playerIndex = index;
     })
 
+    // Déclaration des constantes
+    // Nombre de bateaux nécessaire pour commencer être ready
+    const playerReadyWhen = 17;
+
     // Déclaration des variables utilisées pour notre jeu
     let width = 10;
     let playerIndex = 0;
     let rotate = false;
+    let isEnemyReady = false;
+    let isYouReady = false;
 
     let ships = document.querySelectorAll(".ship");
 
@@ -28,6 +34,7 @@ let gameManager = (function () {
     // Déclaration des div
     let yourBoard = document.getElementById("yourBoard");
     let enemyBoard = document.getElementById("enemyBoard");
+    let shipPlacementContainer = document.getElementById("shipContainer");
 
     // DEBUG SECTION
     let youReadySpan = document.getElementById("youReady");
@@ -37,7 +44,7 @@ let gameManager = (function () {
      * Permet d'éviter que le joueur modifie sa grille (le visuel)
      * Remarque: cela évite juste en soit une modification visuelle juste visible pour le client
      *           ça n'impact en aucun cas la game car la grille du joueur et de l'ennemi sont sauvegardées
-     *           sur le serveur NodeJS
+     *           dans des variables inaccessibles
      */
     function noBypass(){
         // if I have the time, I'll do it
@@ -57,12 +64,15 @@ let gameManager = (function () {
         getSavedSquare: () => savedSquareDiv,
         getSavedEnemySquare: () => savedEnemySquareDiv,
         getAllShip: () => ships,
-        getPreviousPreview: () => previewShipPlacement,
-        getShipPlacementCase: () => shipPlacementCase,
+        getPlacementPreview: () => previewShipPlacement,
         getRotateState: () => rotate,
+        getReadyState: () => isYouReady,
+        isAllShipArePlaced: () => shipPlacementCase.length === playerReadyWhen,
 
         // Setters
         toggleRotate: () => rotate = !rotate,
+        setReadyState: (bool) => isYouReady = bool,
+        setEnemyReadyState: (bool) => isEnemyReady = bool,
 
         // Méthodes
         createBoard(whichBoard, array){
@@ -106,6 +116,28 @@ let gameManager = (function () {
             }
             return isShipAlreadyPlacedHere;
         },
+
+        startGame(){
+            shipPlacementContainer.style.display = "none";
+            if(playerIndex === 0){
+                console.log("your go")
+            } else {
+                console.log("enemy go")
+            }
+        },
+
+        fireThisCase(){
+
+        },
+
+
+
+
+
+
+
+
+
 
         // Listeners
         dragStart(){

@@ -1,7 +1,6 @@
 import Swiper from "https://unpkg.com/swiper@8/swiper-bundle.esm.browser.min.js"
 
 window.onload = function () {
-
     let roomId = window.location.pathname.slice(6, 16);
     setTimeout(() => {
         socket.emit("playerConnected", roomId);
@@ -19,13 +18,19 @@ window.onload = function () {
         console.log(gameManager.getRotateState())
     })
 
-    document.getElementById("readyBtn").addEventListener('click', () => {
+    document.getElementById("readyBtnToStartGame").addEventListener('click', () => {
         // Si on a placé tous les bateaux (i.e. 17 cases occupés dans notre tableau)
-        if(gameManager.getShipPlacementCase().length === 17){
-            socket.emit("enemyReady");
-            document.getElementById("youReady").textContent = "Yes";
+        if(!gameManager.getReadyState()){
+            if(gameManager.isAllShipArePlaced()){
+                gameManager.setReadyState(true);
+                socket.emit("enemyReady");
+                document.getElementById("youReady").textContent = "Yes";
+                console.log(gameManager.getReadyState());
+            } else {
+                console.log("You haven't placed all your ships!")
+            }
         } else {
-            console.log("You don't have placed all your ship!")
+            console.log("You are already ready!")
         }
         /* TODO
          *  - inform the player that he hasn't placed all his ships
@@ -54,6 +59,7 @@ window.onload = function () {
     gameManager.getSavedEnemySquare().forEach(element => {
         element.addEventListener('click', () => {
             console.log("clicked! (" + element.getAttribute("data") + ")");
+            gameManager.fireThisCase();
         })
     })
 }

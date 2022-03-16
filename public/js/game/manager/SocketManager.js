@@ -1,14 +1,14 @@
 let socketManager = (function () {
 
+    let roomId = window.location.pathname.slice(6, 16);
+
     // DEBUG SECTION
     let enemyConnectedSpan = document.getElementById("enemyConnected");
     let enemyReadySpan = document.getElementById("enemyReady")
-
     let youConnectedSpan = document.getElementById("youConnected");
     let youReadySpan = document.getElementById("youReady");
 
-    // IMP
-    let quitGameBtn = document.getElementById("quitGameBtn");
+
 
     //================
     // Utilitaires
@@ -25,7 +25,16 @@ let socketManager = (function () {
     })
 
     socket.once("enemyReady", () => {
-        enemyReadySpan.textContent = "Yes"
+        enemyReadySpan.textContent = "Yes";
+        // Si le joueur a placé tous ses bateaux, il est donc prêt
+        if(gameManager.isAllShipArePlaced()){
+            socket.emit("startGame", roomId);
+        }
+    })
+
+    socket.once("startGame", () => {
+        console.log("start the game")
+        gameManager.startGame();
     })
 
 
