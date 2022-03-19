@@ -15,6 +15,7 @@ let gameManager = (function () {
     let rotate = false;
     let isEnemyReady = false;
     let isYouReady = false;
+    let gameStarted = false;
 
     let ships = document.querySelectorAll(".ship");
 
@@ -25,6 +26,9 @@ let gameManager = (function () {
     let savedSquareDiv = []
     let savedEnemySquareDiv = []
     let gridSave = undefined;
+    let remainingItems = [undefined, 1, 1, 1];
+    let selectedItem = undefined;
+    let previousItem = undefined;
 
     // Utilitaires
     let previewShipPlacement = [];
@@ -68,6 +72,7 @@ let gameManager = (function () {
         getRotateState: () => rotate,
         getReadyState: () => isYouReady,
         isAllShipArePlaced: () => shipPlacementCase.length === playerReadyWhen,
+        getRemainingItems: () => remainingItems,
 
         // Setters
         toggleRotate: () => rotate = !rotate,
@@ -119,6 +124,7 @@ let gameManager = (function () {
 
         startGame(){
             shipPlacementContainer.style.display = "none";
+            gameStarted = true;
             if(playerIndex === 0){
                 console.log("your go")
             } else {
@@ -127,7 +133,31 @@ let gameManager = (function () {
         },
 
         fireThisCase(){
-
+            if(!gameStarted){
+                // On vérifie que c'est le tour du joueur
+                if(playerIndex !== 0){
+                    console.log("Not your go, pls wait!")
+                    playerIndex = 1;
+                } else {
+                    // On vérifie que le joueur à sélectionné le bon item
+                    switch (selectedItem){
+                        case 0:
+                            console.log("0 = rocket")
+                            break;
+                        case 1:
+                            console.log("1 = radar  ")
+                            break;
+                        case 2:
+                            console.log("2 = torpedo")
+                            break;
+                        case 3:
+                            console.log("3 = frag grenade")
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         },
 
 
@@ -140,6 +170,26 @@ let gameManager = (function () {
 
 
         // Listeners
+        selectItem(event){
+            let target = event.target;
+            let index = parseInt(target.getAttribute("data"));
+            let remainingAmount = gameManager.getRemainingItems()[index];
+            if(remainingAmount !== undefined && remainingAmount === 0){
+                target.classList.add("item__unavailable");
+            } else {
+                if(previousItem === undefined){
+                    previousItem = target;
+                    target.classList.add("item__selected");
+                    selectedItem = index;
+                } else {
+                    previousItem.classList.remove("item__selected");
+                    previousItem = target;
+                    target.classList.add("item__selected");
+                    selectedItem = index;
+                }
+            }
+        },
+
         dragStart(){
             gameManager.clearPreview();
             console.log("You grab your target!!")

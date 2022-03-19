@@ -6,36 +6,8 @@ window.onload = function () {
         socket.emit("playerConnected", roomId);
     }, 500)
 
-    document.getElementById("quitGameBtn").addEventListener('click', () => {
-        socket.emit("leaveRoom", (roomId));
-    })
-
-    document.getElementById("rotateShip").addEventListener('click', () => {
-        document.querySelectorAll(".ship").forEach((element) => {
-            element.classList.toggle("rotate");
-            gameManager.toggleRotate();
-        })
-        console.log(gameManager.getRotateState())
-    })
-
-    document.getElementById("readyBtnToStartGame").addEventListener('click', () => {
-        // Si on a placé tous les bateaux (i.e. 17 cases occupés dans notre tableau)
-        if(!gameManager.getReadyState()){
-            if(gameManager.isAllShipArePlaced()){
-                gameManager.setReadyState(true);
-                socket.emit("enemyReady");
-                document.getElementById("youReady").textContent = "Yes";
-                console.log(gameManager.getReadyState());
-            } else {
-                console.log("You haven't placed all your ships!")
-            }
-        } else {
-            console.log("You are already ready!")
-        }
-        /* TODO
-         *  - inform the player that he hasn't placed all his ships
-         */
-    })
+    // All buttons listeners
+    registerEvents(roomId);
 
     // Init the board for both players
     gameManager.init();
@@ -56,9 +28,19 @@ window.onload = function () {
         element.addEventListener('dragover', gameManager.dragOver);
     })
 
+    let previousCase = undefined;
     gameManager.getSavedEnemySquare().forEach(element => {
-        element.addEventListener('click', () => {
+        element.addEventListener('click', (event) => {
             console.log("clicked! (" + element.getAttribute("data") + ")");
+            let target = event.target;
+            if(previousCase === undefined){
+                previousCase = target;
+                element.textContent = "X"
+            } else {
+                previousCase.textContent = "";
+                previousCase = target;
+                target.textContent = "X";
+            }
             gameManager.fireThisCase();
         })
     })

@@ -144,31 +144,6 @@ main {
   width: 70%;
   height: auto;
 }
-.game__container .place__ship__container .ready__btn__container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 25px 0 0 0;
-}
-.game__container .place__ship__container .ready__btn__container span {
-  font-size: var(--fs-s);
-  color: var(--dark-span-color);
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-}
-.game__container .place__ship__container .ready__btn__container button {
-  cursor: pointer;
-  width: 35%;
-  height: 50px;
-  border: solid var(--dark-btn-rbg) 1px;
-  border-radius: 10px;
-  background-color: var(--dark-btn-color);
-  color: var(--dark-hx-color);
-  font-size: var(--fs-m);
-  letter-spacing: 2px;
-}
 .game__container .item__selection__container {
   width: 95%;
   padding: 25px;
@@ -204,6 +179,7 @@ main {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 25px;
 }
 .game__container .item__selection__container .item__selection__content .item__container .element {
   display: flex;
@@ -215,7 +191,10 @@ main {
   color: white;
 }
 .game__container .item__selection__container .item__selection__content .item__container img {
-  width: 70%;
+  cursor: pointer;
+  padding: 10px;
+  margin: 10px;
+  width: 75px;
   height: auto;
 }
 .game__container .game__quit {
@@ -232,6 +211,32 @@ main {
   border-radius: 10px;
   background-color: #e74c3c;
   color: var(--dark-span-color);
+  font-size: var(--fs-m);
+  letter-spacing: 2px;
+}
+
+.ready__btn__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 25px 0 0 0;
+}
+.ready__btn__container span {
+  font-size: var(--fs-s);
+  color: var(--dark-span-color);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.ready__btn__container button {
+  cursor: pointer;
+  width: 35%;
+  height: 50px;
+  border: solid var(--dark-btn-rbg) 1px;
+  border-radius: 10px;
+  background-color: var(--dark-btn-color);
+  color: var(--dark-hx-color);
   font-size: var(--fs-m);
   letter-spacing: 2px;
 }
@@ -262,6 +267,16 @@ main {
 
 .placement__preview {
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.item__selected {
+  border: 2px solid #27ae60;
+  border-radius: 15px;
+}
+
+.item__unavailable {
+  border: 2px solid #e74c3c;
+  border-radius: 15px;
 }
 
 /*# sourceMappingURL=game.css.map */
