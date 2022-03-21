@@ -107,7 +107,8 @@ main {
 
       div {
         cursor: pointer;
-        border: 1px solid hsla(0, 0%, 100%, .2)
+        border: 1px solid hsla(0, 0%, 100%, .2);
+        text-align: center;
       }
     }
 
@@ -119,7 +120,8 @@ main {
 
       div {
         cursor: pointer;
-        border: 1px solid hsla(0, 0%, 100%, .2)
+        border: 1px solid hsla(0, 0%, 100%, .2);
+        text-align: center;
       }
     }
   }
@@ -337,4 +339,8 @@ main {
 .item__unavailable {
   border: 2px solid #e74c3c;
   border-radius: 15px;
+}
+
+.caseFired {
+  background-color: rebeccapurple !important;
 }

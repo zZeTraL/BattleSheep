@@ -163,6 +163,11 @@ io.on("connection", (socket) => {
         io.in(roomId).emit("leaveRoom");
     })
 
+    socket.on("fireCase", (index, item) => {
+        console.log("Index: " + index);
+        socket.broadcast.emit("onFireReceive", index, item);
+    })
+
     // Met à jour la file d'attente lorsqu'un utilisateur quitte la page
     socket.on("disconnect", () => {
         let playerRoom;

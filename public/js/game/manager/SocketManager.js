@@ -37,6 +37,14 @@ let socketManager = (function () {
         gameManager.startGame();
     })
 
+    socket.on("onFireReceive", (index, item) => {
+        gameManager.onFireReceive(index, item);
+    })
+
+    socket.once("onFireReply", index => {
+        gameManager.onFireReply();
+    })
+
 
 
 

@@ -28,24 +28,7 @@ window.onload = function () {
         element.addEventListener('dragover', gameManager.dragOver);
     })
 
-    let previousCase = undefined;
     gameManager.getSavedEnemySquare().forEach(element => {
-        element.addEventListener('click', (event) => {
-            console.log("clicked! (" + element.getAttribute("data") + ")");
-            let target = event.target;
-            if(previousCase === undefined){
-                previousCase = target;
-                element.textContent = "X"
-            } else {
-                previousCase.textContent = "";
-                previousCase = target;
-                target.textContent = "X";
-            }
-            gameManager.fireThisCase();
-        })
+        element.addEventListener('click', gameManager.fireCasePreview);
     })
 }
-
-window.onunload = function(){
-    alert("sure")
-};

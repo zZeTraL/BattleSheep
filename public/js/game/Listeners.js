@@ -40,5 +40,6 @@ let registerEvents = (roomId) => {
          */
     })
 
+    document.getElementById("readyBtnToFire").addEventListener('click', gameManager.fireThisCase);
 
 }

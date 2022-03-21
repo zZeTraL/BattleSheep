@@ -21,24 +21,28 @@ let gameManager = (function () {
 
     let draggedShip = undefined;
     let draggedShipLength = undefined;
-
+    
     // Saves
     let savedSquareDiv = []
     let savedEnemySquareDiv = []
     let gridSave = undefined;
-    let remainingItems = [undefined, 1, 1, 1];
+    let remainingItems = [undefined, 1, 1, 0];
     let selectedItem = undefined;
     let previousItem = undefined;
 
     // Utilitaires
+    let previewFireCase = [];
     let previewShipPlacement = [];
     let shipPlacementCase = [];
-    const notAllowedCase = [];
+    let shipClass = ["black", "red", "green", "orange", "blue"];
+    const notAllowedCaseRadar = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 20, 21, 30, 31, 40, 41, 50, 51, 60, 61, 70, 71, 80, 81, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100];
+    const notAllowedCasePlacement = [];
 
     // Déclaration des div
     let yourBoard = document.getElementById("yourBoard");
     let enemyBoard = document.getElementById("enemyBoard");
     let shipPlacementContainer = document.getElementById("shipContainer");
+    let itemContainer = document.querySelectorAll(".item");
 
     // DEBUG SECTION
     let youReadySpan = document.getElementById("youReady");
@@ -59,7 +63,7 @@ let gameManager = (function () {
         init(){
             this.createBoard(yourBoard, savedSquareDiv);
             this.createBoard(enemyBoard, savedEnemySquareDiv);
-            console.log(shipData[0].name);
+            console.log("Game has been initialized successfully!");
         },
 
         // Getters
@@ -99,6 +103,22 @@ let gameManager = (function () {
             }
         },
 
+        clearFireCasePreview(){
+            for (const element of enemyBoard.childNodes) {
+                element.textContent = "";
+            }
+            previewFireCase = [];
+        },
+
+        updateSelectItem(){
+            for (const element of itemContainer) {
+                let index = parseInt(element.getAttribute("data"));
+                if(remainingItems[index] === 0){
+                    element.classList.add("item__unavailable");
+                }
+            }
+        },
+
         isShipAlreadyPlace(caseIndex){
             if(draggedShipLength === undefined) return false;
             let isShipAlreadyPlacedHere = false;
@@ -122,6 +142,53 @@ let gameManager = (function () {
             return isShipAlreadyPlacedHere;
         },
 
+        /*  TODO
+         *   - Need to enhance the preview
+         */
+        fireCasePreview(event){
+            // On vérifie la partie est lancée
+            if(!gameStarted){
+                let target = event.target;
+                let index = parseInt(target.getAttribute("data"));
+                // On vérifie que c'est au tour du joueur
+                if(playerIndex === 0) {
+                    gameManager.clearFireCasePreview();
+                    if(selectedItem !== undefined) {
+                        switch (selectedItem){
+                            case 0:
+                                previewFireCase.push(index);
+                                break;
+                            case 1:
+                                if(!notAllowedCaseRadar.includes(index)){
+                                    previewFireCase.push(index);
+                                    previewFireCase.push(index + 1);
+                                    previewFireCase.push(index - 1);
+                                    previewFireCase.push(index - 10);
+                                    previewFireCase.push(index - 11);
+                                    previewFireCase.push(index - 9);
+                                    previewFireCase.push(index + 10);
+                                    previewFireCase.push(index + 11);
+                                    previewFireCase.push(index + 9);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        console.log(previewFireCase.length);
+                        if(previewFireCase.length !== 0){
+                            for (let i = 0; i < previewFireCase.length; i++) {
+                                enemyBoard.childNodes[(previewFireCase[i]).toString()].textContent = "X";
+                            }
+                        }
+                    } else {
+                        console.log("(FirePreview) Please, select an item to select this case to explode!");
+                    }
+                } else {
+                    console.log("(FirePreview) Not your go!")
+                }
+            }
+        },
+
         startGame(){
             shipPlacementContainer.style.display = "none";
             gameStarted = true;
@@ -133,33 +200,80 @@ let gameManager = (function () {
         },
 
         fireThisCase(){
+            // A SUPP
             if(!gameStarted){
                 // On vérifie que c'est le tour du joueur
                 if(playerIndex !== 0){
-                    console.log("Not your go, pls wait!")
-                    playerIndex = 1;
+                    console.log("(FireThisCase) Not your go!")
                 } else {
-                    // On vérifie que le joueur à sélectionné le bon item
-                    switch (selectedItem){
-                        case 0:
-                            console.log("0 = rocket")
-                            break;
-                        case 1:
-                            console.log("1 = radar  ")
-                            break;
-                        case 2:
-                            console.log("2 = torpedo")
-                            break;
-                        case 3:
-                            console.log("3 = frag grenade")
-                            break;
-                        default:
-                            break;
+                    if(selectedItem !== undefined){
+                        if(previewFireCase.length !== 0) {
+                            // Si l'item est le radar on envoie une requête différente car le radar affiche au joueurs les cases et non à l'ennemi
+                            /*if(selectedItem === 1){
+                                socket.emit("radarScan", previewFireCase);
+                            } else {
+                                // Sinon on affiche les cases touché
+                                for (const element of previewFireCase) {
+                                    enemyBoard.childNodes[element.toString()].classList.add("caseFired");
+                                }
+
+                            }*/
+
+                            if(remainingItems[selectedItem] !== undefined){
+                                remainingItems[selectedItem] -= 1;
+                                gameManager.updateSelectItem(undefined, true);
+                            }
+
+                            socket.emit("fireCase", previewFireCase, selectedItem);
+                            gameManager.clearFireCasePreview();
+
+                            playerIndex = 1;
+                        } else {
+                            console.log("(FireThisCase) Please, select a case to fire!")
+                        }
+                    } else {
+                        console.log("(FireThisCase) Please, select an item!")
                     }
                 }
             }
         },
 
+        onFireReceive(indexArray, item){
+            console.log("onFire index: " + indexArray[0]);
+            switch (item){
+                case 0:
+                    console.log("0 = rocket");
+                    //
+                    console.log(indexArray);
+                    let caseDestroyed = undefined;
+                    if(shipClass.includes(yourBoard.childNodes[indexArray[0].toString()].getAttribute("class"))){
+                        yourBoard.childNodes[indexArray[0].toString()].classList.add("caseFired");
+                        shipPlacementCase.filter((element) => {
+                            console.log(element);
+                            if (element === indexArray[0]) {
+                                caseDestroyed = shipPlacementCase.indexOf(element);
+                                shipPlacementCase.splice(shipPlacementCase.indexOf(element), 1);
+                            }
+                        })
+                    }
+                    console.log("Case destroyed is: " + caseDestroyed)
+                    console.log("Case ShipPlacement: " + shipPlacementCase)
+                    break;
+                case 1:
+                    console.log("1 = radar");
+                    break;
+                case 2:
+                    console.log("2 = torpille");
+                    break;
+                case 3:
+                    console.log("3 = frag");
+                    break;
+                default:
+                    break;
+            }
+            //socket.emit("onFireReply")
+            playerIndex = 0;
+        },
 
 
 
@@ -174,10 +288,11 @@ let gameManager = (function () {
             let target = event.target;
             let index = parseInt(target.getAttribute("data"));
             let remainingAmount = gameManager.getRemainingItems()[index];
-            if(remainingAmount !== undefined && remainingAmount === 0){
+            gameManager.clearFireCasePreview();
+            if (remainingAmount !== undefined && remainingAmount === 0) {
                 target.classList.add("item__unavailable");
             } else {
-                if(previousItem === undefined){
+                if (previousItem === undefined) {
                     previousItem = target;
                     target.classList.add("item__selected");
                     selectedItem = index;
