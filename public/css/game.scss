@@ -119,9 +119,12 @@ main {
       background-color: indianred;
 
       div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
         border: 1px solid hsla(0, 0%, 100%, .2);
-        text-align: center;
+        font-size: var(--fs-l);
       }
     }
   }

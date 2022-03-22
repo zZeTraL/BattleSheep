@@ -54,13 +54,13 @@ let gameManager = (function () {
      *           ça n'impact en aucun cas la game car la grille du joueur et de l'ennemi sont sauvegardées
      *           dans des variables inaccessibles
      */
-    function noBypass(){
+    function noBypass() {
         // if I have the time, I'll do it
     }
 
     return {
         // Initialisation
-        init(){
+        init() {
             this.createBoard(yourBoard, savedSquareDiv);
             this.createBoard(enemyBoard, savedEnemySquareDiv);
             console.log("Game has been initialized successfully!");
@@ -85,9 +85,9 @@ let gameManager = (function () {
         setEnemyReadyState: (bool) => isEnemyReady = bool,
 
         // Méthodes
-        createBoard(whichBoard, array){
+        createBoard(whichBoard, array) {
             // On commence à 1 car le childNodes de notre grille commence à l'index 0 avec un type text et non une div
-            for (let i = 1; i <= width * width ; i++) {
+            for (let i = 1; i <= width * width; i++) {
                 let div = document.createElement("div");
                 div.setAttribute("data", i.toString());
                 whichBoard.appendChild(div);
@@ -95,8 +95,8 @@ let gameManager = (function () {
             }
         },
 
-        clearPreview(){
-            if(previewShipPlacement.length !== 0){
+        clearPreview() {
+            if (previewShipPlacement.length !== 0) {
                 for (let i = 0; i < previewShipPlacement.length; i++) {
                     yourBoard.childNodes[(previewShipPlacement[i].toString())].classList.toggle("placement__preview");
                 }
@@ -104,17 +104,17 @@ let gameManager = (function () {
             }
         },
 
-        clearFireCasePreview(){
+        clearFireCasePreview() {
             for (const element of enemyBoard.childNodes) {
                 element.textContent = "";
             }
             previewFireCase = [];
         },
 
-        updateSelectItem(){
+        updateSelectItem() {
             for (const element of itemContainer) {
                 let index = parseInt(element.getAttribute("data"));
-                if(remainingItems[index] === 0){
+                if (remainingItems[index] === 0) {
                     element.classList.add("item__unavailable");
                 }
             }
@@ -123,13 +123,13 @@ let gameManager = (function () {
             previousItem = itemContainer[0];
         },
 
-        isShipAlreadyPlace(caseIndex){
-            if(draggedShipLength === undefined) return false;
+        isShipAlreadyPlace(caseIndex) {
+            if (draggedShipLength === undefined) return false;
             let isShipAlreadyPlacedHere = false;
-            if(!rotate){
+            if (!rotate) {
                 for (let i = 0; i < draggedShipLength; i++) {
                     let tmp = parseInt(caseIndex) + i;
-                    if(shipPlacementCase.includes(parseInt(yourBoard.childNodes[tmp.toString()].getAttribute("data")))){
+                    if (shipPlacementCase.includes(parseInt(yourBoard.childNodes[tmp.toString()].getAttribute("data")))) {
                         isShipAlreadyPlacedHere = true;
                         break;
                     }
@@ -137,7 +137,7 @@ let gameManager = (function () {
             } else {
                 for (let i = 0, j = 0; j < draggedShipLength; i -= 10, j++) {
                     let tmp = parseInt(caseIndex) + i;
-                    if(shipPlacementCase.includes(parseInt(yourBoard.childNodes[tmp.toString()].getAttribute("data")))){
+                    if (shipPlacementCase.includes(parseInt(yourBoard.childNodes[tmp.toString()].getAttribute("data")))) {
                         isShipAlreadyPlacedHere = true;
                         break;
                     }
@@ -146,21 +146,21 @@ let gameManager = (function () {
             return isShipAlreadyPlacedHere;
         },
 
-        fireCasePreview(event){
+        fireCasePreview(event) {
             // On vérifie la partie est lancée
-            if(!gameStarted){
+            if (!gameStarted) {
                 let target = event.target;
                 let index = parseInt(target.getAttribute("data"));
                 // On vérifie que c'est au tour du joueur
-                if(playerIndex === 0) {
+                if (playerIndex === 0) {
                     gameManager.clearFireCasePreview();
-                    if(selectedItem !== undefined) {
-                        switch (selectedItem){
+                    if (selectedItem !== undefined) {
+                        switch (selectedItem) {
                             case 0:
                                 previewFireCase.push(index);
                                 break;
                             case 1:
-                                if(!notAllowedCaseRadar.includes(index)){
+                                if (!notAllowedCaseRadar.includes(index)) {
                                     previewFireCase.push(index);
                                     previewFireCase.push(index + 1);
                                     previewFireCase.push(index - 1);
@@ -173,9 +173,10 @@ let gameManager = (function () {
                                 }
                                 break;
                             case 2:
+                                previewFireCase.push(index);
                                 break;
                             case 3:
-                                if(!notAllowedCaseRadar.includes(index)){
+                                if (!notAllowedCaseRadar.includes(index)) {
                                     previewFireCase.push(index);
                                     previewFireCase.push(index + 1);
                                     previewFireCase.push(index - 1);
@@ -187,7 +188,7 @@ let gameManager = (function () {
                                 break;
                         }
                         console.log("(previewFireCase) preview case: " + previewFireCase);
-                        if(previewFireCase.length !== 0){
+                        if (previewFireCase.length !== 0) {
                             for (let i = 0; i < previewFireCase.length; i++) {
                                 enemyBoard.childNodes[(previewFireCase[i]).toString()].textContent = "X";
                             }
@@ -201,39 +202,50 @@ let gameManager = (function () {
             }
         },
 
-        startGame(){
+        startGame() {
             shipPlacementContainer.style.display = "none";
             gameStarted = true;
-            if(playerIndex === 0){
+            if (playerIndex === 0) {
                 console.log("your go")
             } else {
                 console.log("enemy go")
             }
         },
 
-        checkWin(){
-          if(shipPlacementCase.length === 0){
-              console.log("ENEMY IS THE WINNER!!!")
-          }
+        checkWin() {
+            if (shipPlacementCase.length === 0) {
+                console.log("ENEMY IS THE WINNER!!!")
+            }
         },
 
-        fireThisCase(){
+        fireThisCase() {
             // Si la partie est commencée
-            if(!gameStarted){
+            if (!gameStarted) {
                 // On vérifie que c'est au tour du joueur
-                if(playerIndex !== 0){
+                if (playerIndex !== 0) {
                     console.log("(FireThisCase) Not your go!")
                 } else {
                     // Si c'est le tour du joueur, on vérifie qu'il a sélectionné une arme
-                    if(selectedItem !== undefined){
+                    if (selectedItem !== undefined) {
+
+                        // On vérifie si la case n'a pas été détruite
+                        for (let i = 0; i < previewFireCase.length; i++) {
+                            let tmp = enemyBoard.childNodes[previewFireCase[i].toString()].getAttribute("class");
+                            if (tmp === "boatPartSunken" || tmp === "caseFired") {
+                                previewFireCase.splice(i, 1);
+                            }
+                        }
+
+                        console.log(previewFireCase)
+
                         // On vérifie qu'il a bien sélectionné une case sur la quelle l'arme va tirer
-                        if(previewFireCase.length !== 0) {
+                        if (previewFireCase.length !== 0) {
                             // On envoie une requête au serveur qui se charger de transmettre les données à l'ennemi
                             // En gros, on transmet des données telles que : les cases touchées par notre arme (previewFireCase) et l'arme utilisée
                             socket.emit("fireCase", previewFireCase, selectedItem);
 
                             // Si l'arme n'est pas une rocket (car nombre d'utilisations illimitées) on réduit de 1 le nombre d'utilisations restantes
-                            if(remainingItems[selectedItem] !== undefined){
+                            if (remainingItems[selectedItem] !== undefined) {
                                 // On retire une utilisation à l'objet
                                 remainingItems[selectedItem] -= 1;
                                 // On update l'afficheur pour sélectionner les arme i.e. la couleur de sélection verte passe au rouge si l'arme ne peut plus être utilisée
@@ -246,7 +258,7 @@ let gameManager = (function () {
                             // On passe son tour
                             playerIndex = 1;
                         } else {
-                            console.log("(FireThisCase) Please, select a case to fire!")
+                            console.log("(FireThisCase) Please, select an available case to fire!")
                         }
                     } else {
                         console.log("(FireThisCase) Please, select an item!")
@@ -255,7 +267,8 @@ let gameManager = (function () {
             }
         },
 
-        onFireReceive(indexArray, item){
+        // Pour vous
+        onFireReceive(indexArray, item) {
             // DEBUG
             console.log("(onFireReceive) IndexArray: " + indexArray);
 
@@ -263,43 +276,48 @@ let gameManager = (function () {
             let boatPartSunken = [];
             let caseDestroyed = []
 
-            // Si l'item n'est pas le radar car celui à un effet différent comparé à toute les armes
-            if(item !== 1){
-                // On vérifie que la case ciblée par le missile est une case contenant une partie de bateau (qui possède la classe représentant ça couleur)
-                for (let i = 0; i < indexArray.length; i++) {
-                    let classList = yourBoardChildNodes[indexArray[i].toString()].getAttribute("class");
-                    if(classList === null){
-                        yourBoardChildNodes[indexArray[i].toString()].classList.add("caseFired");
-                        caseDestroyed.push(indexArray[i])
-                    } else {
-                        classList = classList.split(" ");
-                        for (let j = 0; j < classList.length; j++) {
-                            if (shipClass.includes(classList[j])) {
-                                yourBoardChildNodes[indexArray[i].toString()].classList.add("boatPartSunken");
+            switch (item) {
+                case 0:
+                    let tmpClassList = gameManager.classListIntoArray(yourBoardChildNodes[indexArray[0]]);
+                    if(tmpClassList.length !== 0){
+                        for (let i = 0; i < tmpClassList.length; i++) {
+                            if (shipClass.includes(tmpClassList[i])) {
+                                // On retire toutes les classes
+                                yourBoardChildNodes[indexArray[0]].removeAttribute("class");
+                                // On affiche que la case a été détruite
+                                yourBoardChildNodes[indexArray[0]].classList.add("boatPartSunken");
+                                // On vient la supprimer de notre
                                 shipPlacementCase.filter((element) => {
-                                    if (element === indexArray[i]) {
-                                        // On retire la case
+                                    if (element === indexArray[0]) {
                                         shipPlacementCase.splice(shipPlacementCase.indexOf(element), 1);
-                                        boatPartSunken.push(indexArray[i]);
                                     }
                                 })
-                            } else {
-                                if(classList[j] !== "opacity" && classList[j] !== "contrast"){
-                                    yourBoardChildNodes[indexArray[i].toString()].classList.add("caseFired");
-                                    caseDestroyed.push(indexArray[i])
-                                }
+                                boatPartSunken.push(indexArray[0]);
                             }
                         }
+                    } else {
+                        // On affiche que la case a été détruite
+                        yourBoardChildNodes[indexArray[0]].removeAttribute("class");
+                        yourBoardChildNodes[indexArray[0]].classList.add("caseFired");
+                        caseDestroyed.push(indexArray[0]);
                     }
-                }
-            } else {
-                for (let i = 0; i < indexArray.length; i++) {
-                    if (shipClass.includes(yourBoardChildNodes[indexArray[i].toString()].getAttribute("class"))) {
-                        boatPartSunken.push(indexArray[i]);
+                    console.log(tmpClassList);
+                    break;
+                case 1:
+                    for (let i = 0; i < indexArray.length; i++) {
+                        let tmpClassList = gameManager.classListIntoArray(yourBoardChildNodes[indexArray[i]])
+                        for (let j = 0; j < tmpClassList.length; j++) {
+                            if (shipClass.includes(tmpClassList[j])) {
+                                // On affiche indique au joueur par une reduction de l'opacité que la case vient d'être révélée
+                                yourBoardChildNodes[indexArray[i]].classList.add("opacity");
+                                boatPartSunken.push(indexArray[i]);
+                            }
+                        }
+                        console.log(tmpClassList)
                     }
-                    yourBoardChildNodes[indexArray[i].toString()].classList.add("opacity");
-                }
-                console.log("Case révélées: " + boatPartSunken);
+                    break;
+                default:
+                    break;
             }
 
             gameManager.checkWin();
@@ -307,16 +325,22 @@ let gameManager = (function () {
             playerIndex = 0;
         },
 
+        classListIntoArray(element) {
+            let classToArray = [];
+            element.classList.forEach((element) => { classToArray.push(element); })
+            return classToArray;
+        },
 
-
-        onFireReply(boatPartSunken, caseDestroyed, item){
+        // Pour l'ennemi
+        onFireReply(boatPartSunken, caseDestroyed, item) {
             // DEBUG
             console.log("(onFireReply) Case(s) contenant un/des parties de bateau(x): " + boatPartSunken);
             console.log("(onFireReply) Case(s) détruite(s): " + caseDestroyed);
 
-            if(item !== 1){
+            if (item !== 1) {
                 if (boatPartSunken.length !== 0) {
                     for (let i = 0; i < boatPartSunken.length; i++) {
+                        enemyBoard.childNodes[boatPartSunken[i].toString()].removeAttribute("class");
                         enemyBoard.childNodes[boatPartSunken[i].toString()].classList.add("boatPartSunken");
                     }
                 }
@@ -335,14 +359,8 @@ let gameManager = (function () {
         },
 
 
-
-
-
-
-
-
         // Listeners
-        selectItem(event){
+        selectItem(event) {
             let target = event.target;
             let index = parseInt(target.getAttribute("data"));
             let remainingAmount = gameManager.getRemainingItems()[index];
@@ -363,7 +381,7 @@ let gameManager = (function () {
             }
         },
 
-        dragStart(){
+        dragStart() {
             gameManager.clearPreview();
             console.log("You grab your target!!")
             draggedShip = this;
@@ -372,15 +390,13 @@ let gameManager = (function () {
             console.log(draggedShipLength);
         },
 
-        dragOver(event){
-            event.preventDefault();
-        },
+        dragOver(event) { event.preventDefault(); },
 
-        dragEnter(event){
-            setTimeout(function(){
+        dragEnter(event) {
+            setTimeout(function () {
                 let target = event.target;
                 let caseIndex = target.getAttribute("data");
-                if(!rotate){
+                if (!rotate) {
                     for (let i = 0; i < draggedShipLength; i++) {
                         let tmp = parseInt(caseIndex) + i;
                         yourBoard.childNodes[tmp.toString()].classList.toggle("placement__preview");
@@ -394,26 +410,23 @@ let gameManager = (function () {
                     }
                 }
                 console.log("dragEnter [" + previewShipPlacement + "]")
-            },2)
+            }, 2)
         },
 
-        dragLeave(){
-            gameManager.clearPreview();
-            console.log("drag leave!!")
-        },
+        dragLeave() { gameManager.clearPreview(); },
 
-        drop(event){
+        drop(event) {
             event.preventDefault();
             let droppedItem = event.target;
             try {
                 //console.log(yourBoard.childNodes)
-                if(draggedShip.getAttribute("class").includes("ship")) {
+                if (draggedShip.getAttribute("class").includes("ship")) {
                     let caseIndex = droppedItem.getAttribute("data");
                     let whichColor = shipData[draggedShip.getAttribute("data")].visualization;
                     // On check si un bateau est déjà placé dans les cases
                     console.log(gameManager.isShipAlreadyPlace(caseIndex))
-                    if(!gameManager.isShipAlreadyPlace(caseIndex)){
-                        if(!rotate){
+                    if (!gameManager.isShipAlreadyPlace(caseIndex)) {
+                        if (!rotate) {
                             for (let i = 0; i < draggedShipLength; i++) {
                                 let tmp = parseInt(caseIndex) + i;
                                 yourBoard.childNodes[tmp.toString()].classList.add(whichColor);
@@ -439,12 +452,12 @@ let gameManager = (function () {
                     console.log(shipPlacementCase);
                 }
                 gameManager.clearPreview();
-            } catch(error){
+            } catch (error) {
                 console.log(error);
             }
         },
 
-        dragEnd(){
+        dragEnd() {
             draggedShip = undefined;
             draggedShipLength = undefined;
             gameManager.clearPreview();

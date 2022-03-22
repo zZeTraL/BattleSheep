@@ -93,9 +93,12 @@ main {
   background-color: indianred;
 }
 .game__container .game__boards .enemy__board div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  text-align: center;
+  font-size: var(--fs-l);
 }
 .game__container .place__ship__container {
   width: 95%;
