@@ -73,6 +73,7 @@ let gameManager = (function () {
         getSavedEnemySquare: () => savedEnemySquareDiv,
         getAllShip: () => ships,
         getPlacementPreview: () => previewShipPlacement,
+        getShipPlacement: () => shipPlacementCase,
         getRotateState: () => rotate,
         getReadyState: () => isYouReady,
         isAllShipArePlaced: () => shipPlacementCase.length === playerReadyWhen,
@@ -210,6 +211,12 @@ let gameManager = (function () {
             }
         },
 
+        checkWin(){
+          if(shipPlacementCase.length === 0){
+              console.log("ENEMY IS THE WINNER!!!")
+          }
+        },
+
         fireThisCase(){
             // Si la partie est commencée
             if(!gameStarted){
@@ -277,8 +284,10 @@ let gameManager = (function () {
                                     }
                                 })
                             } else {
-                                yourBoardChildNodes[indexArray[i].toString()].classList.add("caseFired");
-                                caseDestroyed.push(indexArray[i])
+                                if(classList[j] !== "opacity" && classList[j] !== "contrast"){
+                                    yourBoardChildNodes[indexArray[i].toString()].classList.add("caseFired");
+                                    caseDestroyed.push(indexArray[i])
+                                }
                             }
                         }
                     }
@@ -292,6 +301,8 @@ let gameManager = (function () {
                 }
                 console.log("Case révélées: " + boatPartSunken);
             }
+
+            gameManager.checkWin();
             socket.emit("fireReply", boatPartSunken, caseDestroyed, item);
             playerIndex = 0;
         },

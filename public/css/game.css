@@ -294,7 +294,7 @@ main {
 }
 
 .contrast {
-  filter: contrast(5);
+  background-color: #C54444;
 }
 
 /*# sourceMappingURL=game.css.map */
