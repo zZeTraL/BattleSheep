@@ -37,12 +37,12 @@ let socketManager = (function () {
         gameManager.startGame();
     })
 
-    socket.on("onFireReceive", (index, item) => {
-        gameManager.onFireReceive(index, item);
+    socket.on("onFireReceive", (indexArray, item) => {
+        gameManager.onFireReceive(indexArray, item);
     })
 
-    socket.once("onFireReply", index => {
-        gameManager.onFireReply();
+    socket.on("onFireReply", (boatPartSunken, caseDestroyed, item) => {
+        gameManager.onFireReply(boatPartSunken, caseDestroyed, item);
     })
 
 

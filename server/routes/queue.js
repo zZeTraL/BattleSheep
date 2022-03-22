@@ -164,9 +164,17 @@ io.on("connection", (socket) => {
     })
 
     socket.on("fireCase", (index, item) => {
-        console.log("Index: " + index);
+        // DEBUG
+        console.log("Case ciblée par le joueur: " + index);
+        // On envoie une réponse à cette requête en n'incluant pas celui qui est à l'origine du tir
         socket.broadcast.emit("onFireReceive", index, item);
     })
+
+    socket.on("fireReply", (boatPartSunken, caseDestroyed, item) => {
+        // On envoie une réponse à cette requête en n'incluant pas celui qui est à l'origine
+        socket.broadcast.emit("onFireReply", boatPartSunken, caseDestroyed, item);
+    })
+
 
     // Met à jour la file d'attente lorsqu'un utilisateur quitte la page
     socket.on("disconnect", () => {

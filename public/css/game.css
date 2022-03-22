@@ -281,8 +281,20 @@ main {
   border-radius: 15px;
 }
 
+.boatPartSunken {
+  background-color: #2d3436 !important;
+}
+
 .caseFired {
-  background-color: rebeccapurple !important;
+  background-color: #636e72 !important;
+}
+
+.opacity {
+  opacity: 0.2;
+}
+
+.contrast {
+  filter: contrast(5);
 }
 
 /*# sourceMappingURL=game.css.map */
