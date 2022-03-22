@@ -204,6 +204,12 @@ main {
       .item__title {
         margin-bottom: 25px;
 
+        pre {
+          text-align: center;
+          font-size: var(--fs-m);
+          color: white;
+        }
+
         h2 {
           padding: 0;
           margin: 0;

@@ -18,6 +18,7 @@ let gameManager = (function () {
     let gameStarted = false;
 
     let ships = document.querySelectorAll(".ship");
+    let fireOutput = document.getElementById("fireOutput");
 
     let draggedShip = undefined;
     let draggedShipLength = undefined;
@@ -206,9 +207,9 @@ let gameManager = (function () {
             shipPlacementContainer.style.display = "none";
             gameStarted = true;
             if (playerIndex === 0) {
-                console.log("your go")
+                fireOutput.textContent = "Your go!"
             } else {
-                console.log("enemy go")
+                fireOutput.textContent = "Enemy go!"
             }
         },
 
@@ -218,6 +219,9 @@ let gameManager = (function () {
             }
         },
 
+        /**
+         * Fonction exécutée lorsque l'on clique sur le bouton fire quand c'est son tour
+         */
         fireThisCase() {
             // Si la partie est commencée
             if (!gameStarted) {
@@ -228,7 +232,7 @@ let gameManager = (function () {
                     // Si c'est le tour du joueur, on vérifie qu'il a sélectionné une arme
                     if (selectedItem !== undefined) {
 
-                        // On vérifie si la case n'a pas été détruite
+                        // On vérifie si la case n'a pas déjà été détruite
                         for (let i = 0; i < previewFireCase.length; i++) {
                             let tmp = enemyBoard.childNodes[previewFireCase[i].toString()].getAttribute("class");
                             if (tmp === "boatPartSunken" || tmp === "caseFired") {
@@ -236,6 +240,7 @@ let gameManager = (function () {
                             }
                         }
 
+                        // DEBUG
                         console.log(previewFireCase)
 
                         // On vérifie qu'il a bien sélectionné une case sur la quelle l'arme va tirer
@@ -256,11 +261,14 @@ let gameManager = (function () {
                             gameManager.clearFireCasePreview();
 
                             // On passe son tour
+                            fireOutput.textContent = "Enemy go!"
                             playerIndex = 1;
                         } else {
+                            // DEBUG
                             console.log("(FireThisCase) Please, select an available case to fire!")
                         }
                     } else {
+                        // DEBUG
                         console.log("(FireThisCase) Please, select an item!")
                     }
                 }
@@ -272,26 +280,34 @@ let gameManager = (function () {
             // DEBUG
             console.log("(onFireReceive) IndexArray: " + indexArray);
 
+            // Déclaration de variables pour simplifier le code / le rendre plus lisible
             let yourBoardChildNodes = yourBoard.childNodes;
             let boatPartSunken = [];
             let caseDestroyed = [];
 
+            // Switch en fonction de l'item choisit
             switch (item) {
+                // Arme: missile classique0
                 case 0:
+                    // On stocke la liste des classes que la case ciblée possède
                     let tmpClassList = gameManager.classListIntoArray(yourBoardChildNodes[indexArray[0]]);
+                    // Si cette liste de classe n'est pas vide
                     if(tmpClassList.length !== 0){
+                        // On boucle est on regarde si une des classes correspondent à une classe que doit posséder un bateau
                         for (let i = 0; i < tmpClassList.length; i++) {
                             if (shipClass.includes(tmpClassList[i])) {
-                                // On retire toutes les classes
+                                // On retire toutes les classes de la case ciblée
                                 yourBoardChildNodes[indexArray[0]].removeAttribute("class");
-                                // On affiche que la case a été détruite
+                                // On affiche que la case qui contenait une partie du bateau a été détruite
                                 yourBoardChildNodes[indexArray[0]].classList.add("boatPartSunken");
-                                // On vient la supprimer de notre
+                                // On vient donc ainsi retirer cette case de la liste des cases qui compose l'ensemble des positions où un bateau est présent
                                 shipPlacementCase.filter((element) => {
                                     if (element === indexArray[0]) {
                                         shipPlacementCase.splice(shipPlacementCase.indexOf(element), 1);
                                     }
                                 })
+                                // On ajoute la case ciblée dans la liste des parties des bateaux détruites
+                                // Sert à ce que l'ennemi puisse voir qu'il vient de détruire une case contenant une partie de bateau
                                 boatPartSunken.push(indexArray[0]);
                             }
                         }
@@ -351,6 +367,8 @@ let gameManager = (function () {
 
             gameManager.checkWin();
             socket.emit("fireReply", boatPartSunken, caseDestroyed, item);
+
+            fireOutput.textContent = "Your go!"
             playerIndex = 0;
         },
 
