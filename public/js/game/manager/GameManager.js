@@ -274,7 +274,7 @@ let gameManager = (function () {
 
             let yourBoardChildNodes = yourBoard.childNodes;
             let boatPartSunken = [];
-            let caseDestroyed = []
+            let caseDestroyed = [];
 
             switch (item) {
                 case 0:
@@ -305,7 +305,7 @@ let gameManager = (function () {
                     break;
                 case 1:
                     for (let i = 0; i < indexArray.length; i++) {
-                        let tmpClassList = gameManager.classListIntoArray(yourBoardChildNodes[indexArray[i]])
+                        let tmpClassList = gameManager.classListIntoArray(yourBoardChildNodes[indexArray[i]]);
                         for (let j = 0; j < tmpClassList.length; j++) {
                             if (shipClass.includes(tmpClassList[j])) {
                                 // On affiche indique au joueur par une reduction de l'opacité que la case vient d'être révélée
@@ -314,6 +314,35 @@ let gameManager = (function () {
                             }
                         }
                         console.log(tmpClassList)
+                    }
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    for (let i = 0; i < indexArray.length; i++) {
+                        let tmpClassList = gameManager.classListIntoArray(yourBoardChildNodes[indexArray[i]]);
+                        if(tmpClassList.length !== 0){
+                            for (let j = 0; j < tmpClassList.length; j++) {
+                                if (shipClass.includes(tmpClassList[j])) {
+                                    // On retire toutes les classes
+                                    yourBoardChildNodes[indexArray[i]].removeAttribute("class");
+                                    // On affiche que la case a été détruite
+                                    yourBoardChildNodes[indexArray[i]].classList.add("boatPartSunken");
+                                    // On vient la supprimer de notre
+                                    shipPlacementCase.filter((element) => {
+                                        if (element === indexArray[i]) {
+                                            shipPlacementCase.splice(shipPlacementCase.indexOf(element), 1);
+                                        }
+                                    })
+                                    boatPartSunken.push(indexArray[i]);
+                                }
+                            }
+                        } else {
+                            // On affiche que la case a été détruite
+                            yourBoardChildNodes[indexArray[i]].removeAttribute("class");
+                            yourBoardChildNodes[indexArray[i]].classList.add("caseFired");
+                            caseDestroyed.push(indexArray[i]);
+                        }
                     }
                     break;
                 default:
