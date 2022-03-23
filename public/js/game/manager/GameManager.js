@@ -5,23 +5,22 @@ let gameManager = (function () {
         playerIndex = index;
     })
 
-    // Déclaration des constantes
-    // Nombre de bateaux nécessaire pour commencer être ready
+    // Nombre de bateaux nécessaire pour être ready
     const playerReadyWhen = 17;
 
     // Déclaration des variables utilisées pour notre jeu
     let width = 10;
     let playerIndex = 0;
-    let rotate = false;
-    let isEnemyReady = false;
     let isYouReady = false;
     let gameStarted = false;
 
-    let ships = document.querySelectorAll(".ship");
-    let fireOutput = document.getElementById("fireOutput");
 
-    let draggedShip = undefined;
-    let draggedShipLength = undefined;
+
+    // Statistiques (nombre de tirs / nombre de bateaux coulés)
+    let amountOfFire = 0;
+    let amountOfBoatPartSunken = 0;
+
+
 
     // Saves
     let savedSquareDiv = []
@@ -31,6 +30,8 @@ let gameManager = (function () {
     let selectedItem = undefined;
     let previousItem = undefined;
 
+
+
     // Utilitaires
     let previewFireCase = [];
     let previewShipPlacement = [];
@@ -39,13 +40,32 @@ let gameManager = (function () {
     const notAllowedCaseRadar = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 20, 21, 30, 31, 40, 41, 50, 51, 60, 61, 70, 71, 80, 81, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100];
     const notAllowedCasePlacement = [];
 
-    // Déclaration des div
+
+
+    // HTML Elements
+    let ships = document.querySelectorAll(".ship");
+    let fireOutput = document.getElementById("fireOutput");
+
+    let gameBoards = document.getElementById("gameBoards");
     let yourBoard = document.getElementById("yourBoard");
     let enemyBoard = document.getElementById("enemyBoard");
-    let shipPlacementContainer = document.getElementById("shipContainer");
+
+    let itemsContainer = document.getElementById("itemContainer");
+    let shipContainer = document.getElementById("shipContainer");
     let itemContainer = document.querySelectorAll(".item");
+    let shipPlacementContainer = document.getElementById("shipContainer");
+
+
+
+
+    // Drag section
+    let draggedShip = undefined;
+    let draggedShipLength = undefined;
+
+
 
     // DEBUG SECTION
+    let rotate = false;
     let youReadySpan = document.getElementById("youReady");
     let enemyReadySpan = document.getElementById("enemyReady");
 
@@ -83,7 +103,6 @@ let gameManager = (function () {
         // Setters
         toggleRotate: () => rotate = !rotate,
         setReadyState: (bool) => isYouReady = bool,
-        setEnemyReadyState: (bool) => isEnemyReady = bool,
 
         // Méthodes
         createBoard(whichBoard, array) {
@@ -194,11 +213,14 @@ let gameManager = (function () {
                                 enemyBoard.childNodes[(previewFireCase[i]).toString()].textContent = "X";
                             }
                         }
+                        fireOutput.textContent = "Ready?"
                     } else {
-                        console.log("(previewFireCase) Please, select an item to select a case!");
+                        console.log("(previewFireCase) Please, select an item!");
+                        fireOutput.textContent = "Please, select an item!"
                     }
                 } else {
-                    console.log("(previewFireCase) Not your go!")
+                    //console.log("(previewFireCase) Not your go!")
+                    fireOutput.textContent = "Enemy go!"
                 }
             }
         },
@@ -208,14 +230,26 @@ let gameManager = (function () {
             gameStarted = true;
             if (playerIndex === 0) {
                 fireOutput.textContent = "Your go!"
-            } else {
+            } else {e
                 fireOutput.textContent = "Enemy go!"
             }
         },
 
+        finishGame(enemyAmountOfFire, enemyAmountOfBoatPartSunken){
+            console.log("YOU WIN!!!")
+            gameBoards.remove();
+            shipContainer.remove();
+            itemsContainer.remove();
+            console.log(enemyAmountOfFire);
+            console.log(enemyAmountOfBoatPartSunken)
+        },
+
         checkWin() {
             if (shipPlacementCase.length === 0) {
-                console.log("ENEMY IS THE WINNER!!!")
+                socket.emit("winnerFound", amountOfFire, amountOfBoatPartSunken);
+                gameBoards.remove();
+                shipContainer.remove();
+                itemsContainer.remove();
             }
         },
 
@@ -228,6 +262,7 @@ let gameManager = (function () {
                 // On vérifie que c'est au tour du joueur
                 if (playerIndex !== 0) {
                     console.log("(FireThisCase) Not your go!")
+                    fireOutput.textContent = "Enemy go!"
                 } else {
                     // Si c'est le tour du joueur, on vérifie qu'il a sélectionné une arme
                     if (selectedItem !== undefined) {
@@ -265,11 +300,15 @@ let gameManager = (function () {
                             playerIndex = 1;
                         } else {
                             // DEBUG
-                            console.log("(FireThisCase) Please, select an available case to fire!")
+                            //console.log("(FireThisCase) Please, select an available case to fire!")
+                            let currentValue = fireOutput.textContent;
+                            fireOutput.textContent = "Please, select an available case!"
                         }
                     } else {
                         // DEBUG
-                        console.log("(FireThisCase) Please, select an item!")
+                        //console.log("(FireThisCase) Please, select an item!")
+                        let currentValue = fireOutput.textContent;
+                        fireOutput.textContent = "Please, select an item!"
                     }
                 }
             }
@@ -312,49 +351,59 @@ let gameManager = (function () {
                             }
                         }
                     } else {
-                        // On affiche que la case a été détruite
+                        // On affiche que la case a été détruite mais ne contenait pas une partie de bateau
                         yourBoardChildNodes[indexArray[0]].removeAttribute("class");
                         yourBoardChildNodes[indexArray[0]].classList.add("caseFired");
                         caseDestroyed.push(indexArray[0]);
                     }
-                    console.log(tmpClassList);
+                    // DEBUG
+                    //console.log("(onFireReceive #Missile)" + tmpClassList)
                     break;
+
+                // Utilitaire: radar, affiche si un bateau est présent dans cases autour de la case ciblée
                 case 1:
                     for (let i = 0; i < indexArray.length; i++) {
                         let tmpClassList = gameManager.classListIntoArray(yourBoardChildNodes[indexArray[i]]);
                         for (let j = 0; j < tmpClassList.length; j++) {
                             if (shipClass.includes(tmpClassList[j])) {
-                                // On affiche indique au joueur par une reduction de l'opacité que la case vient d'être révélée
+                                // On affiche indique au joueur par une réduction de l'opacité que la case vient d'être révélée
                                 yourBoardChildNodes[indexArray[i]].classList.add("opacity");
                                 boatPartSunken.push(indexArray[i]);
                             }
                         }
-                        console.log(tmpClassList)
+                        // DEBUG
+                        //console.log("(onFireReceive #Radar)" + tmpClassList)
                     }
                     break;
+
+                // Arme: Torpille
                 case 2:
                     break;
+
+                // Arme: Missile à fragmentation
                 case 3:
                     for (let i = 0; i < indexArray.length; i++) {
                         let tmpClassList = gameManager.classListIntoArray(yourBoardChildNodes[indexArray[i]]);
                         if(tmpClassList.length !== 0){
                             for (let j = 0; j < tmpClassList.length; j++) {
                                 if (shipClass.includes(tmpClassList[j])) {
-                                    // On retire toutes les classes
+                                    // On retire toutes les classes de la case ciblée
                                     yourBoardChildNodes[indexArray[i]].removeAttribute("class");
-                                    // On affiche que la case a été détruite
+                                    // On affiche que la case qui contenait une partie du bateau a été détruite
                                     yourBoardChildNodes[indexArray[i]].classList.add("boatPartSunken");
-                                    // On vient la supprimer de notre
+                                    // On vient donc ainsi retirer cette case de la liste des cases qui compose l'ensemble des positions où un bateau est présent
                                     shipPlacementCase.filter((element) => {
                                         if (element === indexArray[i]) {
                                             shipPlacementCase.splice(shipPlacementCase.indexOf(element), 1);
                                         }
                                     })
+                                    // On ajoute la case ciblée dans la liste des parties des bateaux détruites
+                                    // Sert à ce que l'ennemi puisse voir qu'il vient de détruire une case contenant une partie de bateau
                                     boatPartSunken.push(indexArray[i]);
                                 }
                             }
                         } else {
-                            // On affiche que la case a été détruite
+                            // On affiche que la case a été détruite mais ne contenait pas une partie de bateau
                             yourBoardChildNodes[indexArray[i]].removeAttribute("class");
                             yourBoardChildNodes[indexArray[i]].classList.add("caseFired");
                             caseDestroyed.push(indexArray[i]);

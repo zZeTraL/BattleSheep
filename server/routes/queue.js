@@ -175,6 +175,10 @@ io.on("connection", (socket) => {
         socket.broadcast.emit("onFireReply", boatPartSunken, caseDestroyed, item);
     })
 
+    socket.on("winnerFound", () => {
+        socket.broadcast.emit("youWin");
+    })
+
 
     // Met à jour la file d'attente lorsqu'un utilisateur quitte la page
     socket.on("disconnect", () => {
