@@ -45,10 +45,9 @@ let socketManager = (function () {
         gameManager.onFireReply(boatPartSunken, caseDestroyed, item);
     })
 
-    socket.once("youWin", (amountOfFire, amountOfBoatPartSunken) => {
-      gameManager.finishGame(amountOfFire, amountOfBoatPartSunken);
+    socket.once("youWin", () => {
+      gameManager.finishGame();
     })
-
 
 
 

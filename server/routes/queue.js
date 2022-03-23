@@ -175,6 +175,10 @@ io.on("connection", (socket) => {
         socket.broadcast.emit("onFireReply", boatPartSunken, caseDestroyed, item);
     })
 
+    socket.on("sendStatistic", (fireCount, boatSunkenCount) => {
+        socket.broadcast.emit("receiveStatistic", fireCount, boatSunkenCount);
+    })
+
     socket.on("winnerFound", () => {
         socket.broadcast.emit("youWin");
     })

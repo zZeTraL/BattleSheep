@@ -17,8 +17,10 @@ let gameManager = (function () {
 
 
     // Statistiques (nombre de tirs / nombre de bateaux coulés)
-    let amountOfFire = 0;
-    let amountOfBoatPartSunken = 0;
+    let fireCount = 0;
+    let boatSunkenCount = 0;
+    let enemyFireCount = 0;
+    let enemyBoatSunkenCount = 0;
 
 
 
@@ -59,15 +61,23 @@ let gameManager = (function () {
 
 
     // Drag section
+    let rotate = false;
     let draggedShip = undefined;
     let draggedShipLength = undefined;
 
 
 
     // DEBUG SECTION
-    let rotate = false;
+    let debugTable = document.getElementById("debugTable");
     let youReadySpan = document.getElementById("youReady");
     let enemyReadySpan = document.getElementById("enemyReady");
+
+
+    socket.once("receiveStatistic", (eFireCount, eBoatSunkenCount) => {
+        console.log("statistics received")
+        enemyBoatSunkenCount = eBoatSunkenCount;
+        enemyFireCount = eFireCount;
+    })
 
     /**
      * Permet d'éviter que le joueur modifie sa grille (le visuel)
@@ -230,27 +240,44 @@ let gameManager = (function () {
             gameStarted = true;
             if (playerIndex === 0) {
                 fireOutput.textContent = "Your go!"
-            } else {e
+            } else {
                 fireOutput.textContent = "Enemy go!"
             }
         },
 
-        finishGame(enemyAmountOfFire, enemyAmountOfBoatPartSunken){
-            console.log("YOU WIN!!!")
-            gameBoards.remove();
-            shipContainer.remove();
-            itemsContainer.remove();
-            console.log(enemyAmountOfFire);
-            console.log(enemyAmountOfBoatPartSunken)
+        finishGame() {
+            if (playerIndex !== -1) {
+                console.log("You win!!")
+            } else {
+                console.log("You lose!!")
+            }
+
+            socket.emit("sendStatistic", fireCount, boatSunkenCount);
+
+            setTimeout(function(){
+                gameBoards.remove();
+                 shipContainer.remove();
+                itemsContainer.remove();
+                debugTable.remove();
+                console.log("Fire count: " + fireCount);
+                console.log("Boat sunken count: " + boatSunkenCount);
+                console.log("Enemy fire count: " + enemyFireCount);
+                console.log("Enemy boat sunken count: " + enemyBoatSunkenCount)
+            }, 100)
         },
+
+
 
         checkWin() {
             if (shipPlacementCase.length === 0) {
-                socket.emit("winnerFound", amountOfFire, amountOfBoatPartSunken);
-                gameBoards.remove();
-                shipContainer.remove();
-                itemsContainer.remove();
+                playerIndex = -1;
+                fireCount = 100;
+                console.log(playerIndex)
+                socket.emit("winnerFound");
+                gameManager.finishGame();
+                return true;
             }
+            return false;
         },
 
         /**
@@ -414,8 +441,11 @@ let gameManager = (function () {
                     break;
             }
 
-            gameManager.checkWin();
-            socket.emit("fireReply", boatPartSunken, caseDestroyed, item);
+            if(gameManager.checkWin()){
+                return;
+            } else {
+                socket.emit("fireReply", boatPartSunken, caseDestroyed, item);
+            }
 
             fireOutput.textContent = "Your go!"
             playerIndex = 0;
