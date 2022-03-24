@@ -105,7 +105,6 @@ main {
   letter-spacing: 2px;
 }
 .play__container .room__container .right__aside {
-  width: 40%;
   height: inherit;
   display: flex;
   align-items: center;

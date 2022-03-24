@@ -49,6 +49,77 @@ main {
     }
   }
 
+  .game__scoreboard {
+    display: flex;
+    flex-direction: column;
+
+    .scoreboard__title {
+      h2 {
+        padding: 0;
+        margin: 0;
+        font-size: var(--fs-l);
+        color: var(--dark-hx-color);
+        letter-spacing: 0.15rem;
+        text-align: left;
+
+        mark {
+          color: inherit;
+          position: relative;
+          background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
+          background-size: 100% 5px;
+        }
+      }
+    }
+
+    .scoreboard__content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      #scoreboardWinLoose {
+        text-align: center;
+        color: var(--dark-hx-color);
+        font-size: var(--fs-s);
+      }
+
+      .stats {
+        width: 80%;
+        display: flex;
+        justify-content: space-around;
+
+        div {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 15px;
+
+          span {
+            font-size: var(--fs-s);
+            color: var(--dark-span-color);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+          }
+
+          .youSheep, svg {
+            width: 80px;
+            height: auto;
+          }
+
+          .enemySheep {
+            width: 125px;
+            height: auto;
+          }
+
+        }
+      }
+    }
+
+  }
+
   .game__info {
     width: 100%;
     display: flex;
@@ -56,7 +127,10 @@ main {
     gap: 50px;
 
     span {
-      color: white;
+      font-size: var(--fs-s);
+      color: var(--dark-span-color);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
     }
 
     .table__container {
@@ -132,7 +206,7 @@ main {
   .place__ship__container {
     width: 95%;
     padding: 25px;
-    margin: auto;
+    margin: 25px auto 25px auto;
     border-radius: 25px;
     background-color: rgba(0, 0, 0, 0.2);
 
@@ -144,8 +218,18 @@ main {
 
       .ship__title {
         margin-bottom: 25px;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+
+        svg {
+          cursor: pointer;
+          height: 25px;
+          width: 25px;
+        }
 
         h2 {
+          flex-grow: 2;
           padding: 0;
           margin: 0;
           font-size: var(--fs-l);
@@ -175,7 +259,10 @@ main {
           align-items: center;
 
           span {
-            color: white;
+            font-size: var(--fs-s);
+            color: var(--dark-span-color);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
           }
 
         }

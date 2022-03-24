@@ -246,23 +246,31 @@ let gameManager = (function () {
         },
 
         finishGame() {
+            let scoreboardWinLoose = document.getElementById("scoreboardWinLoose");
             if (playerIndex !== -1) {
                 console.log("You win!!")
+                scoreboardWinLoose.textContent = "Great job!! You have won this game!"
+
             } else {
                 console.log("You lose!!")
+                scoreboardWinLoose.textContent = "Maybe next time, you will be more focused!"
             }
 
             socket.emit("sendStatistic", fireCount, boatSunkenCount);
 
             setTimeout(function(){
                 gameBoards.remove();
-                 shipContainer.remove();
+                shipContainer.remove();
                 itemsContainer.remove();
                 debugTable.remove();
                 console.log("Fire count: " + fireCount);
                 console.log("Boat sunken count: " + boatSunkenCount);
                 console.log("Enemy fire count: " + enemyFireCount);
                 console.log("Enemy boat sunken count: " + enemyBoatSunkenCount)
+                document.getElementById("yourScore").textContent = fireCount + "/" + boatSunkenCount;
+                document.getElementById("enemyScore").textContent = enemyFireCount + "/" + enemyBoatSunkenCount;
+                document.getElementById("scoreboard").removeAttribute("class");
+                document.getElementById("scoreboard").classList.add("game__scoreboard");
             }, 100)
         },
 
@@ -271,7 +279,6 @@ let gameManager = (function () {
         checkWin() {
             if (shipPlacementCase.length === 0) {
                 playerIndex = -1;
-                fireCount = 100;
                 console.log(playerIndex)
                 socket.emit("winnerFound");
                 gameManager.finishGame();
@@ -324,6 +331,7 @@ let gameManager = (function () {
 
                             // On passe son tour
                             fireOutput.textContent = "Enemy go!"
+                            fireCount += 1;
                             playerIndex = 1;
                         } else {
                             // DEBUG
@@ -441,11 +449,9 @@ let gameManager = (function () {
                     break;
             }
 
-            if(gameManager.checkWin()){
-                return;
-            } else {
-                socket.emit("fireReply", boatPartSunken, caseDestroyed, item);
-            }
+            socket.emit("fireReply", boatPartSunken, caseDestroyed, item);
+
+            if(gameManager.checkWin()) return;
 
             fireOutput.textContent = "Your go!"
             playerIndex = 0;
@@ -458,27 +464,28 @@ let gameManager = (function () {
         },
 
         // Pour l'ennemi
-        onFireReply(boatPartSunken, caseDestroyed, item) {
+        onFireReply(boatPartSunkenArray, caseDestroyedArray, item) {
             // DEBUG
-            console.log("(onFireReply) Case(s) contenant un/des parties de bateau(x): " + boatPartSunken);
-            console.log("(onFireReply) Case(s) détruite(s): " + caseDestroyed);
+            console.log("(onFireReply) Case(s) contenant un/des parties de bateau(x): " + boatPartSunkenArray);
+            console.log("(onFireReply) Case(s) détruite(s): " + caseDestroyedArray);
 
             if (item !== 1) {
-                if (boatPartSunken.length !== 0) {
-                    for (let i = 0; i < boatPartSunken.length; i++) {
-                        enemyBoard.childNodes[boatPartSunken[i].toString()].removeAttribute("class");
-                        enemyBoard.childNodes[boatPartSunken[i].toString()].classList.add("boatPartSunken");
+                if (boatPartSunkenArray.length !== 0) {
+                    for (let i = 0; i < boatPartSunkenArray.length; i++) {
+                        enemyBoard.childNodes[boatPartSunkenArray[i].toString()].removeAttribute("class");
+                        enemyBoard.childNodes[boatPartSunkenArray[i].toString()].classList.add("boatPartSunken");
                     }
+                    boatSunkenCount += boatPartSunkenArray.length;
                 }
 
-                if (caseDestroyed.length !== 0) {
-                    for (let i = 0; i < caseDestroyed.length; i++) {
-                        enemyBoard.childNodes[caseDestroyed[i].toString()].classList.add("caseFired");
+                if (caseDestroyedArray.length !== 0) {
+                    for (let i = 0; i < caseDestroyedArray.length; i++) {
+                        enemyBoard.childNodes[caseDestroyedArray[i].toString()].classList.add("caseFired");
                     }
                 }
             } else {
-                for (let i = 0; i < boatPartSunken.length; i++) {
-                    enemyBoard.childNodes[boatPartSunken[i].toString()].classList.add("contrast");
+                for (let i = 0; i < boatPartSunkenArray.length; i++) {
+                    enemyBoard.childNodes[boatPartSunkenArray[i].toString()].classList.add("contrast");
                 }
             }
 

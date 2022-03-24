@@ -54,7 +54,7 @@ let socketManager = (function () {
 
 
     socket.once("leaveRoom", () => {
-        window.location = "/";
+        window.location = "/play";
     })
 
     return {

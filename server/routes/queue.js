@@ -161,6 +161,7 @@ io.on("connection", (socket) => {
     // Reception de la requête pour quitter la partie
     socket.on("leaveRoom", (roomId) => {
         io.in(roomId).emit("leaveRoom");
+        router.delete("/play/" + roomId);
     })
 
     socket.on("fireCase", (index, item) => {
