@@ -160,6 +160,12 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.2);
   font-size: var(--fs-l);
 }
+@media (max-width: 80em) {
+  .game__container .game__boards {
+    flex-direction: column;
+    align-items: center;
+  }
+}
 .game__container .place__ship__container {
   width: 95%;
   padding: 25px;

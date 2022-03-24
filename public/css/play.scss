@@ -77,10 +77,10 @@ main {
     }
 
     .center__aside {
-      width: 50%;
       display: flex;
       align-items: center;
       flex-direction: column;
+      flex-grow: 2;
 
       .center__aside__button__container {
         display: flex;
@@ -143,6 +143,7 @@ main {
           overflow-y: scroll;
           scroll-behavior: smooth;
           max-height: 335px;
+          max-width: 500px;
 
           p {
             color: var(--dark-hx-color);
@@ -235,6 +236,9 @@ main {
       display: block !important;
       align-items: flex-start !important;
       min-height: 100px;
+      .chat__div {
+        max-width: none !important;
+      }
     }
   }
 }

@@ -65,10 +65,10 @@ main {
   background-color: black;
 }
 .play__container .room__container .center__aside {
-  width: 50%;
   display: flex;
   align-items: center;
   flex-direction: column;
+  flex-grow: 2;
 }
 .play__container .room__container .center__aside .center__aside__button__container {
   display: flex;
@@ -126,6 +126,7 @@ main {
   overflow-y: scroll;
   scroll-behavior: smooth;
   max-height: 335px;
+  max-width: 500px;
 }
 .play__container .room__container .right__aside .chat__container .chat__div p {
   color: var(--dark-hx-color);
@@ -209,6 +210,9 @@ main {
     display: block !important;
     align-items: flex-start !important;
     min-height: 100px;
+  }
+  .room__container .right__aside .chat__div {
+    max-width: none !important;
   }
 }
 
