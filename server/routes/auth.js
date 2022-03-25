@@ -63,15 +63,46 @@ function isUsernameValid(username) {
     return true;
 }
 
-
 // Routers
-router.get("/profile", (req, res) => {
+router.get("/profile", async (req, res) => {
     if (req.session.login) {
 
-        res.render(path.join(__dirname, "..", "..", "views", "profile"), {
-            username: req.session.username,
-            email: req.session.email
-        });
+        let tmpGamesPlayed = undefined;
+        let tmpGamesWon = undefined;
+        pool.getConnection((error, connection) => {
+            if (error) throw error;
+            // On sélectionne dans notre base de données l'utilisateur ayant un username qui correspond à celui saisi sur le form
+            pool.query("SELECT GAMESPLAYED as numberOfGamePlayed FROM users WHERE username = ?", [req.session.username], (error, result) => {
+                if (error) throw error;
+                if (result.length > 0) {
+                    tmpGamesPlayed = result[0].numberOfGamePlayed;
+                    pool.query("SELECT GAMESWON as numberOfGameWon FROM users WHERE username = ?", [req.session.username], (error, result) => {
+                        connection.release();
+                        if (error) throw error;
+                        if (result.length > 0) {
+                            tmpGamesWon = result[0].numberOfGameWon;
+
+                            req.session.gamesPlayed = tmpGamesPlayed;
+                            req.session.gamesWon = tmpGamesWon;
+
+                            res.render(path.join(__dirname, "..", "..", "views", "profile"), {
+                                username: req.session.username,
+                                email: req.session.email,
+                                gamesPlayed: tmpGamesPlayed,
+                                gamesWon: tmpGamesWon,
+                                gamesLost: (tmpGamesPlayed - tmpGamesWon)
+                            });
+
+                        } else {
+                            // PAGE 500
+
+                        }
+                    })
+                } else {
+                    connection.release();
+                }
+            })
+        })
 
     } else {
         res.redirect("/login?signup=false");

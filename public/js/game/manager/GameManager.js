@@ -224,13 +224,16 @@ let gameManager = (function () {
                             }
                         }
                         fireOutput.textContent = "Ready?"
+                        fireOutput.style.color = "#27ae60";
                     } else {
                         console.log("(previewFireCase) Please, select an item!");
                         fireOutput.textContent = "Please, select an item!"
+                        fireOutput.style.color = "#c0392b";
                     }
                 } else {
                     //console.log("(previewFireCase) Not your go!")
                     fireOutput.textContent = "Enemy go!"
+                    fireOutput.style.color = "#c0392b";
                 }
             }
         },
@@ -240,8 +243,10 @@ let gameManager = (function () {
             gameStarted = true;
             if (playerIndex === 0) {
                 fireOutput.textContent = "Your go!"
+                fireOutput.style.color = "#27ae60";
             } else {
                 fireOutput.textContent = "Enemy go!"
+                fireOutput.style.color = "#c0392b";
             }
         },
 
@@ -250,10 +255,12 @@ let gameManager = (function () {
             if (playerIndex !== -1) {
                 console.log("You win!!")
                 scoreboardWinLoose.textContent = "Great job!! You have won this game!"
+                fireOutput.style.color = "#27ae60";
 
             } else {
                 console.log("You lose!!")
                 scoreboardWinLoose.textContent = "Maybe next time, you will be more focused!"
+                fireOutput.style.color = "#c0392b";
             }
 
             socket.emit("sendStatistic", fireCount, boatSunkenCount);
@@ -297,6 +304,7 @@ let gameManager = (function () {
                 if (playerIndex !== 0) {
                     console.log("(FireThisCase) Not your go!")
                     fireOutput.textContent = "Enemy go!"
+                    fireOutput.style.color = "#c0392b";
                 } else {
                     // Si c'est le tour du joueur, on vérifie qu'il a sélectionné une arme
                     if (selectedItem !== undefined) {
@@ -331,6 +339,7 @@ let gameManager = (function () {
 
                             // On passe son tour
                             fireOutput.textContent = "Enemy go!"
+                            fireOutput.style.color = "#c0392b";
                             fireCount += 1;
                             playerIndex = 1;
                         } else {
@@ -338,12 +347,14 @@ let gameManager = (function () {
                             //console.log("(FireThisCase) Please, select an available case to fire!")
                             let currentValue = fireOutput.textContent;
                             fireOutput.textContent = "Please, select an available case!"
+                            fireOutput.style.color = "#c0392b";
                         }
                     } else {
                         // DEBUG
                         //console.log("(FireThisCase) Please, select an item!")
                         let currentValue = fireOutput.textContent;
                         fireOutput.textContent = "Please, select an item!"
+                        fireOutput.style.color = "#c0392b";
                     }
                 }
             }

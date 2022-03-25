@@ -15,7 +15,7 @@ let registerEvents = (roomId) => {
 
     document.getElementById("rotateShip").addEventListener('click', () => {
         document.querySelectorAll(".ship").forEach((element) => {
-            element.classList.toggle("rotate");
+            //element.classList.toggle("rotate");
             gameManager.toggleRotate();
         })
         console.log(gameManager.getRotateState())

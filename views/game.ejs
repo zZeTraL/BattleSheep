@@ -99,29 +99,33 @@
                         <button id="readyBtnToStartGame" class="hvr-shrink">Ready</button>
                     </div>
                 </div>
-                <div id="itemContainer" class="item__selection__container">
+                <div id="itemContainer" style="display: none;" class="item__selection__container">
                     <div class="item__selection__content">
                         <div class="flexg__2">
                             <div class="item__title">
                                 <h2><mark>Select an item</mark></h2>
-                                <pre id="fireOutput"></pre>
                             </div>
                             <div class="item__container">
                                 <div class="element">
                                     <img class="item" data="0" src="../public/img/game/missile.png" alt="Rocket">
                                     <span class="element">Rocket</span>
+                                </div>
+                                <div class="element">
                                     <img class="item" data="1" src="../public/img/game/radar.png" alt="Radar">
                                     <span class="element">Radar</span>
                                 </div>
                                 <div class="element">
                                     <img class="item" data="2" src="../public/img/game/torpille.png" alt="Torpedo">
                                     <span class="element">Torpedo</span>
+                                </div>
+                                <div class="element">
                                     <img class="item" data="3" src="../public/img/game/frag.png" alt="Frag">
                                     <span class="element">Frag Grenade</span>
                                 </div>
                             </div>
                         </div>
                         <div class="ready__btn__container">
+                            <pre id="fireOutput"></pre>
                             <span>Sunk these boats!!</span>
                             <button id="readyBtnToFire" class="hvr-shrink">Fire!</button>
                         </div>

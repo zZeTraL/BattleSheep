@@ -121,10 +121,6 @@ main {
   display: flex;
   justify-content: center;
   gap: 25px;
-  /*@media (max-width: 80em) {
-    flex-direction: column;
-    align-items: center;
-  }*/
 }
 .game__container .game__boards .right {
   display: flex;
@@ -160,6 +156,7 @@ main {
   overflow-y: scroll;
   scroll-behavior: smooth;
   max-height: 180px;
+  height: 150px;
 }
 .game__container .game__boards .right .chat__element .input__container {
   width: 100%;
@@ -185,26 +182,26 @@ main {
 .game__container .game__boards .right .chat__element .input__container input:focus {
   outline: none;
 }
-.game__container .game__boards .your__board {
+.game__container .game__boards .board__element .your__board {
   display: grid;
   grid-template-columns: repeat(10, 4.6vmin);
   grid-template-rows: repeat(10, 4.6vmin);
   background-color: skyblue;
   height: 46vmin;
 }
-.game__container .game__boards .your__board div {
+.game__container .game__boards .board__element .your__board div {
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
 }
-.game__container .game__boards .enemy__board {
+.game__container .game__boards .board__element .enemy__board {
   display: grid;
   grid-template-columns: repeat(10, 4.6vmin);
   grid-template-rows: repeat(10, 4.6vmin);
   background-color: indianred;
   height: 46vmin;
 }
-.game__container .game__boards .enemy__board div {
+.game__container .game__boards .board__element .enemy__board div {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,7 +209,17 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.2);
   font-size: var(--fs-l);
 }
-.game__container .place__ship__container {
+@media (max-width: 60em) {
+  .game__container .game__boards .board__element {
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+  }
+  .game__container .game__boards .board__element .your__board, .game__container .game__boards .board__element .enemy__board {
+    width: 46vmin !important;
+  }
+}
+.game__container .game__boards .place__ship__container {
   width: 95%;
   padding: 25px;
   border-radius: 25px;
@@ -220,25 +227,30 @@ main {
   display: flex;
   flex-direction: column;
 }
-.game__container .place__ship__container .place__ship__content {
+.game__container .game__boards .place__ship__container .place__ship__content {
   width: 95%;
   margin: auto;
   display: flex;
   flex-direction: column;
   flex-grow: 2;
 }
-.game__container .place__ship__container .place__ship__content .ship__title {
+.game__container .game__boards .place__ship__container .place__ship__content .ship__title {
   margin-bottom: 25px;
   display: flex;
   justify-content: end;
   align-items: center;
 }
-.game__container .place__ship__container .place__ship__content .ship__title svg {
+.game__container .game__boards .place__ship__container .place__ship__content .ship__title svg {
+  transition: all ease-in-out 1s;
   cursor: pointer;
   height: 25px;
   width: 25px;
 }
-.game__container .place__ship__container .place__ship__content .ship__title h2 {
+.game__container .game__boards .place__ship__container .place__ship__content .ship__title svg:hover {
+  transform: rotate(360deg);
+  transition: all ease-in-out 999ms;
+}
+.game__container .game__boards .place__ship__container .place__ship__content .ship__title h2 {
   flex-grow: 2;
   padding: 0;
   margin: 0;
@@ -247,48 +259,66 @@ main {
   letter-spacing: 0.15rem;
   text-align: left;
 }
-.game__container .place__ship__container .place__ship__content .ship__title h2 mark {
+.game__container .game__boards .place__ship__container .place__ship__content .ship__title h2 mark {
   color: inherit;
   position: relative;
   background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
   background-size: 100% 5px;
 }
-.game__container .place__ship__container .place__ship__content .ship__container {
+.game__container .game__boards .place__ship__container .place__ship__content .ship__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+@media (max-width: 85em) {
+  .game__container .game__boards .place__ship__container .place__ship__content .ship__container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  }
+}
+.game__container .game__boards .place__ship__container .place__ship__content .ship__container .element {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.game__container .place__ship__container .place__ship__content .ship__container .element {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.game__container .place__ship__container .place__ship__content .ship__container .element span {
+.game__container .game__boards .place__ship__container .place__ship__content .ship__container .element span {
   font-size: var(--fs-s);
   color: var(--dark-span-color);
   letter-spacing: 1px;
   margin-bottom: 12px;
 }
-.game__container .place__ship__container .place__ship__content .ship__container img {
+.game__container .game__boards .place__ship__container .place__ship__content .ship__container img {
   width: 90px;
   height: auto;
+}
+@media (max-width: 85em) {
+  .game__container .game__boards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .game__container .game__boards .ship__container img {
+    width: 90% !important;
+  }
 }
 .game__container .item__selection__container {
   width: 95%;
   padding: 25px;
   border-radius: 25px;
   background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
 }
 .game__container .item__selection__container .item__selection__content {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
-.game__container .item__selection__container .item__selection__content .item__title pre {
-  text-align: center;
-  font-size: var(--fs-m);
-  color: white;
+.game__container .item__selection__container .item__selection__content .item__title {
+  margin-bottom: 25px;
 }
 .game__container .item__selection__container .item__selection__content .item__title h2 {
   padding: 0;
@@ -306,7 +336,7 @@ main {
 }
 .game__container .item__selection__container .item__selection__content .item__container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 15px;
@@ -325,6 +355,12 @@ main {
   padding: 10px;
   width: 50px;
   height: auto;
+}
+@media (max-width: 85em) {
+  .game__container .item__selection__container .item__container {
+    gap: 50px !important;
+    flex-direction: row !important;
+  }
 }
 .game__container .game__quit {
   width: 100%;
@@ -351,6 +387,11 @@ main {
   justify-content: center;
   align-items: center;
   margin: 25px 0 0 0;
+}
+.ready__btn__container pre {
+  text-align: center;
+  font-size: var(--fs-s);
+  color: white;
 }
 .ready__btn__container span {
   font-size: var(--fs-s);
