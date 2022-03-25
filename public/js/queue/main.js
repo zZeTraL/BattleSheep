@@ -6,7 +6,7 @@ window.onload = function () {
         joinQueueButton.addEventListener('click', waitingRoomManager.onClick);
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            chatManager.sendMessage();
+            chatManager.sendMessage("waitingRoom");
         });
     } else {
         document.querySelector(".play__container").remove();

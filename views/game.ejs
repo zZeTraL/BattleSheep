@@ -27,15 +27,12 @@
 
 </head>
 <body>
-    <header class="header">
+    <!--<header class="header">
         <%- include("./parts/header"); -%>
-    </header>
+    </header>-->
 
     <main>
         <div class="game__container">
-            <div class="game__title">
-                <h1><mark>BattleSheep</mark></h1>
-            </div>
 
             <div id="scoreboard" class="display__none">
                 <div class="scoreboard__title">
@@ -57,19 +54,13 @@
             </div>
 
             <div id="gameBoards" class="game__boards">
-                <div id="yourBoard" class="your__board">
-                </div>
-                <div id="enemyBoard" class="enemy__board">
-                </div>
-            </div>
-
-            <div id="shipContainer" class="place__ship__container">
-                <div class="place__ship__content">
-                    <div class="ship__title">
-                        <h2><mark>Place your ships</mark></h2>
-                        <!--<button id="rotateShip">Rotate</button>-->
-                        <svg id="rotateShip" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             width="64px" style="fill: white;" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+                <div id="shipContainer" class="place__ship__container">
+                    <div class="place__ship__content">
+                        <div class="ship__title">
+                            <h2><mark>Place your ships</mark></h2>
+                            <!--<button id="rotateShip">Rotate</button>-->
+                            <svg id="rotateShip" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                 width="64px" style="fill: white;" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
 <g>
     <path d="M30,2c0,1.104,0.896,2,2,2c7.479,0,14.51,2.913,19.798,8.202C57.087,17.49,60,24.521,60,32c0,7.381-2.842,14.323-8,19.587
 		V46c0-1.104-0.896-2-2-2s-2,0.896-2,2v12h12c1.104,0,2-0.896,2-2s-0.896-2-2-2h-4.776C60.885,48.032,64,40.257,64,32
@@ -79,68 +70,91 @@
 		s0.896,2,2,2h4.776C3.115,15.968,0,23.743,0,32C0,40.547,3.329,48.583,9.374,54.627z"/>
 </g>
 </svg>
-                    </div>
-                    <div class="ship__container">
-                        <div class="element torpilleur">
-                            <img class="ship" draggable="true" data="0" src="../public/img/game/torpilleur.png" alt="">
-                            <span>Torpilleur</span>
                         </div>
-                        <div class="element sous__marin">
-                            <img class="ship" draggable="true" data="1" src="../public/img/game/torpilleur.png" alt="">
-                            <span>Sous-marin</span>
-                        </div>
-                        <div class="element contre__torpilleur">
-                            <img class="ship" draggable="true" data="2" src="../public/img/game/contre-torpilleur.png" alt="">
-                            <span>Contre torpilleur</span>
-                        </div>
-                        <div class="element croiseur">
-                            <img class="ship" draggable="true" data="3" src="../public/img/game/contre-torpilleur.png" alt="">
-                            <span>Croiseur</span>
-                        </div>
-                        <div class="element porte__avion">
-                            <img class="ship" draggable="true" data="4" src="../public/img/game/porte-avion.png" alt="">
-                            <span>Porte avion</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="ready__btn__container">
-                    <span>Have you placed all your ship?</span>
-                    <button id="readyBtnToStartGame" class="hvr-shrink">Ready</button>
-                </div>
-            </div>
-
-            <div id="itemContainer" class="item__selection__container">
-                <div class="item__selection__content">
-                    <div class="item__title">
-                        <h2><mark>Select an item</mark></h2>
-                        <pre id="fireOutput"></pre>
-                    </div>
-                    <div class="item__container">
-                        <div class="element">
-                            <img class="item" data="0" src="../public/img/game/missile.png" alt="Rocket">
-                            <span class="element">Rocket</span>
-                        </div>
-                        <div class="element">
-                            <img class="item" data="1" src="../public/img/game/radar.png" alt="Radar">
-                            <span class="element">Radar</span>
-                        </div>
-                        <div class="element">
-                            <img class="item" data="2" src="../public/img/game/torpille.png" alt="Torpedo">
-                            <span class="element">Torpedo</span>
-                        </div>
-                        <div class="element">
-                            <img class="item" data="3" src="../public/img/game/frag.png" alt="Frag">
-                            <span class="element">Frag Grenade</span>
+                        <div class="ship__container">
+                            <div class="element torpilleur">
+                                <img class="ship" draggable="true" data="0" src="../public/img/game/torpilleur.png" alt="">
+                                <span>Torpilleur</span>
+                            </div>
+                            <div class="element sous__marin">
+                                <img class="ship" draggable="true" data="1" src="../public/img/game/torpilleur.png" alt="">
+                                <span>Sous-marin</span>
+                            </div>
+                            <div class="element contre__torpilleur">
+                                <img class="ship" draggable="true" data="2" src="../public/img/game/contre-torpilleur.png" alt="">
+                                <span>Contre torpilleur</span>
+                            </div>
+                            <div class="element croiseur">
+                                <img class="ship" draggable="true" data="3" src="../public/img/game/contre-torpilleur.png" alt="">
+                                <span>Croiseur</span>
+                            </div>
+                            <div class="element porte__avion">
+                                <img class="ship" draggable="true" data="4" src="../public/img/game/porte-avion.png" alt="">
+                                <span>Porte avion</span>
+                            </div>
                         </div>
                     </div>
                     <div class="ready__btn__container">
-                        <span>Sunk these boats!!</span>
-                        <button id="readyBtnToFire" class="hvr-shrink">Fire!</button>
+                        <span>Have you placed all your ship?</span>
+                        <button id="readyBtnToStartGame" class="hvr-shrink">Ready</button>
+                    </div>
+                </div>
+                <div id="itemContainer" class="item__selection__container">
+                    <div class="item__selection__content">
+                        <div class="flexg__2">
+                            <div class="item__title">
+                                <h2><mark>Select an item</mark></h2>
+                                <pre id="fireOutput"></pre>
+                            </div>
+                            <div class="item__container">
+                                <div class="element">
+                                    <img class="item" data="0" src="../public/img/game/missile.png" alt="Rocket">
+                                    <span class="element">Rocket</span>
+                                    <img class="item" data="1" src="../public/img/game/radar.png" alt="Radar">
+                                    <span class="element">Radar</span>
+                                </div>
+                                <div class="element">
+                                    <img class="item" data="2" src="../public/img/game/torpille.png" alt="Torpedo">
+                                    <span class="element">Torpedo</span>
+                                    <img class="item" data="3" src="../public/img/game/frag.png" alt="Frag">
+                                    <span class="element">Frag Grenade</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ready__btn__container">
+                            <span>Sunk these boats!!</span>
+                            <button id="readyBtnToFire" class="hvr-shrink">Fire!</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="board__element">
+                        <div id="yourBoard" class="your__board">
+                        </div>
+                        <div id="enemyBoard" class="enemy__board">
+                        </div>
+                    </div>
+                    <div class="chat__element">
+                        <div id="chatFrame" class="chat__container">
+                            <div class="chat__div">
+                                <p>You can type a message he will appear just below</p>
+                                <hr style="border-color: white; background-color: white">
+                                <div id="chatDiv" class="chat__output">
+                                </div>
+                            </div>
+                        </div>
+                        <form id="form" class="beneath__chat">
+                            <div class="input__container">
+                                <input id="input" oninput="chatManager.onTyping()" autocomplete="off"
+                                       placeholder="Type your message here !"/>
+                                <div id="currentChar" class="currentChar"></div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
 
-            <div id="debugTable" class="game__info">
+            <div id="debugTable" style="display: none;" class="game__info">
                 <div class=table__container>
                     <table>
                         <thead>
@@ -172,15 +186,17 @@
         </div>
     </main>
 
-    <footer>
+    <!--<footer>
         <%- include("./parts/footer"); -%>
-    </footer>
+    </footer>-->
 
-    <script src="../public/js/responsive/HeaderResponsive.js"></script>
+    <!--<script src="../public/js/responsive/HeaderResponsive.js"></script>-->
 
     <!-- DATA -->
     <script src="../public/js/game/data/ShipData.js"></script>
+
     <!-- GAME -->
+    <script src="../public/js/chat/ChatManager.js"></script>
     <script src="../public/js/game/manager/SocketManager.js"></script>
     <script src="../public/js/game/Listeners.js"></script>
     <script src="../public/js/game/manager/GameManager.js"></script>

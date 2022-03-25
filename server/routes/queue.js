@@ -35,8 +35,8 @@ io.on("connection", (socket) => {
     //              QUEUE SOCKETS
     //====================================================================================
 
-    socket.on("messageSent", (msg) => {
-        io.emit("messageReceived", "USERNAME", msg);
+    socket.on("messageSent", (msg, roomId) => {
+        io.in(roomId).emit("messageReceived", "USERNAME", msg);
     })
 
     /**

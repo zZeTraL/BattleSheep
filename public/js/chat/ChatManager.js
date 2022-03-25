@@ -25,9 +25,9 @@ let chatManager = (function () {
             currentChar.textContent = "0/" + maxChar;
         },
 
-        sendMessage() {
+        sendMessage(roomId) {
             if (input.value && input.value.length <= maxChar) {
-                socket.emit("messageSent", input.value);
+                socket.emit("messageSent", input.value, roomId);
                 this.resetInput();
             } else {
                 console.error("ArrayIndexOutOfBoundsException:chatManager:13")

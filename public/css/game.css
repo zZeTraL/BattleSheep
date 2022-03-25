@@ -4,13 +4,15 @@ body {
   background-color: #233a5f;
   background-image: url("../img/filter.png");
   background-attachment: fixed;
+  background-position: bottom;
   overflow-x: hidden;
   min-height: 100vh;
+  display: flex;
 }
 
 main {
-  width: 75%;
-  margin: 50px auto 125px auto;
+  width: 90%;
+  margin: auto;
   background-color: rgba(25, 42, 67, 0.8);
   border-radius: 25px;
 }
@@ -18,20 +20,6 @@ main {
 .game__container {
   padding: 25px;
   font-family: "Kanit-ExtraLight", sans-serif;
-}
-.game__container .game__title h1 {
-  padding: 0;
-  margin: 0;
-  font-size: var(--fs-xxl);
-  color: var(--dark-hx-color);
-  letter-spacing: 0.4rem;
-  text-align: center;
-}
-.game__container .game__title h1 mark {
-  color: inherit;
-  position: relative;
-  background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
-  background-size: 100% 7px;
 }
 .game__container .game__scoreboard {
   display: flex;
@@ -130,16 +118,79 @@ main {
 }
 .game__container .game__boards {
   width: 100%;
-  margin: 50px 0 50px 0;
   display: flex;
   justify-content: center;
   gap: 25px;
+  /*@media (max-width: 80em) {
+    flex-direction: column;
+    align-items: center;
+  }*/
+}
+.game__container .game__boards .right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.game__container .game__boards .right .board__element {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.game__container .game__boards .right .chat__element {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 15px;
+}
+.game__container .game__boards .right .chat__element .chat__container {
+  flex-grow: 2;
+}
+.game__container .game__boards .right .chat__element .chat__container p {
+  color: var(--dark-hx-color);
+  font-size: var(--fs-s);
+  letter-spacing: 1px;
+  word-break: break-word;
+  padding: 0;
+  margin: 0;
+}
+.game__container .game__boards .right .chat__element .chat__container .chat__output {
+  width: 100%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  max-height: 180px;
+}
+.game__container .game__boards .right .chat__element .input__container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.game__container .game__boards .right .chat__element .input__container .currentChar {
+  position: absolute;
+  color: black;
+  font-size: 1rem;
+  padding: 0 1rem;
+  margin: 0.25rem;
+}
+.game__container .game__boards .right .chat__element .input__container input {
+  width: 100%;
+  padding: 0 65px 0 5px;
+  border: none;
+  border-radius: 10px;
+  margin: 10px;
+  height: 35px;
+}
+.game__container .game__boards .right .chat__element .input__container input:focus {
+  outline: none;
 }
 .game__container .game__boards .your__board {
   display: grid;
   grid-template-columns: repeat(10, 4.6vmin);
   grid-template-rows: repeat(10, 4.6vmin);
   background-color: skyblue;
+  height: 46vmin;
 }
 .game__container .game__boards .your__board div {
   cursor: pointer;
@@ -151,6 +202,7 @@ main {
   grid-template-columns: repeat(10, 4.6vmin);
   grid-template-rows: repeat(10, 4.6vmin);
   background-color: indianred;
+  height: 46vmin;
 }
 .game__container .game__boards .enemy__board div {
   display: flex;
@@ -160,24 +212,20 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.2);
   font-size: var(--fs-l);
 }
-@media (max-width: 80em) {
-  .game__container .game__boards {
-    flex-direction: column;
-    align-items: center;
-  }
-}
 .game__container .place__ship__container {
   width: 95%;
   padding: 25px;
-  margin: 25px auto 25px auto;
   border-radius: 25px;
   background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
 }
 .game__container .place__ship__container .place__ship__content {
   width: 95%;
   margin: auto;
   display: flex;
   flex-direction: column;
+  flex-grow: 2;
 }
 .game__container .place__ship__container .place__ship__content .ship__title {
   margin-bottom: 25px;
@@ -207,7 +255,7 @@ main {
 }
 .game__container .place__ship__container .place__ship__content .ship__container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -224,24 +272,18 @@ main {
   margin-bottom: 12px;
 }
 .game__container .place__ship__container .place__ship__content .ship__container img {
-  width: 70%;
+  width: 90px;
   height: auto;
 }
 .game__container .item__selection__container {
   width: 95%;
   padding: 25px;
-  margin: auto;
   border-radius: 25px;
   background-color: rgba(0, 0, 0, 0.2);
 }
 .game__container .item__selection__container .item__selection__content {
-  width: 95%;
-  margin: auto;
   display: flex;
   flex-direction: column;
-}
-.game__container .item__selection__container .item__selection__content .item__title {
-  margin-bottom: 25px;
 }
 .game__container .item__selection__container .item__selection__content .item__title pre {
   text-align: center;
@@ -267,7 +309,7 @@ main {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 25px;
+  gap: 15px;
 }
 .game__container .item__selection__container .item__selection__content .item__container .element {
   display: flex;
@@ -281,8 +323,7 @@ main {
 .game__container .item__selection__container .item__selection__content .item__container img {
   cursor: pointer;
   padding: 10px;
-  margin: 10px;
-  width: 75px;
+  width: 50px;
   height: auto;
 }
 .game__container .game__quit {

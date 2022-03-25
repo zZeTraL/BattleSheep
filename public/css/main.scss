@@ -39,6 +39,10 @@
   display: none;
 }
 
+.flexg__2 {
+  flex-grow: 2;
+}
+
 @media (max-width: 40em){
   :root {
     --fs-error: 5rem;

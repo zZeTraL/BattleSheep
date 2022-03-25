@@ -9,6 +9,11 @@ window.onload = function () {
     // All buttons listeners
     registerEvents(roomId);
 
+    document.getElementById("form").addEventListener('submit', (e) => {
+        e.preventDefault();
+        chatManager.sendMessage(roomId);
+    });
+
     // Init the board for both players
     gameManager.init();
 
