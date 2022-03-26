@@ -178,7 +178,7 @@ let gameManager = (function () {
 
         fireCasePreview(event) {
             // On vérifie la partie est lancée
-            if (!gameStarted) {
+            if (gameStarted) {
                 let target = event.target;
                 let index = parseInt(target.getAttribute("data"));
                 // On vérifie que c'est au tour du joueur
@@ -239,7 +239,10 @@ let gameManager = (function () {
         },
 
         startGame() {
-            shipPlacementContainer.style.display = "none";
+            shipPlacementContainer.removeAttribute("class");
+            shipPlacementContainer.classList.add("display__none");
+            itemsContainer.removeAttribute("class");
+            itemsContainer.classList.add("item__selection__container");
             gameStarted = true;
             if (playerIndex === 0) {
                 fireOutput.textContent = "Your go!"
@@ -256,12 +259,12 @@ let gameManager = (function () {
                 console.log("You win!!")
                 scoreboardWinLoose.textContent = "Great job!! You have won this game!"
                 fireOutput.style.color = "#27ae60";
-                socket.emit("updateWinCount");
+                //socket.emit("updateWinCount");
             } else {
                 console.log("You lose!!")
                 scoreboardWinLoose.textContent = "Maybe next time, you will be more focused!"
                 fireOutput.style.color = "#c0392b";
-                socket.emit("updateLooseCount");
+                //socket.emit("updateLooseCount");
             }
 
             socket.emit("sendStatistic", fireCount, boatSunkenCount);
@@ -300,7 +303,7 @@ let gameManager = (function () {
          */
         fireThisCase() {
             // Si la partie est commencée
-            if (!gameStarted) {
+            if (gameStarted) {
                 // On vérifie que c'est au tour du joueur
                 if (playerIndex !== 0) {
                     console.log("(FireThisCase) Not your go!")

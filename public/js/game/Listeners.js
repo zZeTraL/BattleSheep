@@ -28,12 +28,15 @@ let registerEvents = (roomId) => {
                 gameManager.setReadyState(true);
                 socket.emit("enemyReady");
                 document.getElementById("youReady").textContent = "Yes";
+                document.getElementById("placeOutput").textContent = "You are ready!"
                 console.log(gameManager.getReadyState());
             } else {
                 console.log("You haven't placed all your ships!")
+                document.getElementById("placeOutput").textContent = "You haven't placed all your ships!"
             }
         } else {
             console.log("You are already ready!")
+            document.getElementById("placeOutput").textContent = "You are already ready!"
         }
         /* TODO
          *  - inform the player that he hasn't placed all his ships

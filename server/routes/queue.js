@@ -19,7 +19,7 @@ let queue = [];
 
 router.get("/play", (req, res) => {
     // Si l'utilisateur est connecté
-    if(req.session.login){
+    if(!req.session.login){
         // On affiche la page play
         res.render(path.join(__dirname, "..", "..", "views", "play"));
     } else {
@@ -37,6 +37,11 @@ io.on("connection", (socket) => {
 
     socket.on("messageSent", (msg, roomId) => {
         io.in(roomId).emit("messageReceived", "USERNAME", msg);
+    })
+
+    socket.on("joinWaitingRoom", () => {
+        // On ajoute l'utilisateur dans la room "waitingRoom" (propre a socket.io)
+        socket.join("waitingRoom");
     })
 
     /**
@@ -60,8 +65,6 @@ io.on("connection", (socket) => {
 
             // On ajoute l'utilisateur dans la queue
             queue.push(socket.id);
-            // On ajoute l'utilisateur dans la room "waitingRoom" (propre a socket.io)
-            socket.join("waitingRoom");
             // On envoie une réponse à cette requête (requête envoyée au client)
             socket.emit("joinQueue");
 

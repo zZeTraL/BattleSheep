@@ -1,4 +1,7 @@
 window.onload = function () {
+
+    socket.emit("joinWaitingRoom");
+
     if(!isUserOnMobile()){
         let joinQueueButton = document.getElementById("joinQueueButton");
         let form = document.getElementById("form");
