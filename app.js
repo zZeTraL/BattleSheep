@@ -33,23 +33,29 @@ const pool = mysql.createPool({
 global.pool = pool;
 global.flash = flash;
 global.socket = socket;
-global.io = io;
 
 // Répertoire dynamique
 app.use(express.static(path.join(__dirname)));
 // Permet de transmettre les données de la méthode POST
 app.use(express.urlencoded({extended: false}));
+
 // Utilisation de express-flash
 app.use(flash());
 
 // On créé une session pour chaque utilisateur qui accède au site
-const session = require("express-session")
-app.use(session({
+const session = require('express-session')({
     secret: process.env.SESSION_KEY,
     name: "session.sid",
-    resave: false,
-    saveUninitialized: false,
-}))
+    resave: true,
+    saveUninitialized: true
+});
+
+// Permet de récupérer les informations de la session du joueur
+let sharedSession = require("express-socket.io-session");
+app.use(session);
+io.use(sharedSession(session));
+
+global.io = io;
 
 if (app.get('env') === 'production') {
     app.set('trust proxy', 1) // trust first proxy

@@ -6,9 +6,9 @@ let room = [
     {
         // id/name de la room
         name: "waitingRoom",
-        // Nombre maxi de socket pouvant être connecté simultanément
+        // Nombre maxi de sockets pouvant être connecté simultanément
         maxSlots: undefined,
-        // Nombre de socket connecté
+        // Nombre de sockets connectés
         currentSlots: undefined,
         // Liste des sockets connectés
         connections: []
@@ -19,7 +19,7 @@ let queue = [];
 
 router.get("/play", (req, res) => {
     // Si l'utilisateur est connecté
-    if(!req.session.login){
+    if(req.session.login){
         // On affiche la page play
         res.render(path.join(__dirname, "..", "..", "views", "play"));
     } else {
@@ -183,6 +183,47 @@ io.on("connection", (socket) => {
     socket.on("winnerFound", () => {
         socket.broadcast.emit("youWin");
     })
+
+    socket.on("updateWinCount", () => {
+        pool.getConnection((error, connection) => {
+            if(error) throw error;
+            pool.query("SELECT GAMESPLAYED as numberOfGamePlayed, GAMESWON as numberOfGameWon FROM users WHERE username = ?", [socket.handshake.session.username], (error, result) => {
+                if(error) throw error;
+                if(result.length > 0){
+                    result[0].numberOfGamePlayed += 1;
+                    result[0].numberOfGameWon += 1;
+                    pool.query("UPDATE users SET gamesPlayed = ?, gamesWon = ? WHERE username = ?", [result[0].numberOfGamePlayed, result[0].numberOfGameWon, socket.handshake.session.username], (error) => {
+                        if(error) throw error;
+                        connection.release();
+                    })
+                } else {
+                    connection.release();
+                }
+            })
+        })
+    })
+
+    socket.on("updateLooseCount", () => {
+        pool.getConnection((error, connection) => {
+            if(error) throw error;
+            pool.query("SELECT GAMESPLAYED as gamesPlayed FROM users WHERE username = ?", [socket.handshake.session.username], (error, result) => {
+                if(error) throw error;
+                if(result.length > 0){
+                    console.log(result[0])
+                    let tmp = result[0].gamesPlayed + 1;
+                    console.log(tmp)
+                    pool.query("UPDATE users SET gamesPlayed = ? WHERE username = ?", [tmp, socket.handshake.session.username], (error) => {
+                        if(error) throw error;
+                        connection.release();
+                    })
+                } else {
+                    connection.release();
+                }
+            })
+        })
+    })
+
+
 
 
     // Met à jour la file d'attente lorsqu'un utilisateur quitte la page

@@ -256,11 +256,12 @@ let gameManager = (function () {
                 console.log("You win!!")
                 scoreboardWinLoose.textContent = "Great job!! You have won this game!"
                 fireOutput.style.color = "#27ae60";
-
+                socket.emit("updateWinCount");
             } else {
                 console.log("You lose!!")
                 scoreboardWinLoose.textContent = "Maybe next time, you will be more focused!"
                 fireOutput.style.color = "#c0392b";
+                socket.emit("updateLooseCount");
             }
 
             socket.emit("sendStatistic", fireCount, boatSunkenCount);
