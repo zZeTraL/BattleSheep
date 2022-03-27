@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../public/css/main.css">
     <link rel="stylesheet" type="text/css" href="../public/css/header.css">
     <link rel="stylesheet" type="text/css" href="../public/css/footer.css">
-    <link rel="stylesheet" type="text/css" href="../public/css/home.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/leaderboard.css">
     <link rel="stylesheet" href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' type="text/css">
 
     <!-- LIBS -->
@@ -24,11 +24,37 @@
     </header>
 
     <main>
-        <% for(let i = 0; i < top.length; i++) {%>
-            <p><%= top[i].username %></p>
-            <p><%= top[i].gamesPlayed %></p>
-            <p><%= top[i].gamesWon %></p>
-        <% } %>
+        <section class="leaderboard-section">
+            <div class="limiter">
+                <div class="container-table100">
+                    <div class="wrap-table100">
+                        <div class="table100">
+
+                            <table>
+                                <thead>
+                                <tr class="table100-head">
+                                    <th class="column1">Rank</th>
+                                    <th class="column2">Username</th>
+                                    <th class="column3">Games Played</th>
+                                    <th class="column6">Games Won</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% for(let i = 0; i < top.length; i++) { %>
+                                    <tr>
+                                        <td class="column1"><%= (i + 1) %></td>
+                                        <td class="column2"><%= top[i].username %></td>
+                                        <td class="column3"><%= top[i].gamesPlayed %></td>
+                                        <td class="column6"><%= top[i].gamesWon %></td>
+                                    </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
