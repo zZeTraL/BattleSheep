@@ -457,6 +457,10 @@ main {
   background-color: #636e72 !important;
 }
 
+.preview {
+  background-color: #bdc3c7 !important;
+}
+
 .opacity {
   opacity: 0.2;
 }

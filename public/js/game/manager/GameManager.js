@@ -6,7 +6,7 @@ let gameManager = (function () {
     })
 
     // Nombre de bateaux nécessaire pour être ready
-    const playerReadyWhen = 17;
+    const playerReadyWhen = 0;
 
     // Déclaration des variables utilisées pour notre jeu
     let width = 10;
@@ -469,6 +469,7 @@ let gameManager = (function () {
             if(gameManager.checkWin()) return;
 
             fireOutput.textContent = "Your go!"
+            fireOutput.style.color = "#27ae60";
             playerIndex = 0;
         },
 

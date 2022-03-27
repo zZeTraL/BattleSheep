@@ -29,7 +29,7 @@ let waitingRoomManager = (function () {
     })
 
     return {
-        onClick(event) {
+        onClick() {
             socket.emit("joinQueue");
         }
     }
