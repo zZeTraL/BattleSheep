@@ -235,12 +235,10 @@ io.on("connection", (socket) => {
         })
     })
 
-
-
-
-    // Met à jour la file d'attente lorsqu'un utilisateur quitte la page
+    // Lorsque l'utilisateur reload sa page
     socket.on("disconnect", () => {
         let playerRoom;
+        // On check dans nos rooms si l'utilisateur faisait partie d'une partie
         for (let i = 0; i < room.length; i++) {
             if(room[i].connections.includes(socket.id)){
                 playerRoom = room[i];
@@ -251,7 +249,9 @@ io.on("connection", (socket) => {
             }
         }
 
+        // S'il le joueur n'était pas dans une partie
         if(playerRoom === undefined){
+            // On check et on le supprime de la queue s'il y est
             for (let i = 0; i < queue.length; i++) {
                 if(queue[i] === socket.id){
                     // on supprime l'utilisateur de la file d'attente
@@ -259,6 +259,7 @@ io.on("connection", (socket) => {
                 }
             }
         } else {
+            // On envoie à l'adverse une réponse du serveur (cette réponse va se traduire chez l'adversaire par un leave de la partie)
             socket.broadcast.emit("leaveRoom");
         }
 
