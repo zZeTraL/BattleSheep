@@ -86,7 +86,7 @@ body {
     background-color: var(--login-bg-color);
     border-radius: 15px;
     font-family: "Open Sans", sans-serif;
-    gap: 25px;
+    gap: 10px;
     padding: 35px;
     box-shadow: 12px 12px 2px 1px rgba(var(--login-box-shadow), 0.5);
     transition: all ease-in-out 500ms;
@@ -175,7 +175,7 @@ body {
       width: 75%;
       display: flex;
       flex-direction: column;
-      gap: 30px;
+      gap: 15px;
 
       @media (max-width: 40em), (max-height: 40em) {
         gap: 20px;

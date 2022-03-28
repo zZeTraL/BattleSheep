@@ -16,7 +16,7 @@ pool.getConnection((error, connection) => {
         // On effectue plus de requête on coupe notre connexion à notre dbb
         connection.release();
         // S'il y a une erreur lors de la requête, on l'affiche
-        if(error) throw error;
+        if(error) return;
         if(result.length > 0){
             // DEBUG
             console.log("LEADERBOARD");
