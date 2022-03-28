@@ -1,3 +1,5 @@
+// Array d'objets qui contient toutes les informations concernant nos bateaux
+// On y retrouve le nom du bateau / sa taille / sa couleur unique (pour l'affichage)
 let shipData = [
     {
         name: "Torpilleur",

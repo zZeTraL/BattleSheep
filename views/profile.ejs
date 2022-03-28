@@ -97,6 +97,10 @@
                         <td>Loose</td>
                         <td class="profile__editor"><span><%= gamesLost %></span></td>
                     </tr>
+                    <tr>
+                        <td>Win/Loose</td>
+                        <td class="profile__editor"><span><%= (gamesWon / gamesLost).toFixed(3) %></span></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
