@@ -5,7 +5,7 @@ BattleShip avec des armes spéciales
 ## Comment redéployer le projet ?
 
 1. **Cloner** le projet
-2. **Créer** une base de données
+2. **Créer** une base de donnée
 3. **Créer** un fichier **.env** à la racine du projet
 
    ```
