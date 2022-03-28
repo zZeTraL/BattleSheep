@@ -43,8 +43,6 @@
 body {
   padding: 0;
   margin: 0;
-  //background: url("../img/login/background.png") no-repeat center center fixed;
-  //background: url("../img/login/background2.png") no-repeat center center fixed;
   background-size: cover;
   background: var(--login-bg-color) url("../img/login/backgroundTest2.png") no-repeat fixed center center;
 }
@@ -137,12 +135,11 @@ body {
         font-size: 40px;
         color: var(--water-color);
         padding: 3%;
+        transition: all ease-in-out 800ms;
 
         &:hover {
-          opacity: 0.8;
-          animation-duration: 800ms;
-          animation-name: rotation;
-          animation-timing-function: ease;
+          transition: all ease-in-out 800ms;
+          transform: rotate(360deg);
         }
       }
 

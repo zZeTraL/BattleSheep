@@ -108,12 +108,11 @@ body {
   font-size: 40px;
   color: var(--water-color);
   padding: 3%;
+  transition: all ease-in-out 800ms;
 }
 .login__container .login__popup .login__back i:hover {
-  opacity: 0.8;
-  animation-duration: 800ms;
-  animation-name: rotation;
-  animation-timing-function: ease;
+  transition: all ease-in-out 800ms;
+  transform: rotate(360deg);
 }
 .login__container .login__popup .login__back span {
   display: flex;

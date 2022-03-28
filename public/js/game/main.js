@@ -1,5 +1,3 @@
-import Swiper from "https://unpkg.com/swiper@8/swiper-bundle.esm.browser.min.js"
-
 window.onload = function () {
     let roomId = window.location.pathname.slice(6, 16);
     setTimeout(() => {

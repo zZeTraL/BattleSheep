@@ -49,6 +49,7 @@ main {
         }
       }
     }
+
     .scoreboard__content {
       width: 100%;
       display: flex;
@@ -97,6 +98,7 @@ main {
     }
 
   }
+
   .game__info {
     width: 100%;
     display: flex;
@@ -133,6 +135,7 @@ main {
 
           tr {
             height: 50px;
+
             td {
               text-align: center;
             }
@@ -236,6 +239,7 @@ main {
           text-align: center;
         }
       }
+
       .enemy__board {
         display: grid;
         grid-template-columns: repeat(10, 4.6vmin);

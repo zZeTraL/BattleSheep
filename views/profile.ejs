@@ -35,13 +35,20 @@
                 <form action="api/resetpassword" method="POST" class="change__password__form">
                     <div class="change__password__form__element">
                         <span>Password</span>
-                        <label class="password__label" for="currentPassword"><input name="currentPassword" id="passwordInput" type="password" placeholder="Enter your password" required>
+                        <label class="password__label" for="currentPassword"><input name="currentPassword"
+                                                                                    id="passwordInput" type="password"
+                                                                                    placeholder="Enter your password"
+                                                                                    required>
                             <i data="showPassword" class='bx bx-show showPassword'></i>
                         </label>
                     </div>
                     <div class="change__password__form__element">
                         <span>Confirm password</span>
-                        <label class="password__label" for="confirmPassword"><input name="confirmPassword" id="passwordConfirmInput" type="password" placeholder="Confirm your password" required>
+                        <label class="password__label" for="confirmPassword"><input name="confirmPassword"
+                                                                                    id="passwordConfirmInput"
+                                                                                    type="password"
+                                                                                    placeholder="Confirm your password"
+                                                                                    required>
                             <i data="showPassword" class='bx bx-show'></i>
                         </label>
                     </div>
@@ -54,11 +61,15 @@
     </div>
 
     <main class="profile__container">
-        <h1><mark>Dashboard</mark></h1>
+        <h1>
+            <mark>Dashboard</mark>
+        </h1>
         <span class="profile__welcome">Welcome back <%= username %></span>
 
         <div class="profile__informations__container">
-            <h2><mark>Informations</mark></h2>
+            <h2>
+                <mark>Informations</mark>
+            </h2>
             <div class="profile__informations__table">
                 <table>
                     <tbody>
@@ -79,17 +90,18 @@
                         <td class="profile__editor"><span><%= gamesPlayed %></span></td>
                     </tr>
                     <tr>
-                        <td>Games Win</td>
+                        <td>Win</td>
                         <td class="profile__editor"><span><%= gamesWon %></span></td>
                     </tr>
                     <tr>
-                        <td>Games Lost</td>
+                        <td>Loose</td>
                         <td class="profile__editor"><span><%= gamesLost %></span></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
         <!--<div class="profile__success__container">
             <h2><mark>Success</mark></h2>
             <div class="profile__success__img__container">
@@ -121,8 +133,8 @@
         <%- include("./parts/footer"); -%>
     </footer>
 
-    <script src="../public/js/profile/main.js"></script>
-    <script src="../public/js/responsive/HeaderResponsive.js"></script>
+<script src="../public/js/profile/main.js"></script>
+<script src="../public/js/responsive/HeaderResponsive.js"></script>
 
 </body>
 </html>

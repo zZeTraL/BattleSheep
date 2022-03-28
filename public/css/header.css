@@ -62,6 +62,7 @@
   }
 }
 .header .nav__list {
+  cursor: pointer;
   display: none;
   align-items: center;
   height: inherit;

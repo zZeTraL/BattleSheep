@@ -1,7 +1,6 @@
 let waitingRoomManager = (function () {
 
-    let waitingRoomContainer = document.querySelector(".room__container");
-    let beforeWaitingRoomContainer = waitingRoomContainer.parentElement;
+    //let waitingRoomContainer = document.querySelector(".room__container");
     let debug = document.getElementById("output");
 
     socket.on("connection", () => {
@@ -18,6 +17,7 @@ let waitingRoomManager = (function () {
 
     socket.on("leaveQueue", () => {
         socket.emit("leaveQueue");
+        debug.textContent = "You have left the queue!"
     })
 
     socket.on("joinPrivateRoom", (privateRoomName) => {

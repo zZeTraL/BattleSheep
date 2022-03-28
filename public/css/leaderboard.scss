@@ -45,13 +45,12 @@ iframe {
   border: none !important;
 }
 
-
-/*//////////////////////////////////////////////////////////////////
-[ Utiliti ]*/
-
-
 /*//////////////////////////////////////////////////////////////////
 [ Table ]*/
+
+.margin75 {
+  margin: 75px;
+}
 
 .limiter {
   width: 100%;
@@ -59,13 +58,6 @@ iframe {
 }
 
 .container-table100 {
-  width: 100%;
-  min-height: 45vh;
-
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,7 +70,6 @@ iframe {
 }
 
 table {
-  border-spacing: 1;
   border-collapse: collapse;
   background: white;
   border-radius: 10px;
@@ -225,13 +216,13 @@ tbody tr:hover {
     content: "Games Played";
   }
   table tbody tr td:nth-child(4):before {
-    content: "Games Won";
+    content: "Win";
   }
   table tbody tr td:nth-child(5):before {
-    content: "Quantity";
+    content: "Loose";
   }
   table tbody tr td:nth-child(6):before {
-    content: "Total";
+    content: "W/L";
   }
 
   .column4,

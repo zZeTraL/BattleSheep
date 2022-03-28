@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="../public/css/header.css">
     <link rel="stylesheet" type="text/css" href="../public/css/footer.css">
     <link rel="stylesheet" type="text/css" href="../public/css/play.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/leaderboard.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
@@ -69,9 +70,44 @@
                     </div>
                 </form>
             </aside>
-
         </div>
     </section>
+
+    <section class="leaderboard-section">
+        <div class="limiter">
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table100">
+                        <table>
+                            <thead>
+                            <tr class="table100-head">
+                                <th class="column1">Rank</th>
+                                <th class="column2">Username</th>
+                                <th class="column3">Games Played</th>
+                                <th class="column6">Win</th>
+                                <th class="column6">Loose</th>
+                                <th class="column6">W/L</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% for(let i = 0; i < top.length; i++) { %>
+                                <tr>
+                                    <td class="column1"><%= (i + 1) %></td>
+                                    <td class="column2"><%= top[i].username %></td>
+                                    <td class="column3"><%= top[i].gamesPlayed %></td>
+                                    <td class="column6"><%= top[i].gamesWon %></td>
+                                    <td class="column6"><%= (top[i].gamesPlayed - top[i].gamesWon) %></td>
+                                    <td class="column6"><%= (top[i].gamesWon / top[i].gamesPlayed).toFixed(3) %></td>
+                                </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </main>
 
 <footer>

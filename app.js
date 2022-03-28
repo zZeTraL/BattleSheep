@@ -1,4 +1,4 @@
-// Déclaration de nos modules utilisés
+// Déclaration des modules utilisés
 const express = require("express");
 const app = express();
 const path = require("path");

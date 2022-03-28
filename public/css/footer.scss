@@ -60,7 +60,7 @@ footer {
       width: 65%;
       margin: 75px 0 100px 0;
 
-      @media (max-width: $breakPoint){
+      @media (max-width: $breakPoint) {
         align-items: center;
       }
 
@@ -117,7 +117,7 @@ footer {
         }
       }
 
-      @media (max-width: $breakPoint){
+      @media (max-width: $breakPoint) {
         flex-direction: column;
       }
     }

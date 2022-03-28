@@ -2,7 +2,6 @@ let shipData = [
     {
         name: "Torpilleur",
         length: 2,
-        // false: horizontal / true: vertical
         visualization: "green"
     },
     {

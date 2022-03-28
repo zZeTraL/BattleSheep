@@ -6,12 +6,13 @@ let gameManager = (function () {
     })
 
     // Nombre de bateaux nécessaire pour être ready
-    const playerReadyWhen = 0;
+    const playerReadyWhen = 2;
 
     // Déclaration des variables utilisées pour notre jeu
     let width = 10;
     let playerIndex = 0;
     let isYouReady = false;
+    let isEnemyReady = false;
     let gameStarted = false;
 
 
@@ -107,12 +108,14 @@ let gameManager = (function () {
         getShipPlacement: () => shipPlacementCase,
         getRotateState: () => rotate,
         getReadyState: () => isYouReady,
+        getEnemyReadyState: () => isEnemyReady,
         isAllShipArePlaced: () => shipPlacementCase.length === playerReadyWhen,
         getRemainingItems: () => remainingItems,
 
         // Setters
         toggleRotate: () => rotate = !rotate,
         setReadyState: (bool) => isYouReady = bool,
+        setEnemyReadyState: (bool) => isEnemyReady = bool,
 
         // Méthodes
         createBoard(whichBoard, array) {
@@ -259,12 +262,12 @@ let gameManager = (function () {
                 console.log("You win!!")
                 scoreboardWinLoose.textContent = "Great job!! You have won this game!"
                 fireOutput.style.color = "#27ae60";
-                //socket.emit("updateWinCount");
+                socket.emit("updateWinCount");
             } else {
                 console.log("You lose!!")
                 scoreboardWinLoose.textContent = "Maybe next time, you will be more focused!"
                 fireOutput.style.color = "#c0392b";
-                //socket.emit("updateLooseCount");
+                socket.emit("updateLooseCount");
             }
 
             socket.emit("sendStatistic", fireCount, boatSunkenCount);
@@ -367,11 +370,15 @@ let gameManager = (function () {
         // Pour vous
         onFireReceive(indexArray, item) {
             // DEBUG
-            console.log("(onFireReceive) IndexArray: " + indexArray);
+            //console.log("(onFireReceive) IndexArray: " + indexArray);
 
             // Déclaration de variables pour simplifier le code / le rendre plus lisible
             let yourBoardChildNodes = yourBoard.childNodes;
+            // Array qui contient les cases contenant une partie du bateau qui ont été détruite
+            // Cette array sera transmise au joueur à l'origine du tir
             let boatPartSunken = [];
+            // Array qui contient les cases ne contenant pas une partie du bateau
+            // Cette array sera transmise au joueur à l'origine du tir
             let caseDestroyed = [];
 
             // Switch en fonction de l'item choisit
@@ -428,6 +435,76 @@ let gameManager = (function () {
 
                 // Arme: Torpille
                 case 2:
+                    let classList = gameManager.classListIntoArray(yourBoardChildNodes[indexArray[0]]);
+                    let caseToDestroy = [];
+                    if (classList.length !== 0) {
+                        // On boucle est on regarde si une des classes correspondent à une classe que doit posséder un bateau
+                        for (let i = 0; i < classList.length; i++) {
+                            if (shipClass.includes(classList[i])) {
+                                caseToDestroy.push(indexArray[0])
+                                // Boucle qui va regarde à l'endroit
+                                for (let j = [indexArray[0] + 1, indexArray[0] - 1, indexArray[0] + 10, indexArray[0] - 10], k = 0; k < j.length; k++, j[k]) {
+                                    console.log(j[k]);
+                                    // Position valide, on ne va tirer sur une case du tableau du joueur qui n'existe pas
+                                    if (j[k] > 0 && j[k] < 100) {
+                                        console.log("valid position: " + j[k])
+                                        classList = gameManager.classListIntoArray(yourBoardChildNodes[j[k]]);
+                                        for (let l = 0; l < classList.length; l++) {
+                                            // La case contient une partie bateau
+                                            if (shipClass.includes(classList[l])) {
+                                                caseToDestroy.push(j[k])
+                                            }
+                                        }
+                                    }
+                                }
+                                // DEBUG
+                                //console.log("case destroy length " + caseToDestroy.length)
+                                if(caseToDestroy.length === 2){
+                                    // On retire toutes les classes de la case ciblée
+                                    yourBoardChildNodes[caseToDestroy[0]].removeAttribute("class");
+                                    yourBoardChildNodes[caseToDestroy[1]].removeAttribute("class");
+                                    // On affiche que la case qui contenait une partie du bateau a été détruite
+                                    yourBoardChildNodes[caseToDestroy[0]].classList.add("boatPartSunken");
+                                    yourBoardChildNodes[caseToDestroy[1]].classList.add("boatPartSunken");
+                                    // On vient donc ainsi retirer cette case de la liste des cases qui compose l'ensemble des positions où un bateau est présent
+                                    shipPlacementCase.filter((element) => {
+                                        if (element === caseToDestroy[0]) {
+                                            shipPlacementCase.splice(shipPlacementCase.indexOf(element), 1);
+                                        }
+                                    })
+
+                                    shipPlacementCase.filter((element) => {
+                                        if (element === caseToDestroy[1]) {
+                                            shipPlacementCase.splice(shipPlacementCase.indexOf(element), 1);
+                                        }
+                                    })
+
+                                    // On ajoute la case ciblée dans la liste des parties des bateaux détruites
+                                    // Sert à ce que l'ennemi puisse voir qu'il vient de détruire une case contenant une partie de bateau
+                                    boatPartSunken.push(caseToDestroy[0]);
+                                    boatPartSunken.push(caseToDestroy[1]);
+                                } else {
+                                    console.log("HJEREE")
+                                    yourBoardChildNodes[indexArray[0]].removeAttribute("class");
+                                    yourBoardChildNodes[indexArray[0]].classList.add("boatPartSunken");
+                                    shipPlacementCase.filter((element) => {
+                                        if (element === indexArray[0]) {
+                                            shipPlacementCase.splice(shipPlacementCase.indexOf(element), 1);
+                                        }
+                                    })
+                                    boatPartSunken.push(indexArray[0]);
+                                }
+                                console.log(caseToDestroy)
+                            }
+                        }
+                    } else {
+                        // On affiche que la case a été détruite mais ne contenait pas une partie de bateau
+                        yourBoardChildNodes[indexArray[0]].removeAttribute("class");
+                        yourBoardChildNodes[indexArray[0]].classList.add("caseFired");
+                        caseDestroyed.push(indexArray[0]);
+                    }
+                    // DEBUG
+                    //console.log("(onFireReceive #Torpille)" + tmpClassList)
                     break;
 
                 // Arme: Missile à fragmentation

@@ -24,19 +24,20 @@
     </header>
 
     <main>
-        <section class="leaderboard-section">
+        <section class="leaderboard-section margin75">
             <div class="limiter">
                 <div class="container-table100">
                     <div class="wrap-table100">
                         <div class="table100">
-
                             <table>
                                 <thead>
                                 <tr class="table100-head">
                                     <th class="column1">Rank</th>
                                     <th class="column2">Username</th>
                                     <th class="column3">Games Played</th>
-                                    <th class="column6">Games Won</th>
+                                    <th class="column6">Win</th>
+                                    <th class="column6">Loose</th>
+                                    <th class="column6">W/L</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -46,6 +47,8 @@
                                         <td class="column2"><%= top[i].username %></td>
                                         <td class="column3"><%= top[i].gamesPlayed %></td>
                                         <td class="column6"><%= top[i].gamesWon %></td>
+                                        <td class="column6"><%= (top[i].gamesPlayed - top[i].gamesWon) %></td>
+                                        <td class="column6"><%= (top[i].gamesWon / top[i].gamesPlayed).toFixed(3) %></td>
                                     </tr>
                                 <% } %>
                                 </tbody>

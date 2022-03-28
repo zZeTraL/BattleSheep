@@ -2,6 +2,9 @@ const express = require("express");
 const path = require("path");
 const router = express.Router();
 
+// Array qui contient les sockets des joueurs qui viennent de rejoindre la file d'attente
+let queue = [];
+// Array d'objets room : permet de save toutes les rooms
 let room = [
     {
         // id/name de la room
@@ -15,13 +18,13 @@ let room = [
     }
 ];
 
-let queue = [];
-
 router.get("/play", (req, res) => {
     // Si l'utilisateur est connecté
-    if(!req.session.login){
+    if(req.session.login){
         // On affiche la page play
-        res.render(path.join(__dirname, "..", "..", "views", "play"));
+        res.render(path.join(__dirname, "..", "..", "views", "play"), {
+            top: leaderboard
+        });
     } else {
         // Si l'utilisateur n'est pas connecté, on le redirige vers la page de connexion
         res.redirect("/login?signup=false");
@@ -36,7 +39,7 @@ io.on("connection", (socket) => {
     //====================================================================================
 
     socket.on("messageSent", (msg, roomId) => {
-        io.in(roomId).emit("messageReceived", "USERNAME", msg);
+        io.in(roomId).emit("messageReceived", socket.handshake.session.username, msg);
     })
 
     socket.on("joinWaitingRoom", () => {
@@ -109,9 +112,10 @@ io.on("connection", (socket) => {
                 res.render(path.join(__dirname, "..", "..", "views", "game"));
                 // On incrément le slot de la room
                 privateRoom[0].currentSlots += 1;
+                console.log(privateRoom[0].currentSlots)
             } else {
                 // On redirige l'utilisateur vers l'accueil
-                res.redirect("/");
+                res.redirect("/play");
             }
         })
         // Requête émise au client qui le rediriger vers la page .../play/room_id
@@ -134,7 +138,7 @@ io.on("connection", (socket) => {
                 playerIndex = i;
             }
         }
-        console.log(playerIndex)
+        //console.log(playerIndex)
         socket.emit("connection", playerIndex);
     })
 
@@ -164,6 +168,11 @@ io.on("connection", (socket) => {
     // Reception de la requête pour quitter la partie
     socket.on("leaveRoom", (roomId) => {
         io.in(roomId).emit("leaveRoom");
+
+        /**
+         * TODO
+         *  - NEED TO DELETE ACCESS TO URL
+         */
         router.delete("/play/" + roomId);
     })
 
@@ -235,25 +244,29 @@ io.on("connection", (socket) => {
         for (let i = 0; i < room.length; i++) {
             if(room[i].connections.includes(socket.id)){
                 playerRoom = room[i];
-                playerRoom.connections.splice(i, 1);
-                playerRoom.currentSlots =- 1;
+                room.splice(i, 1);
+                //playerRoom.connections.splice(i, 1);
+                //playerRoom.currentSlots -= 1;
                 break;
             }
         }
 
-        if(playerRoom !== undefined){
-            //console.log("Player was in the room: " + playerRoom.name);
-            if(playerRoom.name !== "waitingRoom"){
-                //io.in(playerRoom.name).emit("leaveRoom");
-            } else {
-                for (let i = 0; i < queue.length; i++) {
-                    if(queue[i] === socket.id){
-                        // on supprime l'utilisateur de la file d'attente
-                        queue.splice(i, 1);
-                    }
+        if(playerRoom === undefined){
+            for (let i = 0; i < queue.length; i++) {
+                if(queue[i] === socket.id){
+                    // on supprime l'utilisateur de la file d'attente
+                    queue.splice(i, 1);
                 }
             }
+        } else {
+            socket.broadcast.emit("leaveRoom");
         }
+
+
+
+        console.log(queue)
+        console.log(room)
+
     })
 })
 

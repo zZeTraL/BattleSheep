@@ -72,13 +72,14 @@
         }
       }
 
-      @media (max-width: 65em){
+      @media (max-width: 65em) {
         display: none;
       }
     }
   }
 
   .nav__list {
+    cursor: pointer;
     display: none;
     align-items: center;
     height: inherit;
@@ -89,7 +90,7 @@
       color: var(--dark-hx-color);
     }
 
-    @media (max-width: 65em){
+    @media (max-width: 65em) {
       display: flex;
     }
   }
@@ -112,6 +113,10 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

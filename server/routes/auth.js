@@ -95,7 +95,7 @@ router.get("/profile", async (req, res) => {
 
                         } else {
                             // PAGE 500
-
+                            connection.release();
                         }
                     })
                 } else {

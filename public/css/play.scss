@@ -18,8 +18,6 @@ body {
 main {
   width: 75%;
   margin: 50px auto 125px auto;
-  background-color: rgba(25, 42, 67, 0.8);
-  border-radius: 25px;
 }
 
 .game__not__playable {
@@ -33,6 +31,8 @@ main {
 .play__container {
   padding: 25px;
   display: flex;
+  background-color: rgba(25, 42, 67, 0.8);
+  border-radius: 25px;
   font-family: "Kanit-ExtraLight", sans-serif;
 
   h1 {
