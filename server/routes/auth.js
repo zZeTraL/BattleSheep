@@ -1,9 +1,8 @@
 const express = require("express");
 const path = require("path");
+// Module pour crypté des chaînes de caractères
 const bcrypt = require("bcrypt");
 const router = express.Router();
-
-//const authController = require("../controllers/authController")
 
 /*                      F A Q
 
@@ -25,7 +24,7 @@ function generateHash(password) {
 }
 
 /**
- * Permet de comparer un mdp et son homologue dans une base de donnée
+ * Permet de comparer un mdp entré et son homologue "crypté" récupérer à partir d'une base de donnée
  *
  * @param {string} password
  * @param {string} hashed
@@ -42,7 +41,9 @@ async function compareHash(password, hashed) {
  * @returns {boolean}
  */
 function isPasswordValid(password) {
-    if (password < 6 || password.includes(" ")) {
+    // Si notre passe fait moins de 6 caractère OU notre passe contient des espaces
+    if (password.length < 6 || password.includes(" ")) {
+        // DEBUG
         console.log("Invalid password: " + password);
         return false;
     }
@@ -56,67 +57,63 @@ function isPasswordValid(password) {
  * @returns {boolean}
  */
 function isUsernameValid(username) {
-    if (username < 3 || username.includes(" ")) {
+    // Si notre pseudo
+    if (username.length < 3 || username.includes(" ")) {
+        // DEBUG
         console.log("Invalid username: " + username);
         return false;
     }
     return true;
 }
 
-// Routers
+// Dashboard de l'utilisateur
 router.get("/profile", async (req, res) => {
+    // Si l'utilisateur est connecté à son compte
     if (req.session.login) {
-
         let tmpGamesPlayed = undefined;
         let tmpGamesWon = undefined;
+        // On créer une connexion à notre base de donnée
         pool.getConnection((error, connection) => {
+            // On affiche l'erreur s'il y en a une
             if (error) throw error;
-            // On sélectionne dans notre base de données l'utilisateur ayant un username qui correspond à celui saisi sur le form
-            pool.query("SELECT GAMESPLAYED as numberOfGamePlayed FROM users WHERE username = ?", [req.session.username], (error, result) => {
+            // On envoie une requête SQL à notre bdd pour pouvoir récupérer le nombre de parties jouées par notre joueur et ses parties gagnées
+            pool.query("SELECT GAMESPLAYED as numberOfGamePlayed, GAMESWON as numberOfGameWon FROM users WHERE username = ?", [req.session.username], (error, result) => {
+                connection.release();
+                // On affiche l'erreur s'il y en a une
                 if (error) throw error;
                 if (result.length > 0) {
                     tmpGamesPlayed = result[0].numberOfGamePlayed;
-                    pool.query("SELECT GAMESWON as numberOfGameWon FROM users WHERE username = ?", [req.session.username], (error, result) => {
-                        connection.release();
-                        if (error) throw error;
-                        if (result.length > 0) {
-                            tmpGamesWon = result[0].numberOfGameWon;
+                    tmpGamesWon = result[0].numberOfGameWon;
 
-                            req.session.gamesPlayed = tmpGamesPlayed;
-                            req.session.gamesWon = tmpGamesWon;
-
-                            res.render(path.join(__dirname, "..", "..", "views", "profile"), {
-                                username: req.session.username,
-                                email: req.session.email,
-                                gamesPlayed: tmpGamesPlayed,
-                                gamesWon: tmpGamesWon,
-                                gamesLost: (tmpGamesPlayed - tmpGamesWon)
-                            });
-
-                        } else {
-                            // PAGE 500
-                            connection.release();
-                        }
-                    })
+                    // On fait le rendu de notre page en passant en paramètre les différentes informations du joueur
+                    res.render(path.join(__dirname, "..", "..", "views", "profile"), {
+                        username: req.session.username,
+                        email: req.session.email,
+                        gamesPlayed: tmpGamesPlayed,
+                        gamesWon: tmpGamesWon,
+                    });
                 } else {
+                    // On coupe la connexion à notre bdd
                     connection.release();
                 }
             })
         })
-
     } else {
+        // Si l'utilisateur n'est pas connecté à son profile on le redirige vers la page de connexion
         res.redirect("/login?signup=false");
     }
 })
 
+// Page pour se connecter
 router.get('/login', (req, res) => {
+    // Si l'utilisateur est connecté à son compte
     if (req.session.login) {
+        // On le redirige vers son dashboard
         res.redirect("/profile")
     } else {
-        // L'utilisateur n'est pas connecté
+        // L'utilisateur n'est pas connecté à son compte
         req.session.login = false;
-
-        // Paramètre signup présent dans l'URL
+        // Variable signup présent dans l'URL (on fait passe une variable d'état dans l'URL pour modifier la page dynamiquement)
         let urlParam = req.query.signup
         // Si le paramètre n'est pas défini
         if (urlParam === undefined) {
@@ -125,25 +122,23 @@ router.get('/login', (req, res) => {
         }
 
         // On utilise express-flash afin de transmettre des données sans faire des redirections sans cesse
-        // Utilise car nous affiche l'état de notre requête post
+        // Utile car nous affiche l'état de notre requête post (s'il elle a abouti ou non)
         const userAlreadyRegistered = req.flash('userAlreadyRegistered');
         const registerInvalidUsername = req.flash('registerInvalidUsername');
         const registerInvalidEmail = req.flash('registerInvalidEmail');
         const registerInvalidPassword = req.flash('registerInvalidPassword');
-
         const loginInvalidPassword = req.flash('loginInvalidPassword');
         const loginUnknownUser = req.flash('loginUnknownUser');
 
+        // On fait notre rendu en passant tous nos flash en variable
         res.render(path.join(__dirname, "..", "..", "views", "login"), {
             // Paramètre de l'URL
             signup: urlParam,
-
             // Register flash
             userAlreadyRegistered: userAlreadyRegistered[0],
             registerInvalidUsername: registerInvalidUsername[0],
             registerInvalidEmail: registerInvalidEmail[0],
             registerInvalidPassword: registerInvalidPassword[0],
-
             // Login flash
             loginUnknownUser: loginUnknownUser[0],
             loginInvalidPassword: loginInvalidPassword[0],
@@ -151,7 +146,7 @@ router.get('/login', (req, res) => {
     }
 })
 
-// POST method to register a new account
+// POST méthode pour enregistrer un compte
 router.post('/api/register', async (req, res) => {
     // On récupère les données de notre formulaire
     const username = req.body.username;
@@ -176,7 +171,7 @@ router.post('/api/register', async (req, res) => {
     }
     if (!isPasswordValid(password)) {
         // On update notre message flash qui sera affiché à l'utilisateur pour lui rendre compte de l'erreur
-        req.flash("registerInvalidPassword", "Password must contain at least 3 characters")
+        req.flash("registerInvalidPassword", "Password must contain at least 6 characters")
         isInputValid = false;
     }
 
@@ -188,15 +183,11 @@ router.post('/api/register', async (req, res) => {
             pool.query("SELECT USERNAME FROM users WHERE username = ?", [username], async (error, result) => {
                 // On affiche si une erreur est détectée
                 if (error) throw error;
-                // DEBUG
-                //console.log(result.length)
                 // Si notre requête SQL aboutie alors elle admet forcément un résultat
                 // On check donc si un utilisateur n'est pas déjà enregistré avec ce pseudo
                 if (result.length > 0) {
                     // On coupe la connection à notre base de donnée
                     connection.release();
-                    // DEBUG
-                    //console.log("User already registered with this username")
                     // Le pseudo est déjà utilisé on a donc une erreur qui va être traduite par une valeur false pour notre booléen
                     isInputValid = false;
                     // On update notre message flash qui sera affiché à l'utilisateur pour lui rendre compte de l'erreur
@@ -208,14 +199,10 @@ router.post('/api/register', async (req, res) => {
                     pool.query("SELECT EMAIL FROM users WHERE email = ?", [email], (error, result) => {
                         // On affiche si une erreur est détectée
                         if (error) throw error;
-                        // DEBUG
-                        //console.log(result.length)
                         // On check donc si un utilisateur n'est pas déjà enregistré avec cet email
                         if (result.length > 0) {
                             // On coupe la connection à notre base de donnée
                             connection.release();
-                            // DEBUG
-                            //console.log("User already registered with this email")
                             isInputValid = false;
                             // On update notre message flash qui sera affiché à l'utilisateur pour lui rendre compte de l'erreur
                             req.flash("userAlreadyRegistered", "User already registered with this username/email")
@@ -230,13 +217,11 @@ router.post('/api/register', async (req, res) => {
                                     connection.release();
                                     // On affiche si une erreur est détectée
                                     if (error) throw error;
-                                    // DEBUG
-                                    //console.log("Account has been created!");
                                     // On met à jour la session de l'utilisateur
                                     req.session.login = true;
                                     req.session.username = username;
                                     req.session.email = email;
-                                    // On redirige notre utilisateur connecté vers le dashboard
+                                    // On redirige notre utilisateur connecté vers son dashboard
                                     res.redirect("/profile");
                                 });
                             } else {
@@ -254,7 +239,7 @@ router.post('/api/register', async (req, res) => {
     }
 })
 
-// POST method to login an user to his account
+// POST méthode pour connecter un utilisateur à son compte
 router.post("/api/login", async (req, res) => {
     // On récupère les données de notre formulaire
     const usernameOrEmail = req.body.username;

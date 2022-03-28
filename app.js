@@ -50,24 +50,27 @@ const session = require('express-session')({
     saveUninitialized: true
 });
 
-// Permet de récupérer les informations de la session du joueur
+// Permet de récupérer les informations de la session du joueur lors de l'utilisation des sockets
 let sharedSession = require("express-socket.io-session");
 app.use(session);
 io.use(sharedSession(session));
 
 global.io = io;
 
+// Environnement en production
 if (app.get('env') === 'production') {
     app.set('trust proxy', 1) // trust first proxy
     session.cookie.secure = true // serve secure cookies
 }
 
-// Home
+// Page d'accueille
 app.get('/', (req, res) => { res.render(path.join(__dirname, "views", "index")); })
 
 // On include le module auth.js (MYSQL + LOGIN + REGISTER)
 const auth = require("./server/routes/auth")
+// Module concernant la file d'attente + les sockets du jeu
 const queue = require("./server/routes/queue")
+// Module concernant le leaderboard
 const leaderboard = require("./server/routes/leaderboard")
 app.use('/', auth);
 app.use('/', queue);

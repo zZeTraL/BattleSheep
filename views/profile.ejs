@@ -95,11 +95,11 @@
                     </tr>
                     <tr>
                         <td>Loose</td>
-                        <td class="profile__editor"><span><%= gamesLost %></span></td>
+                        <td class="profile__editor"><span><%= gamesPlayed - gamesWon %></span></td>
                     </tr>
                     <tr>
                         <td>Win/Loose</td>
-                        <td class="profile__editor"><span><%= (gamesWon / gamesLost).toFixed(3) %></span></td>
+                        <td class="profile__editor"><span><%= (gamesWon / (gamesPlayed - gamesWon)).toFixed(3) %></span></td>
                     </tr>
                     </tbody>
                 </table>

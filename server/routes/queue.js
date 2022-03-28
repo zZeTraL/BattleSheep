@@ -118,7 +118,7 @@ io.on("connection", (socket) => {
                 res.redirect("/play");
             }
         })
-        // Requête émise au client qui le rediriger vers la page .../play/room_id
+        // Requête émise au client qui va le rediriger vers la page .../play/room_id
         socket.emit("redirectToRoom", roomId);
     })
 
@@ -168,11 +168,6 @@ io.on("connection", (socket) => {
     // Reception de la requête pour quitter la partie
     socket.on("leaveRoom", (roomId) => {
         io.in(roomId).emit("leaveRoom");
-
-        /**
-         * TODO
-         *  - NEED TO DELETE ACCESS TO URL
-         */
         router.delete("/play/" + roomId);
     })
 
@@ -197,13 +192,17 @@ io.on("connection", (socket) => {
     })
 
     socket.on("updateWinCount", () => {
+        // On se connecte à notre bdd
         pool.getConnection((error, connection) => {
             if(error) throw error;
+            // On émet une requête SQL pour récupérer les données du joueur
             pool.query("SELECT GAMESPLAYED as numberOfGamePlayed, GAMESWON as numberOfGameWon FROM users WHERE username = ?", [socket.handshake.session.username], (error, result) => {
                 if(error) throw error;
                 if(result.length > 0){
+                    // On incrémente de 1 les variables gamesWon et gamesPlayed
                     result[0].numberOfGamePlayed += 1;
                     result[0].numberOfGameWon += 1;
+                    // Requête SQL qui va update les données du joueur
                     pool.query("UPDATE users SET gamesPlayed = ?, gamesWon = ? WHERE username = ?", [result[0].numberOfGamePlayed, result[0].numberOfGameWon, socket.handshake.session.username], (error) => {
                         if(error) throw error;
                         connection.release();
