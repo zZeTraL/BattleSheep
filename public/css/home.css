@@ -8,4 +8,34 @@ body {
   overflow-x: hidden;
 }
 
+main {
+  width: 75%;
+  margin: 50px auto 125px auto;
+  background-color: rgba(25, 42, 67, 0.8);
+  border-radius: 25px;
+  font-family: "Kanit-ExtraLight", sans-serif;
+}
+main .home__container {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+main .home__container h1 {
+  padding: 0;
+  margin: 0;
+  font-size: var(--fs-3xl);
+  color: var(--dark-hx-color);
+  letter-spacing: 0.75rem;
+  text-align: center;
+}
+main .home__container h1 mark {
+  color: inherit;
+  position: relative;
+  background: linear-gradient(120deg, rgba(var(--dark-mark-rgb), 1) 0%, rgba(var(--dark-mark-rgb), 1) 100%) no-repeat 0 73%;
+  background-size: 100% 15px;
+}
+
 /*# sourceMappingURL=home.css.map */
