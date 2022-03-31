@@ -6,7 +6,19 @@ BattleShip avec des armes spéciales
 
 1. **Cloner** le projet
 2. **Créer** une base de données
-3. **Créer** un fichier **.env** à la racine du projet
+   
+   ```
+    Table:        users
+    Columns:
+      ID          (Auto-increment)
+      username    (VARCHAR, 255)
+      email       (VARCHAR, 255)
+      password    (VARCHAR, 255)
+      gamesPlayed (INT, 11, valeur par défaut = 0)
+      gamesWon    (INT, 11, valeur par défaut = 0)
+   ```
+
+4. **Créer** un fichier **.env** à la racine du projet
 
    ```
     SERVER_HOST = localhost
