@@ -40,7 +40,7 @@ BattleShip avec des armes spéciales
    npm install
    ```
 
-5. **Configurer** le **File Watcher** pour le SCSS
+5. (FACULTATIF) **Configurer** le **File Watcher** pour le SCSS (Pour la modification du scss)
 6. **Lancer** le serveur avec la commande suivante
  
    ```
